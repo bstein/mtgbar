@@ -1,0 +1,318 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:behavior="clr-namespace:MtGBarControls.Behaviors"
+    xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+    xmlns:s="clr-namespace:System;assembly=mscorlib"
+    xmlns:ui="clr-namespace:MtGBarControls.UIHelpers"
+    xmlns:controls="clr-namespace:MtGBarControls">
+    
+    <!--Colors-->
+    <Color x:Key="AccentColor">#FFFFFF</Color>
+    <Color x:Key="BackgroundColor" R="44" G="44" B="44" A="255" />
+    <Color x:Key="ForegroundColor">#FFFFFF</Color>
+    <Color x:Key="SubtleColor" R="168" G="168" B="168" A="255" />
+
+    <!--Brushes-->
+    <SolidColorBrush x:Key="AccentBrush" Color="{StaticResource AccentColor}" />
+    <SolidColorBrush x:Key="BackgroundBrush" Color="{StaticResource BackgroundColor}" />
+    <SolidColorBrush x:Key="DisabledBrush" Color="{StaticResource SubtleColor}" />
+    <SolidColorBrush x:Key="ForegroundBrush" Color="{StaticResource ForegroundColor}" />
+    <SolidColorBrush x:Key="SubtleBrush" Color="{StaticResource SubtleColor}" />
+    
+    <!--Commands-->
+    <ui:ToggleConfirmStateCommand x:Key="ToggleConfirmStateCommand" />
+    
+    <!--Helper styles-->
+    <Style x:Key="MetroButtonStyle" TargetType="{x:Type Button}">
+        <Setter Property="MinHeight" Value="28" />
+        <Setter Property="MinWidth" Value="28" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <Border
+						x:Name="Border"
+						BorderThickness="2"
+						Height="{TemplateBinding Height}"
+						Width="{TemplateBinding Width}">
+                        <Border.BorderBrush>
+                            <SolidColorBrush x:Name="BorderBrush" Color="{StaticResource AccentColor}" />
+                        </Border.BorderBrush>
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CommonStates">
+                                <VisualState x:Name="Disabled">
+                                    <Storyboard>
+                                        <ColorAnimation
+											Storyboard.TargetName="BackgroundBrush" 
+											Storyboard.TargetProperty="Color"
+											To="Transparent"
+											Duration="0:0:0.1"/>
+                                        <ColorAnimation
+											Storyboard.TargetName="BorderBrush" 
+											Storyboard.TargetProperty="Color"
+											To="{StaticResource SubtleColor}"
+											Duration="0:0:0.1"/>
+                                        <ColorAnimation
+											Storyboard.TargetName="ForegroundBrush" 
+											Storyboard.TargetProperty="Color"
+											To="{StaticResource SubtleColor}"
+											Duration="0:0:0.1"/>
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="Normal">
+                                    <Storyboard>
+                                        <ColorAnimation
+											Storyboard.TargetName="BackgroundBrush" 
+											Storyboard.TargetProperty="Color"
+											To="Transparent"
+											Duration="0:0:0.1"/>
+                                        <ColorAnimation
+											Storyboard.TargetName="BorderBrush" 
+											Storyboard.TargetProperty="Color"
+											To="{StaticResource AccentColor}"
+											Duration="0:0:0.1"/>
+                                        <ColorAnimation
+											Storyboard.TargetName="ForegroundBrush" 
+											Storyboard.TargetProperty="Color"
+											To="{StaticResource AccentColor}"
+											Duration="0:0:0.1"/>
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="Pressed">
+                                    <Storyboard>
+                                        <ColorAnimation
+											Storyboard.TargetName="BackgroundBrush" 
+											Storyboard.TargetProperty="Color"
+											To="{StaticResource AccentColor}"
+											Duration="0:0:0.1"/>
+                                        <ColorAnimation
+											Storyboard.TargetName="BorderBrush" 
+											Storyboard.TargetProperty="Color"
+											To="{StaticResource AccentColor}"
+											Duration="0:0:0.1"/>
+                                        <ColorAnimation
+											Storyboard.TargetName="ForegroundBrush" 
+											Storyboard.TargetProperty="Color"
+											To="{StaticResource BackgroundColor}"
+											Duration="0:0:0.1"/>
+                                    </Storyboard>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                        <Border.Background>
+                            <SolidColorBrush x:Name="BackgroundBrush" />
+                        </Border.Background>
+                        <ContentControl 
+							x:Name="theContent"                                
+							Content="{TemplateBinding ContentControl.Content}" 
+							FontFamily="Segoe WP SemiLight"
+							FontSize="14"
+							FontWeight="SemiBold"
+							HorizontalAlignment="Center" 
+							VerticalAlignment="Center">
+                            <ContentControl.Foreground>
+                                <SolidColorBrush x:Name="ForegroundBrush" Color="{StaticResource AccentColor}" />
+                            </ContentControl.Foreground>
+                        </ContentControl>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    
+    <Style TargetType="{x:Type controls:WatermarkTextBox}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type TextBoxBase}">
+                    <Border Background="#222222" CornerRadius="6">
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup Name="ValueStates">
+                                <VisualState Name="Has">
+                                    <Storyboard>
+                                        <DoubleAnimation
+                                            Storyboard.TargetName="ForegroundBrush"
+                                            Storyboard.TargetProperty="Opacity"
+                                            BeginTime="0:0:0.1"
+                                            Duration="0:0:0.1"
+                                            To="1" />
+                                        <DoubleAnimation
+                                            Storyboard.TargetName="WatermarkTextBlock"
+                                            Storyboard.TargetProperty="Opacity"
+                                            Duration="0:0:0.1"
+                                            To="0" />
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState Name="NotHas">
+                                    <Storyboard>
+                                        <DoubleAnimation
+                                            Storyboard.TargetName="ForegroundBrush"
+                                            Storyboard.TargetProperty="Opacity"
+                                            Duration="0:0:0.1"
+                                            To="0" />
+                                        <DoubleAnimation
+                                            Storyboard.TargetName="WatermarkTextBlock"
+                                            Storyboard.TargetProperty="Opacity"
+                                            BeginTime="0:0:0.1"
+                                            Duration="0:0:0.3"
+                                            To="0.3" />
+                                    </Storyboard>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                        <Grid Margin="12,6,0,6">
+                            <TextBlock 
+                                Name="WatermarkTextBlock"
+                                Background="Transparent"
+                                FontSize="60"
+                                Text="{Binding WatermarkText, RelativeSource={RelativeSource TemplatedParent}}"
+                                VerticalAlignment="Center">
+                                <TextBlock.Foreground>
+                                    <SolidColorBrush>
+                                        <SolidColorBrush.Color>
+                                            <Color>#999999</Color>
+                                        </SolidColorBrush.Color>
+                                    </SolidColorBrush>
+                                </TextBlock.Foreground>
+                            </TextBlock>
+                            <ScrollViewer 
+                                x:Name="PART_ContentHost" 
+                                Background="Transparent"
+                                BorderBrush="Transparent"
+                                BorderThickness="0">
+                                <ScrollViewer.Foreground>
+                                    <VisualBrush x:Name="ForegroundBrush" />
+                                </ScrollViewer.Foreground>
+                            </ScrollViewer>
+                        </Grid>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="{x:Type controls:ConfirmButton}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type controls:ConfirmButton}">
+                    <Border
+                        x:Name="Border"
+                        Height="{TemplateBinding Height}"
+                        Margin="{TemplateBinding Margin}"
+                        Width="{TemplateBinding Width}">
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="ConfirmStates">
+                                <VisualState x:Name="Confirming">
+                                    <Storyboard>
+                                        <DoubleAnimation
+                                            Storyboard.TargetName="TheConfirmButton"
+                                            Storyboard.TargetProperty="Width"
+                                            To="30"
+                                            Duration="0:0:0.3" />
+                                        <ObjectAnimationUsingKeyFrames
+                                            Storyboard.TargetName="TheConfirmButton"
+                                            Storyboard.TargetProperty="Visibility">
+                                            <ObjectAnimationUsingKeyFrames.KeyFrames>
+                                                <DiscreteObjectKeyFrame KeyTime="0:0:0">
+                                                    <DiscreteObjectKeyFrame.Value>
+                                                        <Visibility>Visible</Visibility>
+                                                    </DiscreteObjectKeyFrame.Value>
+                                                </DiscreteObjectKeyFrame>
+                                            </ObjectAnimationUsingKeyFrames.KeyFrames>
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames
+                                            Storyboard.TargetName="ThePreConfirmButton"
+                                            Storyboard.TargetProperty="(Grid.ColumnSpan)">
+                                            <ObjectAnimationUsingKeyFrames.KeyFrames>
+                                                <DiscreteObjectKeyFrame KeyTime="0:0:0">
+                                                    <DiscreteObjectKeyFrame.Value>
+                                                        <s:Int32>1</s:Int32>
+                                                    </DiscreteObjectKeyFrame.Value>
+                                                </DiscreteObjectKeyFrame>
+                                            </ObjectAnimationUsingKeyFrames.KeyFrames>
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="NotConfirming">
+                                    <Storyboard>
+                                        <DoubleAnimation
+                                            Storyboard.TargetName="TheConfirmButton"
+                                            Storyboard.TargetProperty="Width"
+                                            To="0"
+                                            Duration="0:0:0.3" />
+                                        <ObjectAnimationUsingKeyFrames
+                                            Storyboard.TargetName="TheConfirmButton"
+                                            Storyboard.TargetProperty="Visibility">
+                                            <ObjectAnimationUsingKeyFrames.KeyFrames>
+                                                <DiscreteObjectKeyFrame KeyTime="0:0:0.3">
+                                                    <DiscreteObjectKeyFrame.Value>
+                                                        <Visibility>Collapsed</Visibility>
+                                                    </DiscreteObjectKeyFrame.Value>
+                                                </DiscreteObjectKeyFrame>
+                                            </ObjectAnimationUsingKeyFrames.KeyFrames>
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames
+                                            Storyboard.TargetName="ThePreConfirmButton"
+                                            Storyboard.TargetProperty="(Grid.ColumnSpan)">
+                                            <ObjectAnimationUsingKeyFrames.KeyFrames>
+                                                <DiscreteObjectKeyFrame KeyTime="0:0:0.3">
+                                                    <DiscreteObjectKeyFrame.Value>
+                                                        <s:Int32>2</s:Int32>
+                                                    </DiscreteObjectKeyFrame.Value>
+                                                </DiscreteObjectKeyFrame>
+                                            </ObjectAnimationUsingKeyFrames.KeyFrames>
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                        <Border.Background>
+                            <SolidColorBrush x:Name="BackgroundBrush" />
+                        </Border.Background>
+                        <Border.BorderBrush>
+                            <SolidColorBrush x:Name="BorderBrush" Color="{StaticResource AccentColor}" />
+                        </Border.BorderBrush>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            
+                            <Button
+                                x:Name="ThePreConfirmButton"
+                                Grid.Column="0"
+                                Command="{StaticResource ToggleConfirmStateCommand}"
+                                CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=controls:ConfirmButton}}"
+                                Content="{TemplateBinding Content}"
+                                Style="{StaticResource MetroButtonStyle}">
+                                <!--<i:Interaction.Behaviors>
+                                    <behavior:SmoothSizeChangedBehavior />
+                                </i:Interaction.Behaviors>-->
+                            </Button>
+
+                            <Button 
+                                x:Name="TheConfirmButton"
+                                Grid.Column="1"
+                                Command="{TemplateBinding Command}"
+                                CommandParameter="{TemplateBinding CommandParameter}"
+                                HorizontalAlignment="Right"
+                                Margin="8,0,0,0"
+                                Style="{StaticResource MetroButtonStyle}"
+                                Visibility="Collapsed"
+                                Width="0">
+                                <Button.Content>
+                                    <Path 
+                                        Width="13" Height="13" 
+                                        Margin="6,4,4,4"
+                                        SnapsToDevicePixels="False" 
+                                        Stroke="{TemplateBinding Foreground}"
+                                        StrokeThickness="2"
+                                        Data="F1 M 10.9375,-2.86102e-006L 3.19229,11.958L 2.58287e-007,7.14339" />
+                                </Button.Content>
+                            </Button>
+                        </Grid>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

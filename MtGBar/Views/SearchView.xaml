@@ -1,0 +1,695 @@
+﻿<Window 
+    x:Class="MtGBar.Views.SearchView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:bazamBehavior="clr-namespace:BazamWPF.Behaviors;assembly=BazamWPF"
+    xmlns:bazamConvert="clr-namespace:BazamWPF.ValueConverters;assembly=BazamWPF"
+    xmlns:bazamUI="clr-namespace:BazamWPF.UIHelpers;assembly=BazamWPF"
+    xmlns:commands="clr-namespace:MtGBar.Infrastructure.UIHelpers.Commands"
+    xmlns:controls="clr-namespace:MtGBarControls;assembly=MtGBarControls"
+    xmlns:convert="clr-namespace:MtGBar.Infrastructure.UIHelpers.Converters"
+    xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+    xmlns:templateSelectors="clr-namespace:MtGBar.Infrastructure.UIHelpers.DataTemplateSelectors"
+    xmlns:view="clr-namespace:MtGBar.Views"
+    xmlns:vm="clr-namespace:MtGBar.ViewModels"
+    Title="MtGBar" 
+    Activated="this_Activated"
+    AllowsTransparency="True"
+    Background="Transparent"
+    Icon="/MtGBar;component/icon.ico"
+    KeyUp="this_KeyUp"
+    Opacity="0"
+    PreviewKeyDown="this_PreviewKeyDown"
+    ResizeMode="NoResize" 
+    ShowInTaskbar="False"
+    SizeToContent="Height"
+    WindowStartupLocation="CenterScreen"
+    WindowStyle="None"
+    Width="800">
+    <Window.DataContext>
+        <vm:SearchViewModel />
+    </Window.DataContext>
+    <i:Interaction.Behaviors>
+        <bazamBehavior:KeepCenteredBehavior />
+    </i:Interaction.Behaviors>
+    <Border 
+        BorderBrush="{StaticResource SubtleBrush}"
+        BorderThickness="2"
+        CornerRadius="6">
+        <Border.Resources>
+            <bazamConvert:BooleanVisibilityConverter x:Key="BooleanVisibilityConverter" />
+            <bazamConvert:CapitalizationConverter x:Key="CapitalizationConverter" />
+            <bazamConvert:StringVisibilityConverter x:Key="StringVisibilityConverter" />
+            <commands:GathererViewCommand x:Key="GathererViewCommand" />
+            <convert:CardAppearancesMaxConverter x:Key="CardAppearancesMaxConverter" />
+            <convert:CardAppearancesVisibilityConverter x:Key="CardAppearancesVisibilityConverter" />
+            <convert:CardBackgroundImageConverter x:Key="CardBackgroundImageConverter" />
+            <convert:CardCostCollectionVisibilityConverter x:Key="CardCostCollectionVisibilityConverter" />
+            <convert:CardCostConverter x:Key="CardCostConverter" />
+            <convert:CardPowerToughnessVisibilityConverter x:Key="CardPowerToughnessVisibilityConverter" />
+            <convert:CardRarityStringConverter x:Key="CardRarityStringConverter" />
+            <convert:CardSetImageConverter x:Key="CardSetImageConverter" />
+            <convert:CardTextConverter x:Key="CardTextConverter" />
+            <convert:CardTextParseConverter x:Key="CardTextParseConverter" />
+            <convert:CardTextVisibilityConverter x:Key="CardTextVisibilityConverter" />
+            <convert:CardTypeStringConverter x:Key="CardTypeStringConverter" />
+            <convert:CardViewVisibilityConverter x:Key="CardViewVisibilityConverter" />
+            <convert:CardWatermarkConverter x:Key="CardWatermarkConverter" />
+            <convert:LoyaltyCostIconConverter x:Key="LoyaltyCostIconConverter" />
+            <convert:LoyaltyCostMarginConverter x:Key="LoyaltyCostMarginConverter" />
+            <convert:LoyaltyCostTextConverter x:Key="LoyaltyCostTextConverter" />
+            <convert:RarityBrushConverter x:Key="RarityBrushConverter" />
+            <convert:ResultsDelimiterVisibilityConverter x:Key="ResultsDelimiterVisibilityConverter" />
+            <convert:ResultsViewVisibilityConverter x:Key="ResultsViewVisibilityConverter" />
+            <templateSelectors:CardTextDataTemplateSelector x:Key="CardTextDataTemplateSelector">
+                <templateSelectors:CardTextDataTemplateSelector.LoyaltyCostTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <Image 
+                                Grid.Row="0"
+                                Grid.Column="0"
+                                Height="25"
+                                Width="30"
+                                Source="{Binding Converter={StaticResource LoyaltyCostIconConverter}}" />
+                            <TextBlock
+                                Grid.Row="0"
+                                Grid.Column="0"
+                                FontFamily="pack://application:,,,/Assets/fonts/#MPlantin"
+                                FontSize="10"
+                                HorizontalAlignment="Center"
+                                Margin="{Binding Converter={StaticResource LoyaltyCostMarginConverter}}"
+                                Style="{StaticResource CardAttributeValueStyle}"
+                                Text="{Binding Converter={StaticResource LoyaltyCostTextConverter}}"
+                                VerticalAlignment="Center" />
+                            <TextBlock
+                                Grid.Row="0"
+                                Grid.Column="1"
+                                Margin="2,0,4,0"
+                                Style="{StaticResource CardAttributeValueStyle}"
+                                Text=":" />
+                        </Grid>
+                    </DataTemplate>
+                </templateSelectors:CardTextDataTemplateSelector.LoyaltyCostTemplate>
+                <templateSelectors:CardTextDataTemplateSelector.ManaCostTemplate>
+                    <DataTemplate>
+                        <Image 
+                            Height="18"
+                            Width="18"
+                            HorizontalAlignment="Left"
+                            Margin="0,3,3,0"
+                            Source="{Binding Converter={StaticResource CardCostConverter}}"
+                            VerticalAlignment="Top" />
+                    </DataTemplate>
+                </templateSelectors:CardTextDataTemplateSelector.ManaCostTemplate>
+                <templateSelectors:CardTextDataTemplateSelector.TextTemplate>
+                    <DataTemplate>
+                        <TextBlock
+                            Margin="0"
+                            Style="{StaticResource CardAttributeValueStyle}"
+                            Text="{Binding}" />
+                    </DataTemplate>
+                </templateSelectors:CardTextDataTemplateSelector.TextTemplate>
+            </templateSelectors:CardTextDataTemplateSelector>
+        </Border.Resources>
+        <Border.Background>
+            <ImageBrush 
+                x:Name="theBackground"
+                Stretch="UniformToFill">
+                <ImageBrush.ImageSource>
+                    <PriorityBinding>
+                        <Binding Converter="{StaticResource CardBackgroundImageConverter}" IsAsync="True" Path="SelectedCard" />
+                        <Binding Path="DefaultBackground" />
+                    </PriorityBinding>
+                </ImageBrush.ImageSource>
+            </ImageBrush>
+        </Border.Background>
+        <Grid 
+            x:Name="TheGrid"
+            Margin="12"
+            Opacity="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            
+            <Image
+                x:Name="TheSearchIcon"
+                Grid.Row="0"
+                Grid.Column="0"
+                Height="84"
+                Source="/Assets/search-icon.png"
+                Stretch="Uniform"
+                Width="84">
+            </Image>
+            <controls:WatermarkTextBox
+                x:Name="TheTextBox" 
+                Grid.Row="0"
+                Grid.Column="1"
+                Style="{StaticResource SearchBoxStyle}"
+                Text="{Binding SearchTerm, Delay=200, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                WatermarkText="{Binding WatermarkText}"/>
+            <!--
+                Wanted to make this a user control to reduce complexity per view thingy, but I couldn't figure out how to pass data from the parent 
+                (SearchView) to a child control like ResultsView or something. Manipulating the DataContext property of the child view does work,
+                but there are behind-the-scenes binding errors because the DataContext of the child view gets set twice. Then I tried Dependency
+                Properties, but once I set the "cards" property of the ResultsView, I couldn't figure out how to bind that data in the markup.
+                I hate my WPF badness.
+            -->
+            <Border 
+                x:Name="ThePanel"
+                Grid.Row="1"
+                Grid.Column="0"
+                Grid.ColumnSpan="2"
+                Height="2" 
+                HorizontalAlignment="Center"
+                Margin="0,20,0,0"
+                BorderBrush="{StaticResource SubtleBrush}" 
+                BorderThickness="2"
+                Width="780">
+                <Border.Visibility>
+                    <MultiBinding Converter="{StaticResource ResultsDelimiterVisibilityConverter}">
+                        <Binding Path="CardMatches" />
+                        <Binding Path="SelectedCard" />
+                    </MultiBinding>
+                </Border.Visibility>
+            </Border>
+            <ListBox 
+                x:Name="lstResults"
+                Grid.Row="2" 
+                Grid.Column="0"
+                Grid.ColumnSpan="2"
+                MouseLeftButtonUp="lstResults_MouseLeftButtonUp"
+                ItemContainerStyle="{StaticResource ResultsListItemStyle}"
+                ItemsSource="{Binding CardMatches}"
+                Style="{StaticResource ResultsListStyle}"
+                Visibility="{Binding SelectedCard, Converter={StaticResource ResultsViewVisibilityConverter}}">
+                <i:Interaction.Behaviors>
+                    <bazamBehavior:FadeInBehavior />
+                </i:Interaction.Behaviors>
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel 
+                            Height="100" 
+                            Orientation="Horizontal" 
+                            VerticalAlignment="Top">
+                            <i:Interaction.Behaviors>
+                                <bazamBehavior:FadeInBehavior />
+                            </i:Interaction.Behaviors>
+                            <Border Style="{StaticResource ResultIconStyle}">
+                                <Border.Background>
+                                    <VisualBrush>
+                                        <VisualBrush.Visual>
+                                            <Grid>
+                                                <Image Source="pack://application:,,,/Assets/card-back-small.png" />
+                                                <Image Source="{Binding Thumbnail, IsAsync=True}" />
+                                            </Grid>
+                                        </VisualBrush.Visual>
+                                    </VisualBrush>
+                                </Border.Background>
+                                
+                            </Border>
+                            <StackPanel>
+                                <TextBlock 
+                                    Style="{StaticResource ResultTitleStyle}"
+                                    Text="{Binding Card.Name}" />
+                                <StackPanel 
+                                    Orientation="Horizontal"
+                                    Margin="-2,0,0,0">
+                                    <TextBlock 
+                                        Foreground="{Binding Card, Converter={StaticResource RarityBrushConverter}}"
+                                        Style="{StaticResource ResultSubtitleStyle}"
+                                        Text="{Binding Card, Converter={StaticResource CardRarityStringConverter}}" />
+                                    <TextBlock
+                                        Foreground="{StaticResource SubtleBrush}"
+                                        Style="{StaticResource ResultSubtitleLightStyle}" 
+                                        Text="{Binding Card, Converter={StaticResource CardTypeStringConverter}}" />
+                                </StackPanel>
+                                <StackPanel 
+                                    Margin="-8,0,0,0"
+                                    Orientation="Horizontal">
+                                    <ItemsControl ItemsSource="{Binding Card.Cost}">
+                                        <ItemsControl.ItemsPanel>
+                                            <ItemsPanelTemplate>
+                                                <StackPanel Orientation="Horizontal" />
+                                            </ItemsPanelTemplate>
+                                        </ItemsControl.ItemsPanel>
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <Image Height="18" Width="18" Source="{Binding Converter={StaticResource CardCostConverter}}" />
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                </StackPanel>
+                            </StackPanel>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+
+            <Grid 
+                Grid.Row="1"
+                Grid.Column="0"
+                Grid.ColumnSpan="2"
+                HorizontalAlignment="Left"
+                Margin="0,12,0,0"
+                MaxHeight="600"
+                Visibility="{Binding SelectedCard, Converter={StaticResource CardViewVisibilityConverter}}"
+                Width="772">
+                <i:Interaction.Behaviors>
+                    <bazamBehavior:FadeInBehavior />
+                </i:Interaction.Behaviors>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                
+                <StackPanel
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    Grid.RowSpan="3">
+                    <Border Style="{StaticResource CardImageStyle}">
+                        <StackPanel Style="{StaticResource CardImageContainerStyle}">
+                            <StackPanel.Background>
+                                <ImageBrush ImageSource="/Assets/card-back.png" />
+                            </StackPanel.Background>
+                            <Image
+                                x:Name="theCardImage"
+                                Stretch="Uniform">
+                                <Image.Source>
+                                    <Binding Path="SelectedAppearanceImage" IsAsync="True" NotifyOnTargetUpdated="True">
+                                        <Binding.FallbackValue>
+                                            <BitmapImage UriSource="pack://application:,,,/Assets/card-back.png" />
+                                        </Binding.FallbackValue>
+                                    </Binding>
+                                </Image.Source>
+                                <Image.Triggers>
+                                    <EventTrigger RoutedEvent="Binding.TargetUpdated">
+                                        <BeginStoryboard>
+                                            <Storyboard>
+                                                <DoubleAnimation Storyboard.TargetProperty="Opacity" Duration="0:0:0" To="0" />
+                                                <DoubleAnimation Storyboard.TargetProperty="Opacity" Duration="0:0:0.3" From="0" To="1">
+                                                    <DoubleAnimation.EasingFunction>
+                                                        <QuadraticEase />
+                                                    </DoubleAnimation.EasingFunction>
+                                                </DoubleAnimation>
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </EventTrigger>
+                                </Image.Triggers>
+                            </Image>
+                        </StackPanel>
+                    </Border>
+                    <ListBox
+                        x:Name="lstAppearances"
+                        ItemsSource="{Binding SelectedCard.Appearances, Converter={StaticResource CardAppearancesMaxConverter}}"
+                        Style="{StaticResource AppearancesListStyle}"
+                        SelectedValue="{Binding SelectedAppearance, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                        Visibility="{Binding SelectedCard.Appearances, Converter={StaticResource CardAppearancesVisibilityConverter}}">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <Image 
+                                    Margin="0,0,12,0"
+                                    HorizontalAlignment="Center"
+                                    Source="{Binding Converter={StaticResource CardSetImageConverter}}"
+                                    Style="{StaticResource CardSetSymbolStyle}">
+                                </Image>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </StackPanel>
+                
+                <TextBlock
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    Style="{StaticResource CardTitleStyle}" 
+                    Text="{Binding SelectedCard.Name}"/>
+                <StackPanel
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    Orientation="Horizontal">
+                    <TextBlock
+                        Foreground="{Binding SelectedCard, Converter={StaticResource RarityBrushConverter}}"
+                        Style="{StaticResource CardSubtitleStyle}"
+                        Text="{Binding SelectedCard, Converter={StaticResource CardRarityStringConverter}}" />
+                    <TextBlock
+                        Foreground="{StaticResource SubtleBrush}"
+                        Style="{StaticResource CardSubtitleStyle}"
+                        Text="{Binding SelectedCard, Converter={StaticResource CardTypeStringConverter}}" />
+                </StackPanel>
+                <Grid
+                    Grid.Row="2"
+                    Grid.Column="1"
+                    Margin="0,12,0,0"
+                    VerticalAlignment="Top">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    
+                    <!--Watermark-->
+                    <Image 
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        Grid.RowSpan="7"
+                        Grid.ColumnSpan="2"
+                        HorizontalAlignment="Center"
+                        Margin="0,14,0,0"
+                        MaxHeight="200"
+                        Opacity="0.5"
+                        Source="{Binding SelectedCard.Watermark, Converter={StaticResource CardWatermarkConverter}}"
+                        Stretch="Uniform"
+                        VerticalAlignment="Top" />
+
+                    <TextBlock
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        Style="{StaticResource CardAttributeLabelStyle}"
+                        Text="Cost" 
+                        Visibility="{Binding SelectedCard.Cost, Converter={StaticResource CardCostCollectionVisibilityConverter}}"  />
+                    <ItemsControl
+                        Grid.Row="0"
+                        Grid.Column="1"
+                        ItemsSource="{Binding SelectedCard.Cost}"
+                        Visibility="{Binding SelectedCard.Cost, Converter={StaticResource CardCostCollectionVisibilityConverter}}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel Orientation="Horizontal" />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Image 
+                                    Height="18" 
+                                    Source="{Binding Converter={StaticResource CardCostConverter}}"
+                                    Stretch="Uniform" />
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                    
+                    <TextBlock 
+                        Grid.Row="1"
+                        Grid.Column="0"
+                        Style="{StaticResource CardAttributeLabelStyle}"
+                        Visibility="{Binding SelectedCard.Tribe, Converter={StaticResource StringVisibilityConverter}}">
+                        Type
+                    </TextBlock>
+
+                    <TextBlock 
+                        Grid.Row="1"
+                        Grid.Column="1"
+                        Style="{StaticResource CardAttributeValueStyle}"
+                        Text="{Binding SelectedCard.Tribe}"
+                        Visibility="{Binding SelectedCard.Tribe, Converter={StaticResource StringVisibilityConverter}}" />
+
+                    <TextBlock 
+                        Grid.Row="2"
+                        Grid.Column="0"
+                        Style="{StaticResource CardAttributeLabelStyle}"
+                        Text="Text"
+                        Visibility="{Binding SelectedCard.Text, Converter={StaticResource StringVisibilityConverter}}" />
+
+                    <ItemsControl
+                        Grid.Row="2"
+                        Grid.Column="1"
+                        ItemsSource="{Binding SelectedCard.Text, Converter={StaticResource CardTextConverter}}"                        
+                        Visibility="{Binding SelectedCard.Text, Converter={StaticResource StringVisibilityConverter}}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <ItemsControl 
+                                    ItemsSource="{Binding Converter={StaticResource CardTextParseConverter}}"
+                                    ItemTemplateSelector="{StaticResource CardTextDataTemplateSelector}"
+                                    Margin="0,0,0,12">
+                                    <ItemsControl.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <WrapPanel />
+                                        </ItemsPanelTemplate>
+                                    </ItemsControl.ItemsPanel>
+                                </ItemsControl>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+
+                    <TextBlock
+                        Grid.Row="3"
+                        Grid.Column="0"
+                        Style="{StaticResource CardAttributeLabelStyle}"
+                        Text="Set" />
+                    
+                    <StackPanel
+                        Grid.Row="3"
+                        Grid.Column="1"
+                        Orientation="Horizontal">
+                        <Image 
+                            Margin="0,0,4,0"
+                            Source="{Binding SelectedAppearance, Converter={StaticResource CardSetImageConverter}}" 
+                            Style="{StaticResource CardSetSymbolStyle}" />
+                        <TextBlock
+                            Style="{StaticResource CardAttributeValueStyle}"
+                            Text="{Binding SelectedAppearance.Set.Name}" />
+                    </StackPanel>
+                    
+                    <TextBlock 
+                        Grid.Row="4"
+                        Grid.Column="0"
+                        Style="{StaticResource CardAttributeLabelStyle}"
+                        Text="Artist"
+                        Visibility="{Binding SelectedAppearance.Artist, Converter={StaticResource StringVisibilityConverter}}" />
+
+                    <TextBlock 
+                        Grid.Row="4"
+                        Grid.Column="1"
+                        Style="{StaticResource CardAttributeValueStyle}"
+                        Text="{Binding SelectedAppearance.Artist}" 
+                        Visibility="{Binding SelectedAppearance.Artist, Converter={StaticResource StringVisibilityConverter}}" />
+
+                    <ItemsControl
+                        Grid.Row="5"
+                        Grid.Column="0"
+                        Grid.ColumnSpan="2"
+                        ItemsSource="{Binding SelectedAppearance.FlavorText, Converter={StaticResource CardTextConverter}}"
+                        Margin="0,12,0,0"
+                        Visibility="{Binding SelectedAppearance.FlavorText, Converter={StaticResource StringVisibilityConverter}}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock
+                                    Margin="0"
+                                    Style="{StaticResource CardFlavorTextStyle}"
+                                    Text="{Binding}" />
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+
+                    <Grid
+                        Grid.Row="6"
+                        Grid.Column="0"
+                        Grid.ColumnSpan="2"
+                        Margin="0,30,0,0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="200" />
+                            <ColumnDefinition Width="275" />
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock
+                            Grid.Row="0"
+                            Grid.Column="0"
+                            Margin="0,0,0,8"
+                            Style="{StaticResource SubtitleStyle}"
+                            Text="VIEW ON" />
+
+                        <TextBlock
+                            Grid.Row="0"
+                            Grid.Column="1"
+                            Margin="0,0,0,8"
+                            Style="{StaticResource SubtitleStyle}"
+                            Text="BUY AT" />
+
+                        <Button 
+                            Grid.Row="1"
+                            Grid.Column="0"
+                            Command="{StaticResource GathererViewCommand}" 
+                            CommandParameter="{Binding SelectedAppearance.MultiverseID}"
+                            Cursor="Hand"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top">
+                            <Button.Template>
+                                <ControlTemplate>
+                                    <Image Style="{StaticResource CardDatabaseImageStyle}" Source="/Assets/gatherer-logo.png" />
+                                </ControlTemplate>
+                            </Button.Template>
+                        </Button>
+
+                        <StackPanel
+                            Grid.Row="1"
+                            Grid.Column="1"
+                            VerticalAlignment="Top">
+                            <Button 
+                                Command="{StaticResource ViewUrlCommand}"
+                                CommandParameter="{Binding AmazonLink}"
+                                Style="{StaticResource CardVendorButtonStyle}">
+                                <Button.Template>
+                                    <ControlTemplate>
+                                        <Grid>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition />
+                                            </Grid.RowDefinitions>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="30" />
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="60" />
+                                            </Grid.ColumnDefinitions>
+                                            <Image 
+                                                Grid.Row="0"
+                                                Grid.Column="0"
+                                                Height="16" 
+                                                Width="16" 
+                                                Source="/Assets/amazon-favicon.ico"
+                                                VerticalAlignment="Center" />
+                                            <TextBlock 
+                                                Grid.Row="0"
+                                                Grid.Column="1"
+                                                Foreground="{StaticResource ForegroundBrush}" 
+                                                Margin="4,-4,0,0"
+                                                Style="{StaticResource CardAttributeValueStyle}"
+                                                Text="amazon.com"
+                                                VerticalAlignment="Center" />
+                                            <TextBlock 
+                                                Grid.Row="0"
+                                                Grid.Column="2"
+                                                Foreground="{StaticResource ForegroundBrush}" 
+                                                Margin="4,-4,0,0"
+                                                Style="{StaticResource CardAttributeValueStyle}"
+                                                Text="{Binding AmazonPrice}"
+                                                VerticalAlignment="Center"
+                                                Visibility="{Binding ShowPricingData, Converter={StaticResource BooleanVisibilityConverter}}" />
+                                        </Grid>
+                                    </ControlTemplate>
+                                </Button.Template>
+                            </Button>
+
+                            <Button
+                                Command="{StaticResource ViewUrlCommand}"
+                                CommandParameter="{Binding CFLink}"
+                                Style="{StaticResource CardVendorButtonStyle}">
+                                <Button.Template>
+                                    <ControlTemplate>
+                                        <Grid>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition />
+                                            </Grid.RowDefinitions>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="30" />
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="60" />
+                                            </Grid.ColumnDefinitions>
+                                            <Image 
+                                                Grid.Row="0"
+                                                Grid.Column="0"
+                                                Height="16" 
+                                                Width="16" 
+                                                Source="/Assets/cf-favicon.ico"
+                                                VerticalAlignment="Center" />
+                                            <TextBlock 
+                                                Grid.Row="0"
+                                                Grid.Column="1"
+                                                Foreground="{StaticResource ForegroundBrush}" 
+                                                Margin="4,-4,0,0"
+                                                Style="{StaticResource CardAttributeValueStyle}"
+                                                Text="channelfireball.com"
+                                                VerticalAlignment="Center" />
+                                            <TextBlock 
+                                                Grid.Row="0"
+                                                Grid.Column="2"
+                                                Foreground="{StaticResource ForegroundBrush}" 
+                                                Margin="4,-4,0,0"
+                                                Style="{StaticResource CardAttributeValueStyle}"
+                                                Text="{Binding CFPrice}"
+                                                VerticalAlignment="Center" 
+                                                Visibility="{Binding ShowPricingData, Converter={StaticResource BooleanVisibilityConverter}}" />
+                                        </Grid>
+                                    </ControlTemplate>
+                                </Button.Template>
+                            </Button>
+
+                            <Button
+                                Command="{StaticResource ViewUrlCommand}"
+                                CommandParameter="{Binding TCGPlayerLink}"
+                                Style="{StaticResource CardVendorButtonStyle}">
+                                <Button.Template>
+                                    <ControlTemplate>
+                                        <Grid>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition />
+                                            </Grid.RowDefinitions>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="30" />
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="60" />
+                                            </Grid.ColumnDefinitions>
+                                            <Image 
+                                                Grid.Row="0"
+                                                Grid.Column="0"
+                                                Height="16" 
+                                                Width="16" 
+                                                Source="/Assets/tcgplayer-favicon.ico"
+                                                VerticalAlignment="Center" />
+                                            <TextBlock 
+                                                Grid.Row="0"
+                                                Grid.Column="1"
+                                                Foreground="{StaticResource ForegroundBrush}" 
+                                                Margin="4,-4,0,0"
+                                                Style="{StaticResource CardAttributeValueStyle}"
+                                                Text="tcgplayer.com"
+                                                VerticalAlignment="Center" />
+                                            <TextBlock 
+                                                Grid.Row="0"
+                                                Grid.Column="2"
+                                                Foreground="{StaticResource ForegroundBrush}" 
+                                                Margin="4,-4,0,0"
+                                                Style="{StaticResource CardAttributeValueStyle}"
+                                                Text="{Binding TCGPlayerPrice}"
+                                                VerticalAlignment="Center"
+                                                Visibility="{Binding ShowPricingData, Converter={StaticResource BooleanVisibilityConverter}}" />
+                                        </Grid>
+                                    </ControlTemplate>
+                                </Button.Template>
+                            </Button>
+                        </StackPanel>
+                    </Grid>
+                </Grid>
+            </Grid>
+        </Grid>
+    </Border>
+</Window>

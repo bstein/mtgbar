@@ -1,0 +1,471 @@
+﻿<ResourceDictionary 
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="clr-namespace:MtGBarControls;assembly=MtGBarControls" xmlns:UIHelpers="clr-namespace:MtGBarControls.UIHelpers;assembly=MtGBarControls">
+
+    <!--Colors-->
+    <Color x:Key="AccentColor">#FFFFFF</Color>
+    <Color x:Key="BackgroundColor" R="44" G="44" B="44" A="255" />
+    <Color x:Key="ForegroundColor">#FFFFFF</Color>
+    <Color x:Key="SubtleColor" R="168" G="168" B="168" A="255" />
+
+    <Color x:Key="CommonColor">#FFFFFF</Color>
+
+    <!--Brushes-->
+    <SolidColorBrush x:Key="AccentBrush" Color="{StaticResource AccentColor}" />
+    <SolidColorBrush x:Key="BackgroundBrush" Color="{StaticResource BackgroundColor}" />
+    <SolidColorBrush x:Key="DisabledBrush" Color="{StaticResource SubtleColor}" />
+    <SolidColorBrush x:Key="ForegroundBrush" Color="{StaticResource ForegroundColor}" />
+    <SolidColorBrush x:Key="SubtleBrush" Color="{StaticResource SubtleColor}" />
+
+    <SolidColorBrush x:Key="CommonBrush" Color="{StaticResource CommonColor}" />
+    <ImageBrush x:Key="UncommonBrush" ImageSource="/Assets/textures/uncommon.jpg" Stretch="UniformToFill" />
+    <ImageBrush x:Key="RareBrush" ImageSource="/Assets/textures/rare.jpg" Stretch="UniformToFill" />
+    <ImageBrush x:Key="MythicBrush" ImageSource="/Assets/textures/mythic-rare.jpg" Stretch="UniformToFill" />
+
+    <!--Default Fonts-->
+    <Style x:Key="TextBlockFontStyle" TargetType="{x:Type TextBlock}">
+        <Setter Property="FontFamily" Value="pack://application:,,,/Assets/fonts/#Segoe UI" />
+    </Style>
+
+    <Style x:Key="TextBoxFontStyle" TargetType="{x:Type TextBox}">
+        <Setter Property="FontFamily" Value="pack://application:,,,/Assets/fonts/#Segoe UI" />
+    </Style>
+
+    <!--SUBTITLE STYLE-->
+    <Style x:Key="SubtitleStyle" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource TextBlockFontStyle}">
+        <Setter Property="FontSize" Value="20" />
+        <Setter Property="FontWeight" Value="Bold" />
+        <Setter Property="Foreground" Value="{StaticResource SubtleBrush}" />
+    </Style>
+
+    <Style x:Key="SearchBoxStyle" TargetType="{x:Type controls:WatermarkTextBox}" BasedOn="{StaticResource TextBoxFontStyle}">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderBrush" Value="Transparent" />
+        <Setter Property="CaretBrush" Value="{StaticResource ForegroundBrush}" />
+        <Setter Property="FontSize" Value="70" />
+        <Setter Property="Foreground" Value="{StaticResource ForegroundBrush}" />
+        <Setter Property="Margin" Value="16,0,1,-6" />
+        <Setter Property="MaxLength" Value="50" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+    </Style>
+
+    <Style x:Key="ResultsListStyle" TargetType="{x:Type ListBox}">
+        <Setter Property="SnapsToDevicePixels" Value="true" />
+        <Setter Property="OverridesDefaultStyle" Value="true" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ListBox}">
+                    <Border 
+						x:Name="Border" 
+						Background="Transparent"
+						BorderBrush="Transparent"
+						BorderThickness="1" 
+						CornerRadius="2">
+                        <StackPanel Margin="2" IsItemsHost="True" />
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="ResultsListItemStyle" TargetType="{x:Type ListBoxItem}">
+        <Setter Property="SnapsToDevicePixels" Value="true" />
+        <Setter Property="OverridesDefaultStyle" Value="true" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                    <Border x:Name="Border" Padding="2" SnapsToDevicePixels="true" CornerRadius="6">
+                        <Border.Background>
+                            <SolidColorBrush Color="Transparent" Opacity="0.75" />
+                        </Border.Background>
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="SelectionStates">
+                                <VisualState x:Name="Unselected" />
+                                <VisualState x:Name="Selected">
+                                    <Storyboard>
+                                        <ColorAnimationUsingKeyFrames Storyboard.TargetName="Border" Storyboard.TargetProperty="(Panel.Background).(SolidColorBrush.Color)">
+                                            <EasingColorKeyFrame KeyTime="0" Value="{StaticResource BackgroundColor}" />
+                                        </ColorAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="SelectedUnfocused">
+                                    <Storyboard>
+                                        <ColorAnimationUsingKeyFrames Storyboard.TargetName="Border" Storyboard.TargetProperty="(Panel.Background).(SolidColorBrush.Color)">
+                                            <EasingColorKeyFrame KeyTime="0" Value="{StaticResource BackgroundColor}" />
+                                        </ColorAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                        <ContentPresenter />
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="AppearancesListItemStyle" TargetType="{x:Type ListBoxItem}">
+        <Setter Property="SnapsToDevicePixels" Value="true" />
+        <Setter Property="OverridesDefaultStyle" Value="true" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                    <Grid x:Name="TheGrid" SnapsToDevicePixels="true">
+                        <Grid.Effect>
+                            <DropShadowEffect
+								x:Name="TheDropShadow"
+								BlurRadius="20"
+								Color="{StaticResource ForegroundColor}"
+								ShadowDepth="0" />
+                        </Grid.Effect>
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="SelectionStates">
+                                <VisualState x:Name="Unselected">
+                                    <Storyboard>
+                                        <DoubleAnimation 
+											Duration="0:0:0.3"
+											Storyboard.TargetName="TheDropShadow" 
+											Storyboard.TargetProperty="Opacity"
+											To="0" />
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="Selected">
+                                    <Storyboard>
+                                        <DoubleAnimation 
+											Duration="0:0:0.3"
+											Storyboard.TargetName="TheDropShadow" 
+											Storyboard.TargetProperty="Opacity"
+											To="1" />
+                                    </Storyboard>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                        <ContentPresenter />
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="AppearancesListStyle" TargetType="{x:Type ListBox}">
+        <Setter Property="HorizontalAlignment" Value="Center" />
+        <Setter Property="ItemContainerStyle" Value="{StaticResource AppearancesListItemStyle}" />
+        <Setter Property="Margin" Value="0,8,0,0" />
+        <Setter Property="OverridesDefaultStyle" Value="true" />
+        <Setter Property="SnapsToDevicePixels" Value="true" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ListBox}">
+                    <Border 
+						x:Name="Border" 
+						Background="Transparent"
+						BorderBrush="Transparent"
+						BorderThickness="1" 
+						CornerRadius="2">
+                        <StackPanel Orientation="Horizontal" Margin="2" IsItemsHost="True" />
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="CardImageContainerStyle" TargetType="StackPanel">
+        <Setter Property="Width" Value="223" />
+        <Setter Property="Height" Value="310" />
+    </Style>
+    
+    <Style x:Key="CardImageStyle" TargetType="{x:Type Border}">
+        <Setter Property="Clip">
+            <Setter.Value>
+                <RectangleGeometry RadiusX="12" RadiusY="12" Rect="0,0,223,310" />
+            </Setter.Value>
+        </Setter>
+        <Setter Property="CornerRadius" Value="12" />
+        <Setter Property="Height" Value="310" />
+        <Setter Property="Margin" Value="0,26,24,0" />
+        <Setter Property="Width" Value="223" />
+        <Setter Property="VerticalAlignment" Value="Top" />
+    </Style>
+
+    <Style x:Key="CardTitleStyle" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource TextBlockFontStyle}">
+        <Setter Property="FontSize" Value="56" />
+        <Setter Property="Foreground" Value="{StaticResource ForegroundBrush}" />
+        <Setter Property="LineHeight" Value="48" />
+        <Setter Property="LineStackingStrategy" Value="BlockLineHeight" />
+        <Setter Property="Margin" Value="0,28,0,0" />
+        <Setter Property="TextWrapping" Value="Wrap" />
+    </Style>
+
+    <Style x:Key="CardSubtitleStyle" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource TextBlockFontStyle}">
+        <Setter Property="FontSize" Value="18" />
+        <Setter Property="FontWeight" Value="Bold" />
+        <Setter Property="Margin" Value="0,-10,4,0" />
+    </Style>
+
+    <Style x:Key="CardAttributeLabelStyle" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource TextBlockFontStyle}">
+        <Setter Property="FontSize" Value="16" />
+        <Setter Property="Foreground" Value="{StaticResource SubtleBrush}" />
+        <Setter Property="Margin" Value="0,0,16,0" />
+        <Setter Property="VerticalAlignment" Value="Top" />
+    </Style>
+
+    <Style x:Key="CardAttributeValueStyle" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource TextBlockFontStyle}">
+        <Setter Property="FontSize" Value="16" />
+        <Setter Property="Foreground" Value="{StaticResource ForegroundBrush}" />
+        <Setter Property="Margin" Value="0,0,16,4" />
+        <Setter Property="TextWrapping" Value="Wrap" />
+        <Setter Property="VerticalAlignment" Value="Top" />
+    </Style>
+
+    <Style x:Key="CardClassStyle" TargetType="{x:Type Border}">
+        <Setter Property="CornerRadius" Value="3" />
+        <Setter Property="Height" Value="24" />
+        <Setter Property="Margin" Value="0,0,8,0" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="Width" Value="24" />
+    </Style>
+
+    <Style x:Key="CardFlavorTextStyle" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource TextBlockFontStyle}">
+        <Setter Property="FontSize" Value="16" />
+        <Setter Property="FontStyle" Value="Italic" />
+        <Setter Property="Foreground" Value="{StaticResource ForegroundBrush}" />
+        <Setter Property="Margin" Value="0,16,0,0" />
+        <Setter Property="TextWrapping" Value="Wrap" />
+    </Style>
+
+    <Style x:Key="CardDatabaseImageStyle" TargetType="{x:Type Image}">
+        <Setter Property="Height" Value="100" />
+        <Setter Property="Margin" Value="0,0,20,0" />
+        <Setter Property="Stretch" Value="Uniform" />
+        <Setter Property="VerticalAlignment" Value="Top" />
+        <Setter Property="Width" Value="124" />
+    </Style>
+
+    <Style x:Key="CardSetSymbolStyle" TargetType="{x:Type Image}">
+        <Setter Property="MinHeight" Value="21" />
+        <Setter Property="MinWidth" Value="21" />
+        <Setter Property="MaxHeight" Value="21" />
+        <Setter Property="MaxWidth" Value="50" />
+        <Setter Property="Stretch" Value="Uniform" />
+    </Style>
+
+    <Style x:Key="CardVendorButtonStyle" TargetType="{x:Type Button}">
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="Margin" Value="0,0,0,6" />
+    </Style>
+
+    <Style x:Key="ResultIconStyle" TargetType="{x:Type Border}">
+        <Setter Property="Background">
+            <Setter.Value>
+                <ImageBrush ImageSource="pack://application:,,,/Assets/card-back-small.png" Stretch="None" />
+            </Setter.Value>
+        </Setter>
+        <Setter Property="BorderBrush" Value="{StaticResource SubtleBrush}" />
+        <Setter Property="BorderThickness" Value="2" />
+        <Setter Property="CornerRadius" Value="10" />
+        <Setter Property="Height" Value="84" />
+        <Setter Property="Margin" Value="0,0,16,0" />
+        <Setter Property="Width" Value="84" />
+    </Style>
+
+    <Style x:Key="ResultTitleStyle" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource TextBlockFontStyle}">
+        <Setter Property="FontSize" Value="42" />
+        <Setter Property="Foreground" Value="{StaticResource ForegroundBrush}" />
+        <Setter Property="Margin" Value="-8,0,0,0" />
+        <Setter Property="TextWrapping" Value="Wrap" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+    </Style>
+
+    <Style x:Key="ResultSubtitleStyle" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource CardSubtitleStyle}">
+        <Setter Property="FontSize" Value="18" />
+        <Setter Property="FontWeight" Value="Bold" />
+        <Setter Property="Foreground" Value="{StaticResource ForegroundBrush}" />
+        <Setter Property="Margin" Value="-6,-10,10,0" />
+    </Style>
+
+    <Style x:Key="ResultSubtitleLightStyle" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource ResultSubtitleStyle}">
+        <Setter Property="FontWeight" Value="Medium" />
+    </Style>
+
+    <Style x:Key="ResultStatIconStyle" TargetType="{x:Type Image}">
+        <Setter Property="Margin" Value="0,0,20,0" />
+    </Style>
+
+    <Style x:Key="ResultStatStyle" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource ResultSubtitleStyle}">
+        <Setter Property="FontSize" Value="16" />
+        <Setter Property="FontWeight" Value="Light" />
+        <Setter Property="Margin" Value="-8,-1,0,0" />
+    </Style>
+
+    <Style x:Key="AboutButtonStyle" TargetType="{x:Type Button}">
+        <Setter Property="MinHeight" Value="28" />
+        <Setter Property="MinWidth" Value="28" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <Border
+						x:Name="Border"
+						BorderThickness="2"
+						Height="{TemplateBinding Height}"
+						Width="{TemplateBinding Width}">
+                        <Border.BorderBrush>
+                            <SolidColorBrush x:Name="BorderBrush" Color="{StaticResource AccentColor}" />
+                        </Border.BorderBrush>
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CommonStates">
+                                <VisualState x:Name="Disabled">
+                                    <Storyboard>
+                                        <ColorAnimation
+											Storyboard.TargetName="BackgroundBrush" 
+											Storyboard.TargetProperty="Color"
+											To="Transparent"
+											Duration="0:0:0.1"/>
+                                        <ColorAnimation
+											Storyboard.TargetName="BorderBrush" 
+											Storyboard.TargetProperty="Color"
+											To="{StaticResource SubtleColor}"
+											Duration="0:0:0.1"/>
+                                        <ColorAnimation
+											Storyboard.TargetName="ForegroundBrush" 
+											Storyboard.TargetProperty="Color"
+											To="{StaticResource SubtleColor}"
+											Duration="0:0:0.1"/>
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="Normal">
+                                    <Storyboard>
+                                        <ColorAnimation
+											Storyboard.TargetName="BackgroundBrush" 
+											Storyboard.TargetProperty="Color"
+											To="Transparent"
+											Duration="0:0:0.1"/>
+                                        <ColorAnimation
+											Storyboard.TargetName="BorderBrush" 
+											Storyboard.TargetProperty="Color"
+											To="{StaticResource AccentColor}"
+											Duration="0:0:0.1"/>
+                                        <ColorAnimation
+											Storyboard.TargetName="ForegroundBrush" 
+											Storyboard.TargetProperty="Color"
+											To="{StaticResource AccentColor}"
+											Duration="0:0:0.1"/>
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="Pressed">
+                                    <Storyboard>
+                                        <ColorAnimation
+											Storyboard.TargetName="BackgroundBrush" 
+											Storyboard.TargetProperty="Color"
+											To="{StaticResource AccentColor}"
+											Duration="0:0:0.1"/>
+                                        <ColorAnimation
+											Storyboard.TargetName="BorderBrush" 
+											Storyboard.TargetProperty="Color"
+											To="{StaticResource AccentColor}"
+											Duration="0:0:0.1"/>
+                                        <ColorAnimation
+											Storyboard.TargetName="ForegroundBrush" 
+											Storyboard.TargetProperty="Color"
+											To="{StaticResource BackgroundColor}"
+											Duration="0:0:0.1"/>
+                                    </Storyboard>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                        <Border.Background>
+                            <SolidColorBrush x:Name="BackgroundBrush" />
+                        </Border.Background>
+                        <ContentControl 
+							x:Name="theContent"                                
+							Content="{TemplateBinding ContentControl.Content}" 
+							FontFamily="Segoe WP SemiLight"
+							FontSize="14"
+							FontWeight="SemiBold"
+							HorizontalAlignment="Center" 
+							VerticalAlignment="Center">
+                            <ContentControl.Foreground>
+                                <SolidColorBrush x:Name="ForegroundBrush" Color="{StaticResource AccentColor}" />
+                            </ContentControl.Foreground>
+                        </ContentControl>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!--MAJOR TABS-->
+    <Style x:Key="MajorTabHeaderStyle" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource TextBlockFontStyle}">
+        <Setter Property="FontSize" Value="28" />
+        <Setter Property="FontStyle" Value="Normal" />
+        <Setter Property="FontWeight" Value="Light" />
+        <Setter Property="Foreground" Value="{StaticResource AccentBrush}" />
+        <Setter Property="HorizontalAlignment" Value="Center" />
+        <Setter Property="Height" Value="42" />
+        <Setter Property="Margin" Value="12,0,12,12" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+    </Style>
+
+    <Style x:Key="MajorTabItemStyle" TargetType="{x:Type TabItem}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <Grid MinWidth="110" MinHeight="40">
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="SelectionStates">
+                                <VisualState x:Name="Selected">
+                                    <Storyboard>
+                                        <DoubleAnimation 
+											Storyboard.TargetName="lblHeader" 
+											Storyboard.TargetProperty="Opacity"
+											To="1"
+											Duration="0:0:0.2" />
+                                        <DoubleAnimation
+											Storyboard.TargetName="lblHeader"
+											Storyboard.TargetProperty="FontSize"
+											To="32"
+											Duration="0:0:0.2" />
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="Unselected">
+                                    <Storyboard>
+                                        <DoubleAnimation 
+											Storyboard.TargetName="lblHeader" 
+											Storyboard.TargetProperty="Opacity"
+											To="0.6"
+											Duration="0:0:0.2" />
+                                        <DoubleAnimation
+											Storyboard.TargetName="lblHeader"
+											Storyboard.TargetProperty="FontSize"
+											To="28"
+											Duration="0:0:0.2" />
+                                    </Storyboard>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                        <TextBlock 
+							x:Name="lblHeader" 
+							Style="{StaticResource MajorTabHeaderStyle}"
+							Text="{TemplateBinding HeaderedContentControl.Header}"
+							HorizontalAlignment="Center"
+							VerticalAlignment="Center"/>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="AboutTitleStyle" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource TextBlockFontStyle}">
+        <Setter Property="FontFamily" Value="Segoe UI" />
+        <Setter Property="FontSize" Value="26" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+    </Style>
+
+    <Style x:Key="AboutTextStyle" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource TextBlockFontStyle}">
+        <Setter Property="FontSize" Value="10" />
+        <Setter Property="Foreground" Value="{StaticResource SubtleBrush}" />
+        <Setter Property="Margin" Value="0,0,0,12" />
+        <Setter Property="TextAlignment" Value="Right" />
+        <Setter Property="TextWrapping" Value="Wrap" />
+    </Style>
+</ResourceDictionary>

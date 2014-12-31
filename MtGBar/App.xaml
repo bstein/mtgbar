@@ -1,0 +1,55 @@
+﻿<Application 
+    x:Class="MtGBar.App"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:commands="clr-namespace:MtGBar.Infrastructure.UIHelpers.Commands"
+    xmlns:tb="http://www.hardcodet.net/taskbar"
+    xmlns:views="clr-namespace:MtGBar.Views"
+    DispatcherUnhandledException="Application_DispatcherUnhandledException"
+    Exit="Application_Exit"
+    ShutdownMode="OnExplicitShutdown"
+    Startup="Application_Startup">
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Styles/AppStyles.xaml" />
+                <ResourceDictionary Source="Styles/WP7CheckBoxStyle.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <!--Views-->
+            <views:AboutView x:Key="AboutView" />
+            <views:SearchView x:Key="SearchView" />
+
+            <!--Commands-->
+            <commands:AboutCommand x:Key="AboutCommand" />
+            <commands:CloseCommand x:Key="CloseCommand" />
+            <commands:CloseWindowCommand x:Key="CloseWindowCommand" />
+            <commands:LaunchCommand x:Key="LaunchCommand" />
+            <commands:ViewUrlCommand x:Key="ViewUrlCommand" />
+            
+            <!--Taskbar icon-->
+            <tb:TaskbarIcon 
+                x:Key="TheTaskBarIcon"
+                IconSource="/Assets/taskbar-icon.ico"
+                LeftClickCommand="{StaticResource LaunchCommand}"
+                LeftClickCommandParameter="{StaticResource SearchView}"
+                ToolTipText="MtGBar | loading..." 
+                Visibility="Visible">
+                <tb:TaskbarIcon.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem 
+                            Header="Browse" 
+                            Command="{StaticResource LaunchCommand}"
+                            CommandParameter="{StaticResource SearchView}" />
+                        <MenuItem 
+                            Header="Settings"
+                            Command="{StaticResource AboutCommand}"
+                            CommandParameter="{StaticResource AboutView}"/>
+                        <Separator />
+                        <MenuItem Header="Exit" Command="{StaticResource CloseCommand}" />
+                    </ContextMenu>
+                </tb:TaskbarIcon.ContextMenu>
+            </tb:TaskbarIcon>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

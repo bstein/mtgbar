@@ -1,0 +1,56 @@
+TL;DR: I've developed a free and ad-free PC reference app for MtG. Want to try it? Click here. Let me know what you think!
+
+Hey there, denizens of /r/magictcg!
+
+Are you a newish player? Do you somehow inexplicably lack the ability to commit all 13,000+ (and increasing) Magic cards to memory? Do you spend an unhealthy amount of time near, on, or wishing you could be surgically attached to your computer?
+
+Dude - me too. So I started working on MtGBar, a free reference app for PC. MtGBar has one goal: to make it as easy and fast as possible to look up a Magic card. You can find a card with just a few keystrokes, learn all of its basic gameplay characteristics, and even view prices and art for each of its printings.
+
+Sound interesting? How about a few (screenshots?)
+
+Here's the breakdown: When you launch MtGBar, it runs in the background until you find yourself in need of its services. When you're ready to look up a card, just hit CTRL + SPACE (by default), and it'll spring into action. Search for the card you're interested in by name, and BAM! Everything you might want to know about a card (or a link to it) in one hopefully-appropriately-sized window. When you're done, just hit ESC or CTRL + SPACE to dismiss the app. Snap/crackle/pop.
+
+READY TO DOWNLOAD?
+Awesome! Head here and click "install." Deep stuff, I know.
+
+A brief heads-up to my fellow planeswalkers running Windows 8: The Windows 8 Smartscreen filter is what I'll generously call a little... overzealous. MtGBar is signed with a software distribution certificate from a valid certification authority, and it's not like it's one from Bhutan or something, so I'm not sure why, but in some (read: almost all) cases, when you run MtGBar's installer (and again when you run the program for the first time, and AGAIN when you update...) you'll be confronted with something that looks like the following:
+
+THANKS, WINDOWS 8
+
+Unless you click the stupidly-inconspicuous "More Info" link, you aren't even offered the choice to install MtGBar. WHY, MICROSOFT? WHAT DID I DO TO YOU?
+
+Once you click "More Info," you should see something that looks a little better:
+
+BETTER, I GUESS
+
+Click "Run Anyway" and you should be set to go.
+
+FAQs
+Q: "I like it, but I have feedback that I want to give you. How can I do that?"
+A: AWESOME! That's what I'm hoping for. Feel free to post in this thread, and I'll try to respond to as many people as I can. If you'd prefer to present your feedback confidentially, feel free to DM me on Reddit. I can't promise that I'll get back to everyone or incorporate every piece of feedback, but I'll do what I can. Thanks for trying MtGBar out!
+
+Q: "Why would I use this? (Gatherer)[], (MtgSalvation)[], and a bunch of other fan sites have WAY more information, and I don't have to install some 3rd party app to get it."
+A: You're darn right they do, and they do an amazing job with the features they provide. If you want nitty-gritty detailed data, these and other fansites will get the job done a lot better. But if you're watching a stream or listening to a podcast, see a Battle-Mad Ronin played (what kind of streams are you WATCHING?), and are curious about its particulars, MtGBar gets you there quickly. And hey - if, after looking up the basic data that MtGBar provides, you want more info, just click one of the handy Gatherer, ChannelFireball, or TCGPlayer links shown every time you look up a card.
+
+Also, while I recognize this is a fairly fringe case, MtGBar is usable even when you don't have access to the internet. Price data and the images of any cards you've never looked up before won't be available to you when you're not connected, but all the other information will. So take it to your LGS and show your friends! 
+
+Q: This looks really familiar... it reminds me of a reference app I may or may not have seen posted on /r/hearthstone awhile back. Are you a shameless freeware-thief?
+A: No, I started something like this for Hearthstone, too. And don't worry - you're not getting a Hearthstone app haphazardly rejiggered to work with Magic. MtGBar was rebuilt from the ground up for Magic using a lot of the lessons I learned when building Hearthbar. Honestly, the more accurate description is that I'll probably be rejiggering Hearthbar to take advantage of all the cool stuff I learned when building MtGBar. MtG for life! Or at least until I'm bankrupt, which, given the alarmingly high price of standard planeswalkers these days, should be sometime late next week.
+
+Q: "I'm scared of beta/indie/possibly crappy software. Is MtGBar safe?"
+A: It absolutely is - for a given value of "safe." :) 
+
+As mentioned above, MtGBar is signed by a valid software certification authority, which means that some people in California know where I live and can do terrible things to me if I make software that blows up computers or emails the NSA your personal info (not that they need me to these days - HEY-O!). 
+
+That said, I'm a lone developer without any formal QA department, and I'm not a child prodigy, so yes, MtGBar may crash or have bugs. However, you can quickly and easily remove MtGBar from your system if you don't like it or if for any reason you just want it gone. To do so, just follow these steps:
+
+Exit MtGBar by right-clicking on the Phyrexian mana icon in your system tray and clicking "Exit."
+Go to your Add/Remove Programs menu and remove MtGBar.
+Go to C:/Users/your user name/AppData/Roaming/ and delete the folder "Jammerware.MtGBar". Having this happen automatically on uninstall is on my list, but it's not in yet. I'm sorry.
+
+Q: "MtGBar seems to work by listening for hotkeys. Does this mean it's a keylogger? Are you reading my email right now?"
+A: No. I don't even read my own email. Seriously though: MtGBar does listen for a single hotkey combination - one that you can change at will, by the way - but it doesn't log any of your keyboard activity, and the only "online" communications it makes are for card and image data, application updates, and opening your browser if you request it.
+
+And there you have it! If you have any questions, concerns, or feature requests for MtGBar, don't hesitate to post here, DM me on Reddit, follow the app on Twitter, or yell loudly at your monitor while the search box is open. The last one won't actually get you in touch with me, but I do it occasionally and find it strangely comforting.
+
+Thanks for checking this out, guys!

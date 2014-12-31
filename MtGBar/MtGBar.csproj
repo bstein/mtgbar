@@ -1,0 +1,370 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{7C23F660-5617-4E84-B405-1C4DFF9DD4B5}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>MtGBar</RootNamespace>
+    <AssemblyName>MtGBar</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+    <IsWebBootstrapper>true</IsWebBootstrapper>
+    <PublishUrl>C:\Users\bstein\Documents\Devspace\mtgbar\MtGBar\Project\Live\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Web</InstallFrom>
+    <UpdateEnabled>true</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <InstallUrl>http://jammerware.com/mtgbar/</InstallUrl>
+    <UpdateUrl>http://software.jammerware.com/mtgbar/</UpdateUrl>
+    <TargetCulture>en-US</TargetCulture>
+    <ProductName>MtGBar</ProductName>
+    <PublisherName>Jammerware</PublisherName>
+    <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
+    <WebPage>publish.htm</WebPage>
+    <OpenBrowserOnPublish>false</OpenBrowserOnPublish>
+    <ApplicationRevision>11</ApplicationRevision>
+    <ApplicationVersion>1.1.0.%2a</ApplicationVersion>
+    <UseApplicationTrust>true</UseApplicationTrust>
+    <PublishWizardCompleted>true</PublishWizardCompleted>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestCertificateThumbprint>638B755CFFA83679DE2918F9A00E1AC42AD6F313</ManifestCertificateThumbprint>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestKeyFile>certificate.pfx</ManifestKeyFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <GenerateManifests>true</GenerateManifests>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignManifests>false</SignManifests>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>false</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>
+    </AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>icon.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup>
+    <NoWin32Manifest>true</NoWin32Manifest>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Bazam, Version=2.2.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Project\Libs\Bazam.dll</HintPath>
+    </Reference>
+    <Reference Include="BazamWPF, Version=1.0.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Project\Libs\BazamWPF.dll</HintPath>
+    </Reference>
+    <Reference Include="Hardcodet.Wpf.TaskbarNotification">
+      <HintPath>Libs\Hardcodet.Wpf.TaskbarNotification.dll</HintPath>
+    </Reference>
+    <Reference Include="ICSharpCode.SharpZipLib, Version=0.86.0.518, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Project\Libs\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
+    <Reference Include="Melek">
+      <HintPath>..\Project\Libs\Melek.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Windows.Interactivity, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Compile Include="Infrastructure\AppConstants.cs" />
+    <Compile Include="Infrastructure\AppState.cs" />
+    <Compile Include="Infrastructure\DataNinjitsu\Models\HotkeyDescription.cs" />
+    <Compile Include="Infrastructure\DataNinjitsu\Models\Settings.cs" />
+    <Compile Include="Infrastructure\UIHelpers\Behaviors\EscapeCloseBehavior.cs" />
+    <Compile Include="Infrastructure\UIHelpers\Commands\AboutCommand.cs" />
+    <Compile Include="Infrastructure\UIHelpers\Commands\ClearAppDataCacheCommand.cs" />
+    <Compile Include="Infrastructure\UIHelpers\Commands\ClearCardCacheCommand.cs" />
+    <Compile Include="Infrastructure\UIHelpers\Commands\CloseCommand.cs" />
+    <Compile Include="Infrastructure\UIHelpers\Commands\CloseWindowCommand.cs" />
+    <Compile Include="Infrastructure\UIHelpers\Commands\LaunchCommand.cs" />
+    <Compile Include="Infrastructure\UIHelpers\Commands\GathererViewCommand.cs" />
+    <Compile Include="Infrastructure\UIHelpers\Commands\ViewUrlCommand.cs" />
+    <Compile Include="Infrastructure\UIHelpers\Converters\CardAppearancesMaxConverter.cs" />
+    <Compile Include="Infrastructure\UIHelpers\Converters\CardAppearancesVisibilityConverter.cs" />
+    <Compile Include="Infrastructure\UIHelpers\Converters\CardBackgroundImageConverter.cs" />
+    <Compile Include="Infrastructure\UIHelpers\Converters\CardCostCollectionVisibilityConverter.cs" />
+    <Compile Include="Infrastructure\UIHelpers\Converters\CardCostConverter.cs" />
+    <Compile Include="Infrastructure\UIHelpers\Converters\CardFirstAppearanceConverter.cs" />
+    <Compile Include="Infrastructure\UIHelpers\Converters\CardPowerToughnessVisibilityConverter.cs" />
+    <Compile Include="Infrastructure\UIHelpers\Converters\CardRarityStringConverter.cs" />
+    <Compile Include="Infrastructure\UIHelpers\Converters\CardTextConverter.cs" />
+    <Compile Include="Infrastructure\UIHelpers\Converters\CardTextParseConverter.cs" />
+    <Compile Include="Infrastructure\UIHelpers\Converters\CardTextVisibilityConverter.cs" />
+    <Compile Include="Infrastructure\UIHelpers\Converters\CardTypeStringConverter.cs" />
+    <Compile Include="Infrastructure\UIHelpers\Converters\CardViewVisibilityConverter.cs" />
+    <Compile Include="Infrastructure\UIHelpers\Converters\CardWatermarkConverter.cs" />
+    <Compile Include="Infrastructure\UIHelpers\Converters\ClearCardCacheButtonTextConverter.cs" />
+    <Compile Include="Infrastructure\UIHelpers\Converters\DateTimeStringConverter.cs" />
+    <Compile Include="Infrastructure\UIHelpers\Converters\LoyaltyCostIconConverter.cs" />
+    <Compile Include="Infrastructure\UIHelpers\Converters\LoyaltyCostMarginConverter.cs" />
+    <Compile Include="Infrastructure\UIHelpers\Converters\LoyaltyCostTextConverter.cs" />
+    <Compile Include="Infrastructure\UIHelpers\Converters\RarityBrushConverter.cs" />
+    <Compile Include="Infrastructure\UIHelpers\Converters\ResultsDelimiterVisibilityConverter.cs" />
+    <Compile Include="Infrastructure\UIHelpers\Converters\ResultsViewVisibilityConverter.cs" />
+    <Compile Include="Infrastructure\UIHelpers\Converters\CardSetImageConverter.cs" />
+    <Compile Include="Infrastructure\UIHelpers\DataTemplateSelectors\CardTextDataTemplateSelector.cs" />
+    <Compile Include="Infrastructure\Utilities\FileSystemManager.cs" />
+    <Compile Include="Infrastructure\Utilities\ImageManager.cs" />
+    <Compile Include="Infrastructure\Utilities\TalkAtcha.cs" />
+    <Compile Include="Infrastructure\Utilities\Updates\UpdateFoundEventHandler.cs" />
+    <Compile Include="Infrastructure\Utilities\Updates\Updater.cs" />
+    <Compile Include="Infrastructure\Utilities\VendorRelations.cs" />
+    <Compile Include="ViewModels\AboutViewModel.cs" />
+    <Compile Include="ViewModels\CardViewModel.cs" />
+    <Compile Include="ViewModels\DisplayViewModel.cs" />
+    <Compile Include="ViewModels\SearchViewModel.cs" />
+    <Compile Include="Views\AboutView.xaml.cs">
+      <DependentUpon>AboutView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SearchView.xaml.cs">
+      <DependentUpon>SearchView.xaml</DependentUpon>
+    </Compile>
+    <Page Include="Styles\AppStyles.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\WP7CheckBoxStyle.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\AboutView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Page Include="Views\SearchView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <AppDesigner Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\loyalty\loyalty-start.png" />
+    <Resource Include="Assets\loyalty\loyalty-down.png" />
+    <Resource Include="Assets\loyalty\loyalty-up.png" />
+    <Resource Include="Assets\loyalty\loyalty-zero.png" />
+    <Resource Include="Assets\manaSymbols\100.png" />
+    <Resource Include="Assets\manaSymbols\1000000.png" />
+    <Resource Include="Assets\manaSymbols\c.png" />
+    <Resource Include="Assets\watermarks\izzet.png" />
+    <Resource Include="Assets\watermarks\azorius.png" />
+    <Resource Include="Assets\watermarks\boros.png" />
+    <Resource Include="Assets\watermarks\dimir.png" />
+    <Resource Include="Assets\watermarks\golgari.png" />
+    <Resource Include="Assets\watermarks\gruul.png" />
+    <Resource Include="Assets\watermarks\orzhov.png" />
+    <Resource Include="Assets\watermarks\rakdos.png" />
+    <Resource Include="Assets\watermarks\selesnya.png" />
+    <Resource Include="Assets\watermarks\simic.png" />
+    <Resource Include="Assets\watermarks\mirran.png" />
+    <Resource Include="Assets\watermarks\phyrexian.png" />
+    <Resource Include="Assets\backgrounds\default.jpg" />
+    <Resource Include="Assets\backgrounds\azorius.jpg" />
+    <Resource Include="Assets\backgrounds\boros.jpg" />
+    <Resource Include="Assets\backgrounds\golgari.jpg" />
+    <Resource Include="Assets\backgrounds\orzhov.jpg" />
+    <Resource Include="Assets\backgrounds\rakdos.jpg" />
+    <Resource Include="Assets\backgrounds\selesnya.jpg" />
+    <Resource Include="Assets\backgrounds\dimir.jpg" />
+    <Resource Include="Assets\backgrounds\simic.jpg" />
+    <Resource Include="Assets\backgrounds\gruul.jpg" />
+    <Resource Include="Assets\backgrounds\mirran.jpg" />
+    <Resource Include="Assets\backgrounds\phyrexian.jpg" />
+    <Resource Include="Assets\manaSymbols\2b.png" />
+    <Resource Include="Assets\manaSymbols\2g.png" />
+    <Resource Include="Assets\manaSymbols\2r.png" />
+    <Resource Include="Assets\manaSymbols\2u.png" />
+    <Resource Include="Assets\manaSymbols\2w.png" />
+    <Resource Include="Assets\twitter.png" />
+    <Resource Include="Assets\mail.png" />
+    <Resource Include="icon.ico" />
+    <None Include="App.config" />
+    <Resource Include="Assets\fonts\mplantin.ttf" />
+    <Resource Include="Assets\fonts\segoeui.ttf" />
+    <Resource Include="Assets\fonts\segoeuib.ttf" />
+    <Resource Include="Assets\fonts\segoeuii.ttf" />
+    <Resource Include="Assets\fonts\segoeuil.ttf" />
+    <Resource Include="Assets\fonts\segoeuisl.ttf" />
+    <Resource Include="Assets\fonts\segoeuiz.ttf" />
+    <Resource Include="Assets\fonts\seguili.ttf" />
+    <Resource Include="Assets\fonts\seguisb.ttf" />
+    <Resource Include="Assets\fonts\seguisbi.ttf" />
+    <Resource Include="Assets\fonts\seguisli.ttf" />
+    <Resource Include="Assets\mana-icon.png" />
+    <Resource Include="Assets\backgrounds\background-about.jpg" />
+    <Resource Include="Assets\textures\mythic-rare.jpg" />
+    <Resource Include="Assets\textures\rare.jpg" />
+    <Resource Include="Assets\textures\uncommon.jpg" />
+    <Resource Include="Assets\tcgplayer-favicon.ico" />
+    <Resource Include="Assets\amazon-favicon.ico" />
+    <Resource Include="Assets\manaSymbols\b.png" />
+    <Resource Include="Assets\manaSymbols\g.png" />
+    <Resource Include="Assets\manaSymbols\r.png" />
+    <Resource Include="Assets\manaSymbols\u.png" />
+    <Resource Include="Assets\manaSymbols\w.png" />
+    <Resource Include="Assets\search-icon.png" />
+    <Resource Include="Assets\manaSymbols\0.png" />
+    <Resource Include="Assets\manaSymbols\1.png" />
+    <Resource Include="Assets\manaSymbols\10.png" />
+    <Resource Include="Assets\manaSymbols\11.png" />
+    <Resource Include="Assets\manaSymbols\12.png" />
+    <Resource Include="Assets\manaSymbols\13.png" />
+    <Resource Include="Assets\manaSymbols\14.png" />
+    <Resource Include="Assets\manaSymbols\15.png" />
+    <Resource Include="Assets\manaSymbols\16.png" />
+    <Resource Include="Assets\manaSymbols\17.png" />
+    <Resource Include="Assets\manaSymbols\18.png" />
+    <Resource Include="Assets\manaSymbols\19.png" />
+    <Resource Include="Assets\manaSymbols\2.png" />
+    <Resource Include="Assets\manaSymbols\20.png" />
+    <Resource Include="Assets\manaSymbols\3.png" />
+    <Resource Include="Assets\manaSymbols\4.png" />
+    <Resource Include="Assets\manaSymbols\5.png" />
+    <Resource Include="Assets\manaSymbols\6.png" />
+    <Resource Include="Assets\manaSymbols\7.png" />
+    <Resource Include="Assets\manaSymbols\8.png" />
+    <Resource Include="Assets\manaSymbols\9.png" />
+    <Resource Include="Assets\manaSymbols\bg.png" />
+    <Resource Include="Assets\manaSymbols\br.png" />
+    <Resource Include="Assets\manaSymbols\wb.png" />
+    <Resource Include="Assets\manaSymbols\wu.png" />
+    <Resource Include="Assets\manaSymbols\x.png" />
+    <Resource Include="Assets\manaSymbols\gu.png" />
+    <Resource Include="Assets\manaSymbols\gw.png" />
+    <Resource Include="Assets\manaSymbols\pb.png" />
+    <Resource Include="Assets\manaSymbols\pc.png" />
+    <Resource Include="Assets\manaSymbols\pg.png" />
+    <Resource Include="Assets\manaSymbols\pr.png" />
+    <Resource Include="Assets\manaSymbols\pu.png" />
+    <Resource Include="Assets\manaSymbols\pw.png" />
+    <Resource Include="Assets\manaSymbols\rg.png" />
+    <Resource Include="Assets\manaSymbols\rw.png" />
+    <Resource Include="Assets\manaSymbols\t.png" />
+    <Resource Include="Assets\manaSymbols\ub.png" />
+    <Resource Include="Assets\manaSymbols\ur.png" />
+    <Resource Include="Assets\manaSymbols\hw.png" />
+    <Resource Include="Assets\cf-favicon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MtGBarControls\MtGBarControls.csproj">
+      <Project>{54fdd866-e6e0-4dff-8c29-4187bbdce1df}</Project>
+      <Name>MtGBarControls</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MtGBarRestarter\MtGBarRepairbot.csproj">
+      <Project>{3529f0d9-bf3e-40c1-a3b3-d01faae8c54d}</Project>
+      <Name>MtGBarRepairbot</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\backgrounds\izzet.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\gatherer-logo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.5">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.5 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\taskbar-icon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\manaSymbols\q.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\card-back.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\manaSymbols\s.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\loading-result-icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\card-back-small.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!--<Target Name="AfterCompile">
+    <Exec Command="&quot;C:\Program Files (x86)\Microsoft SDKs\Windows\v7.1A\Bin\signtool.exe&quot; sign /f &quot;$(ProjectDir)certificate.pfx&quot; /p whatth3fr@k /v &quot;$(ProjectDir)obj\$(ConfigurationName)\$(TargetFileName)&quot;" />
+  </Target>-->
+</Project>
