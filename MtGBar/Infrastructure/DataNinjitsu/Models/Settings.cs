@@ -20,6 +20,7 @@ namespace MtGBar.Infrastructure.DataNinjitsu.Models
 
         #region Properties
         public bool DismissOnFocusLoss { get; set; }
+        public int? DisplayIndex { get; set; }
         public DateTime LastImageCheck { get; set; }
         public HotkeyDescription Hotkey { get; set; }
         public bool SaveCardImageData { get; set; }
@@ -37,6 +38,7 @@ namespace MtGBar.Infrastructure.DataNinjitsu.Models
                 if (stream.Length > 0) {
                     settingsData = XDocument.Load(stream).Element("settings");
                     DismissOnFocusLoss = (settingsData.Attribute("dismissOnFocusLoss") != null ? XMLPal.GetBool(settingsData.Attribute("dismissOnFocusLoss")) : true);
+                    DisplayIndex = (settingsData.Attribute("displayIndex") != null ? (int?)XMLPal.GetInt(settingsData.Attribute("displayIndex")) : null);
                     Hotkey = (settingsData.Attribute("hotkey") != null ? new HotkeyDescription(XMLPal.GetString(settingsData.Attribute("hotkey"))) : null);
                     LastImageCheck = XMLPal.GetDate(settingsData.Attribute("lastImageCheck"));
                     SaveCardImageData = XMLPal.GetBool(settingsData.Attribute("saveCardImageData"));
@@ -64,6 +66,7 @@ namespace MtGBar.Infrastructure.DataNinjitsu.Models
             XDocument doc = new XDocument(
                 new XElement("settings",
                     new XAttribute("dismissOnFocusLoss", DismissOnFocusLoss.ToString()),
+                    (DisplayIndex != null ? new XAttribute("displayIndex", DisplayIndex.Value) : null),
                     (Hotkey != null ? new XAttribute("hotkey", Hotkey.ToString().Replace(" ", "")) : null),
                     new XAttribute("lastImageCheck", LastImageCheck.ToString()),
                     new XAttribute("saveCardImageData", SaveCardImageData.ToString()),

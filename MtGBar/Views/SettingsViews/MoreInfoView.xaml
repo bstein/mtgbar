@@ -1,0 +1,136 @@
+﻿<UserControl 
+    x:Class="MtGBar.Views.SettingsViews.MoreInfoView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+    mc:Ignorable="d" 
+    d:DesignHeight="300" d:DesignWidth="300">
+    <StackPanel 
+        HorizontalAlignment="Right"
+        VerticalAlignment="Bottom">
+        <TextBlock
+            FontSize="20"
+            Foreground="{StaticResource ForegroundBrush}"
+            Text="{Binding VersionString}"
+            HorizontalAlignment="Right" />
+        <TextBlock 
+            Foreground="{StaticResource ForegroundBrush}"
+            Style="{StaticResource AboutTextStyle}">
+            MtGBar © 2014 BEN STEIN &amp; JAMMERWARE
+        </TextBlock>
+        <StackPanel 
+            HorizontalAlignment="Right"
+            Margin="0,0,0,20"
+            Orientation="Horizontal">
+            <Button 
+                Command="{StaticResource ViewUrlCommand}"
+                CommandParameter="http://www.twitter.com/jammerware"
+                Margin="8,0,0,0"
+                Height="36"
+                Style="{StaticResource AboutButtonStyle}">
+                <StackPanel Margin="8" Orientation="Horizontal">
+                    <Image 
+                        Source="/Assets/twitter.png"
+                        Stretch="Uniform" />
+                    <TextBlock
+                        Foreground="{StaticResource ForegroundBrush}"
+                        Margin="8,0,8,0"
+                        Style="{StaticResource TextBlockFontStyle}"
+                        Text="@jammerware" 
+                        VerticalAlignment="Center" />
+                </StackPanel>
+            </Button>
+            <Button 
+                Command="{StaticResource ViewUrlCommand}"
+                CommandParameter="mailto:ben@jammerware.com"
+                Height="36"
+                Margin="8,0,0,0"
+                Style="{StaticResource AboutButtonStyle}">
+                <StackPanel Margin="8" Orientation="Horizontal">
+                    <Image 
+                        Source="/Assets/mail.png"
+                        Stretch="Uniform" />
+                    <TextBlock
+                        Foreground="{StaticResource ForegroundBrush}"
+                        Margin="8,0,8,0"
+                        Style="{StaticResource TextBlockFontStyle}"
+                        Text="ben@jammerware.com"
+                        VerticalAlignment="Center" />
+                </StackPanel>
+            </Button>
+        </StackPanel>
+        <TextBlock Style="{StaticResource AboutTextStyle}">
+            MAGIC: THE GATHERING, ITS IMAGES, LOGOS, ICONS, AND CARDS ARE PROPERTY OF WIZARDS OF THE COAST. MtGBar, BEN STEIN, AND JAMMERWARE ARE NOT AFFILIATED WITH OR LICENSED BY WIZARDS OF THE COAST. PRICES DISPLAYED IN THIS APPLICATION ARE NOT A GUARANTEE OF ON BEHALF OF VENDORS DEPICTED. ACTUAL PRICE MAY VARY.
+        </TextBlock>
+        <TextBlock 
+            Foreground="{StaticResource ForegroundBrush}"
+            Margin="0"
+            Style="{StaticResource AboutTextStyle}">
+            MtGBar WAS CREATED USING THE FOLLOWING LIBRARIES:
+        </TextBlock>
+
+        <TextBlock 
+            Style="{StaticResource AboutTextStyle}" 
+            Text="SHARPZIPLIB by ICSHARPCODE (http://www.icsharpcode.net/opensource/sharpziplib/)" />
+        <TextBlock
+            Foreground="{StaticResource ForegroundBrush}"
+            Margin="0"
+            Style="{StaticResource AboutTextStyle}"
+            Text="SPECIAL THANKS TO:" />
+        <TextBlock
+            Margin="0"
+            Style="{StaticResource AboutTextStyle}"
+            Text="ANDREW PEPPERRELL &amp; ALFRED (FOR THE INSPIRATION)" />
+        <StackPanel 
+            HorizontalAlignment="Right" 
+            Margin="0"
+            Orientation="Horizontal">
+            <TextBlock
+                Margin="0"
+                Style="{StaticResource AboutTextStyle}"
+                Text="BACONCATBUG, GOBLIN HERO, AND THE PARTICIPANTS IN " />
+            <Button
+                Command="{StaticResource ViewUrlCommand}"
+                CommandParameter="http://www.slightlymagic.net/forum/viewtopic.php?f=15&amp;t=7010&amp;start=105"
+                Cursor="Hand"
+                Margin="0">
+                <Button.Template>
+                    <ControlTemplate>
+                        <TextBlock 
+                            Foreground="{StaticResource AccentBrush}"
+                            Margin="0"
+                            Style="{StaticResource AboutTextStyle}"
+                            Text="THIS THREAD"
+                            TextDecorations="Underline" />
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+        </StackPanel>
+        
+        <TextBlock
+            Margin="0"
+            Style="{StaticResource AboutTextStyle}"
+            Text="CHANNELFIREBALL.COM" />
+        <TextBlock
+            Margin="0"
+            Style="{StaticResource AboutTextStyle}"
+            Text="JOSH STEIN" />
+        <TextBlock
+            Margin="0"
+            Style="{StaticResource AboutTextStyle}"
+            Text="/R/MAGICTCG" />
+        <TextBlock
+            Margin="0"
+            Style="{StaticResource AboutTextStyle}"
+            Text="RYLAN SEDIVY" />
+        <TextBlock
+            Margin="0"
+            Style="{StaticResource AboutTextStyle}"
+            Text="TCGPLAYER.COM" />
+        <TextBlock
+            Margin="0"
+            Style="{StaticResource AboutTextStyle}"
+            Text="WIZARDS OF THE COAST" />
+    </StackPanel>
+</UserControl>

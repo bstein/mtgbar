@@ -5,11 +5,13 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Forms;
 using System.Windows.Media.Imaging;
 using Bazam.Modules;
 using BazamWPF.ViewModels;
 using Melek.Models;
 using MtGBar.Infrastructure;
+using MtGBar.Infrastructure.DataNinjitsu.Models;
 using MtGBar.Infrastructure.Utilities;
 
 namespace MtGBar.ViewModels
@@ -36,6 +38,8 @@ namespace MtGBar.ViewModels
         private string _TCGPlayerLink;
         private string _TCGPlayerPrice = PRICE_DEFAULT;
         private string _WatermarkText;
+        private int _WindowLeft;
+        private int _WindowTop;
         #endregion
 
         #region Events
@@ -252,6 +256,30 @@ namespace MtGBar.ViewModels
                 }
             }
         }
+
+        public int WindowLeft
+        {
+            get { return _WindowLeft; }
+            set
+            {
+                if (_WindowLeft != value) {
+                    _WindowLeft = value;
+                    OnPropertyChanged("WindowLeft");
+                }
+            }
+        }
+
+        public int WindowTop
+        {
+            get { return _WindowTop; }
+            set
+            {
+                if (_WindowTop != value) {
+                    _WindowTop = value;
+                    OnPropertyChanged("WindowTop");
+                }
+            }
+        }
         #endregion
 
         #region Private utility methods
@@ -347,6 +375,15 @@ namespace MtGBar.ViewModels
             CFPrice = PRICE_DEFAULT;
             TCGPlayerLink = string.Empty;
             TCGPlayerPrice = PRICE_DEFAULT;
+        }
+
+        private void SetWindowPosition()
+        {
+            int? displayIndex = AppState.Instance.Settings.DisplayIndex;
+            Screen targetScreen = Screen.PrimaryScreen;
+            if (displayIndex != null) {
+                targetScreen = Screen.AllScreens[displayIndex.Value];
+            }
         }
 
         private void ShuffleWatermarkText()

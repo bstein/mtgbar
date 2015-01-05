@@ -21,7 +21,9 @@ namespace MtGBar.Infrastructure.UIHelpers.Behaviors
 
             AssociatedObject.Activated += (time, forThings) => {
                 AnimationBuddy.Animate(AssociatedObject, "Opacity", 1, 200, (fucking, done) => {
-                    AssociatedObject.Show();
+                    if (AssociatedObject.IsLoaded) {
+                        AssociatedObject.Show();
+                    }
                 });
             };
         }

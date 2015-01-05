@@ -18,12 +18,14 @@
     Background="Transparent"
     Icon="/MtGBar;component/icon.ico"
     KeyUp="this_KeyUp"
+    Left="{Binding WindowLeft}"
     Opacity="0"
     PreviewKeyDown="this_PreviewKeyDown"
     ResizeMode="NoResize" 
     ShowInTaskbar="False"
     SizeToContent="Height"
-    WindowStartupLocation="CenterScreen"
+    Top="{Binding WindowTop}"
+    WindowStartupLocation="Manual"
     WindowStyle="None"
     Width="800">
     <Window.DataContext>

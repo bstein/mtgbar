@@ -24,102 +24,6 @@
     <ui:ToggleConfirmStateCommand x:Key="ToggleConfirmStateCommand" />
     
     <!--Helper styles-->
-    <Style x:Key="MetroButtonStyle" TargetType="{x:Type Button}">
-        <Setter Property="MinHeight" Value="28" />
-        <Setter Property="MinWidth" Value="28" />
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate>
-                    <Border
-						x:Name="Border"
-						BorderThickness="2"
-						Height="{TemplateBinding Height}"
-						Width="{TemplateBinding Width}">
-                        <Border.BorderBrush>
-                            <SolidColorBrush x:Name="BorderBrush" Color="{StaticResource AccentColor}" />
-                        </Border.BorderBrush>
-                        <VisualStateManager.VisualStateGroups>
-                            <VisualStateGroup x:Name="CommonStates">
-                                <VisualState x:Name="Disabled">
-                                    <Storyboard>
-                                        <ColorAnimation
-											Storyboard.TargetName="BackgroundBrush" 
-											Storyboard.TargetProperty="Color"
-											To="Transparent"
-											Duration="0:0:0.1"/>
-                                        <ColorAnimation
-											Storyboard.TargetName="BorderBrush" 
-											Storyboard.TargetProperty="Color"
-											To="{StaticResource SubtleColor}"
-											Duration="0:0:0.1"/>
-                                        <ColorAnimation
-											Storyboard.TargetName="ForegroundBrush" 
-											Storyboard.TargetProperty="Color"
-											To="{StaticResource SubtleColor}"
-											Duration="0:0:0.1"/>
-                                    </Storyboard>
-                                </VisualState>
-                                <VisualState x:Name="Normal">
-                                    <Storyboard>
-                                        <ColorAnimation
-											Storyboard.TargetName="BackgroundBrush" 
-											Storyboard.TargetProperty="Color"
-											To="Transparent"
-											Duration="0:0:0.1"/>
-                                        <ColorAnimation
-											Storyboard.TargetName="BorderBrush" 
-											Storyboard.TargetProperty="Color"
-											To="{StaticResource AccentColor}"
-											Duration="0:0:0.1"/>
-                                        <ColorAnimation
-											Storyboard.TargetName="ForegroundBrush" 
-											Storyboard.TargetProperty="Color"
-											To="{StaticResource AccentColor}"
-											Duration="0:0:0.1"/>
-                                    </Storyboard>
-                                </VisualState>
-                                <VisualState x:Name="Pressed">
-                                    <Storyboard>
-                                        <ColorAnimation
-											Storyboard.TargetName="BackgroundBrush" 
-											Storyboard.TargetProperty="Color"
-											To="{StaticResource AccentColor}"
-											Duration="0:0:0.1"/>
-                                        <ColorAnimation
-											Storyboard.TargetName="BorderBrush" 
-											Storyboard.TargetProperty="Color"
-											To="{StaticResource AccentColor}"
-											Duration="0:0:0.1"/>
-                                        <ColorAnimation
-											Storyboard.TargetName="ForegroundBrush" 
-											Storyboard.TargetProperty="Color"
-											To="{StaticResource BackgroundColor}"
-											Duration="0:0:0.1"/>
-                                    </Storyboard>
-                                </VisualState>
-                            </VisualStateGroup>
-                        </VisualStateManager.VisualStateGroups>
-                        <Border.Background>
-                            <SolidColorBrush x:Name="BackgroundBrush" />
-                        </Border.Background>
-                        <ContentControl 
-							x:Name="theContent"                                
-							Content="{TemplateBinding ContentControl.Content}" 
-							FontFamily="Segoe WP SemiLight"
-							FontSize="14"
-							FontWeight="SemiBold"
-							HorizontalAlignment="Center" 
-							VerticalAlignment="Center">
-                            <ContentControl.Foreground>
-                                <SolidColorBrush x:Name="ForegroundBrush" Color="{StaticResource AccentColor}" />
-                            </ContentControl.Foreground>
-                        </ContentControl>
-                    </Border>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-    
     <Style TargetType="{x:Type controls:WatermarkTextBox}">
         <Setter Property="Template">
             <Setter.Value>
@@ -282,11 +186,7 @@
                                 Grid.Column="0"
                                 Command="{StaticResource ToggleConfirmStateCommand}"
                                 CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=controls:ConfirmButton}}"
-                                Content="{TemplateBinding Content}"
-                                Style="{StaticResource MetroButtonStyle}">
-                                <!--<i:Interaction.Behaviors>
-                                    <behavior:SmoothSizeChangedBehavior />
-                                </i:Interaction.Behaviors>-->
+                                Content="{TemplateBinding Content}">
                             </Button>
 
                             <Button 
@@ -294,19 +194,20 @@
                                 Grid.Column="1"
                                 Command="{TemplateBinding Command}"
                                 CommandParameter="{TemplateBinding CommandParameter}"
+                                Foreground="{TemplateBinding Foreground}"
                                 HorizontalAlignment="Right"
                                 Margin="8,0,0,0"
-                                Style="{StaticResource MetroButtonStyle}"
                                 Visibility="Collapsed"
                                 Width="0">
                                 <Button.Content>
                                     <Path 
-                                        Width="13" Height="13" 
-                                        Margin="6,4,4,4"
+                                        Data="F1 M 10.9375,-2.86102e-006L 3.19229,11.958L 2.58287e-007,7.14339"
+                                        Fill="{TemplateBinding Foreground}"
+                                        Margin="6,4,4,0"
                                         SnapsToDevicePixels="False" 
                                         Stroke="{TemplateBinding Foreground}"
                                         StrokeThickness="2"
-                                        Data="F1 M 10.9375,-2.86102e-006L 3.19229,11.958L 2.58287e-007,7.14339" />
+                                        Width="13" Height="13" />
                                 </Button.Content>
                             </Button>
                         </Grid>

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
+using System.Windows.Forms;
 using System.Windows.Input;
 using Bazam.KeyAdept;
 using Bazam.Modules;
@@ -46,6 +47,21 @@ namespace MtGBar.ViewModels
             AppState.Instance.MelekDataStore.PackagesUpdated += (newPackages) => {
                 _Packages = AppState.Instance.MelekDataStore.GetPackages();
             };
+
+            // query displays
+            List<DisplayViewModel> displayVMs = new List<DisplayViewModel>();
+            displayVMs.Add(new DisplayViewModel() {
+                FriendlyName = "[your primary monitor]"
+            });
+            Screen[] displays = MonitorLizard.GetDisplays();
+            
+            for (int i = 0; i < displays.Length; i++) {
+                displayVMs.Add(new DisplayViewModel() {
+                    Display = displays[i],
+                    FriendlyName = "Display " + (i + 1).ToString() + " (" + displays[i].WorkingArea.Left.ToString() + "x" + displays[i].WorkingArea.Top.ToString() + ")"
+                });
+            }
+            _DisplayViewModels = displayVMs.ToArray();
         }
 
         public string CardsDirectorySize
@@ -71,6 +87,11 @@ namespace MtGBar.ViewModels
                     OnPropertyChanged("DismissOnFocusLoss");
                 }
             }
+        }
+
+        public DisplayViewModel[] Displays
+        {
+            get { return _DisplayViewModels; }
         }
 
         public IEnumerable<Package> Packages

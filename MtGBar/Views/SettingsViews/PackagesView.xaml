@@ -1,0 +1,56 @@
+﻿<UserControl 
+    x:Class="MtGBar.Views.SettingsViews.PackagesView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+    xmlns:convert="clr-namespace:MtGBar.Infrastructure.UIHelpers.Converters"
+    mc:Ignorable="d" 
+    d:DesignHeight="300" d:DesignWidth="300">
+    <Grid>
+        <Grid.Resources>
+            <convert:DateTimeStringConverter x:Key="DateTimeStringConverter" />
+        </Grid.Resources>
+        <ItemsControl ItemsSource="{Binding Packages}">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition Width="80" />
+                            <ColumnDefinition Width="65" />
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock 
+                            Grid.Column="0"
+                            FontSize="14"
+                            Foreground="{StaticResource ForegroundBrush}"
+                            Style="{StaticResource TextBlockFontStyle}"
+                            Text="{Binding Name}"
+                            VerticalAlignment="Center" />
+
+                        <TextBlock
+                            Grid.Column="1"
+                            FontSize="14"
+                            Foreground="{StaticResource SubtleBrush}"
+                            HorizontalAlignment="Right"
+                            Margin="6,0,0,0"
+                            Style="{StaticResource TextBlockFontStyle}"
+                            Text="{Binding DataUpdated, Converter={StaticResource DateTimeStringConverter}}" 
+                            VerticalAlignment="Center" />
+
+                        <TextBlock
+                            Grid.Column="2"
+                            FontSize="14"
+                            Foreground="{StaticResource SubtleBrush}"
+                            HorizontalAlignment="Left"
+                            Margin="6,0,0,0"
+                            Style="{StaticResource TextBlockFontStyle}"
+                            Text="{Binding DataUpdated, Converter={StaticResource DateTimeStringConverter}, ConverterParameter=True}" 
+                            VerticalAlignment="Center" />
+                    </Grid>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+    </Grid>
+</UserControl>

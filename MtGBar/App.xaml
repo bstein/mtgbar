@@ -13,7 +13,8 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Styles/AppStyles.xaml" />
-                <ResourceDictionary Source="Styles/WP7CheckBoxStyle.xaml" />
+                <ResourceDictionary Source="/FirstFloor.ModernUI;component/Assets/ModernUI.xaml" />
+                <ResourceDictionary Source="/FirstFloor.ModernUI;component/Assets/ModernUI.Dark.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
             <!--Views-->

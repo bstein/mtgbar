@@ -83,13 +83,16 @@
     <NoWin32Manifest>true</NoWin32Manifest>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Bazam, Version=2.2.2.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Bazam, Version=2.3.2.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Project\Libs\Bazam.dll</HintPath>
     </Reference>
     <Reference Include="BazamWPF, Version=1.0.3.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Project\Libs\BazamWPF.dll</HintPath>
+    </Reference>
+    <Reference Include="FirstFloor.ModernUI">
+      <HintPath>Libs\FirstFloor.ModernUI.dll</HintPath>
     </Reference>
     <Reference Include="Hardcodet.Wpf.TaskbarNotification">
       <HintPath>Libs\Hardcodet.Wpf.TaskbarNotification.dll</HintPath>
@@ -178,13 +181,18 @@
     <Compile Include="Views\SearchView.xaml.cs">
       <DependentUpon>SearchView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\SettingsViews\MoreInfoView.xaml.cs">
+      <DependentUpon>MoreInfoView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SettingsViews\PackagesView.xaml.cs">
+      <DependentUpon>PackagesView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SettingsViews\SettingsView.xaml.cs">
+      <DependentUpon>SettingsView.xaml</DependentUpon>
+    </Compile>
     <Page Include="Styles\AppStyles.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Styles\WP7CheckBoxStyle.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\AboutView.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -195,6 +203,18 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Views\SearchView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SettingsViews\MoreInfoView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SettingsViews\PackagesView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SettingsViews\SettingsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
