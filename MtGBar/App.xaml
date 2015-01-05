@@ -18,7 +18,6 @@
             </ResourceDictionary.MergedDictionaries>
 
             <!--Views-->
-            <views:AboutView x:Key="AboutView" />
             <views:SearchView x:Key="SearchView" />
 
             <!--Commands-->
@@ -27,30 +26,6 @@
             <commands:CloseWindowCommand x:Key="CloseWindowCommand" />
             <commands:LaunchCommand x:Key="LaunchCommand" />
             <commands:ViewUrlCommand x:Key="ViewUrlCommand" />
-            
-            <!--Taskbar icon-->
-            <tb:TaskbarIcon 
-                x:Key="TheTaskBarIcon"
-                IconSource="/Assets/taskbar-icon.ico"
-                LeftClickCommand="{StaticResource LaunchCommand}"
-                LeftClickCommandParameter="{StaticResource SearchView}"
-                ToolTipText="MtGBar | loading..." 
-                Visibility="Visible">
-                <tb:TaskbarIcon.ContextMenu>
-                    <ContextMenu>
-                        <MenuItem 
-                            Header="Browse" 
-                            Command="{StaticResource LaunchCommand}"
-                            CommandParameter="{StaticResource SearchView}" />
-                        <MenuItem 
-                            Header="Settings"
-                            Command="{StaticResource AboutCommand}"
-                            CommandParameter="{StaticResource AboutView}"/>
-                        <Separator />
-                        <MenuItem Header="Exit" Command="{StaticResource CloseCommand}" />
-                    </ContextMenu>
-                </tb:TaskbarIcon.ContextMenu>
-            </tb:TaskbarIcon>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

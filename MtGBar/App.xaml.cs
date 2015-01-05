@@ -3,7 +3,6 @@ using System.Diagnostics;
 using System.Windows;
 using System.Windows.Threading;
 using Bazam.KeyAdept.Infrastructure;
-using Hardcodet.Wpf.TaskbarNotification;
 using MtGBar.Infrastructure;
 using MtGBar.Infrastructure.Utilities;
 using MtGBar.Infrastructure.Utilities.Updates;
@@ -13,19 +12,7 @@ namespace MtGBar
     public partial class App : Application
     {
         private bool _IWelcomedThem = false;
-        private TaskbarIcon _TheTaskBarIcon = null;
-
-        private TaskbarIcon TheTaskBarIcon
-        {
-            get
-            {
-                if (_TheTaskBarIcon == null) {
-                    _TheTaskBarIcon = (TaskbarIcon)FindResource("TheTaskBarIcon");
-                }
-                return _TheTaskBarIcon;
-            }
-        }
-
+        
         private void Application_DispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
         {
             AppState.Instance.LoggingNinja.LogMessage("UNCAUGHT: " + e.Exception.Message + " STACK TRACE: " + e.Exception.StackTrace);
@@ -34,11 +21,6 @@ namespace MtGBar
 
         private void Application_Exit(object sender, ExitEventArgs e)
         {
-            // find our taskbar icon so we can do horrible things to it
-            if (TheTaskBarIcon != null) {
-                TheTaskBarIcon.Dispose();
-            }
-
             try {
                 AppState.Instance.HotkeyRegistrar.UnregisterAllHotkeys();
             }
@@ -61,7 +43,7 @@ namespace MtGBar
 
                 TalkAtcha.TalkAtEm("Ready!", welcome);
                 Dispatcher.Invoke(() => {
-                    (FindResource("TheTaskBarIcon") as TaskbarIcon).ToolTipText = AppConstants.APPNAME;
+                    AppState.Instance.TaskbarIcon.ToolTipText = AppConstants.APPNAME;
                 }, DispatcherPriority.Normal);
                 _IWelcomedThem = true;
             }
@@ -105,9 +87,6 @@ namespace MtGBar
             if (AppState.Instance.Settings.Hotkey != null) {
                 AppState.Instance.RegisterHotkey(AppState.Instance.Settings.Hotkey);
             }
-
-            // set up the tooltip
-            (FindResource("TheTaskBarIcon") as TaskbarIcon).ToolTip = AppConstants.APPNAME;
 
             // HEY! LISTEN!
             // ... to the hotkey registrar so we can tell the user if they try to do something that will fuck stuff up

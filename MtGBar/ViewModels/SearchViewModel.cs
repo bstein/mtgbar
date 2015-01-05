@@ -20,6 +20,7 @@ namespace MtGBar.ViewModels
     {
         #region Constants
         private const string PRICE_DEFAULT = "--";
+        private const int WINDOW_WIDTH = 800;
         #endregion
 
         #region Fields
@@ -30,14 +31,16 @@ namespace MtGBar.ViewModels
         private string _CFPrice = PRICE_DEFAULT;
         private string _DefaultBackground;
         private Dictionary<string, Dictionary<string, string>> _PriceCache = new Dictionary<string, Dictionary<string, string>>();
+        private Screen _Screen;
         private string _SearchTerm;
         private CardAppearance _SelectedAppearance;
         private BitmapImage _SelectedAppearanceImage;
         private Card _SelectedCard;
-        private bool _ShowPricingData = AppState.Instance.Settings.ShowPricingData;
+        private bool _ShowPricingData;
         private string _TCGPlayerLink;
         private string _TCGPlayerPrice = PRICE_DEFAULT;
         private string _WatermarkText;
+        private int _WindowHeight;
         private int _WindowLeft;
         private int _WindowTop;
         #endregion
@@ -50,9 +53,10 @@ namespace MtGBar.ViewModels
         public SearchViewModel()
         {
             _DefaultBackground = Path.Combine(FileSystemManager.PackageArtDirectory, "default.jpg");
+            SetWindowPosition();
             ShuffleWatermarkText();
 
-            AppState.Instance.Settings.Updated += (theSettings, haveChanged) => {
+            AppState.Instance.Settings.Updated += (theSettings, haveChanged) => {                
                 ShowPricingData = AppState.Instance.Settings.ShowPricingData;
             };
         }
@@ -257,6 +261,18 @@ namespace MtGBar.ViewModels
             }
         }
 
+        public int WindowHeight
+        {
+            get { return _WindowHeight; }
+            set
+            {
+                if (_WindowHeight != value) {
+                    _WindowHeight = value;
+                    OnPropertyChanged("WindowHeight");
+                }
+            }
+        }
+
         public int WindowLeft
         {
             get { return _WindowLeft; }
@@ -384,6 +400,9 @@ namespace MtGBar.ViewModels
             if (displayIndex != null) {
                 targetScreen = Screen.AllScreens[displayIndex.Value];
             }
+
+            WindowLeft = targetScreen.Bounds.Left + (targetScreen.WorkingArea.Width / 2) - (WINDOW_WIDTH / 2);
+            WindowTop = targetScreen.Bounds.Top + (targetScreen.WorkingArea.Height / 2) - (WindowHeight / 2);
         }
 
         private void ShuffleWatermarkText()

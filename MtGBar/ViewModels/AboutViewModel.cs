@@ -17,12 +17,13 @@ namespace MtGBar.ViewModels
     public class AboutViewModel : ViewModelBase
     {
         private string _CardsDirectorySize = string.Empty;
+        private ICommand _ClearAppDataCacheCommand = new ClearAppDataCacheCommand();
+        private ICommand _ClearCardCacheCommand = new ClearCardCacheCommand();
         private DisplayViewModel[] _DisplayViewModels;
         private HotkeyDescription _Hotkey { get; set; }
         private string _HotkeyString { get; set; }
         private IEnumerable<Package> _Packages { get; set; }
-        private ICommand _ClearAppDataCacheCommand = new ClearAppDataCacheCommand();
-        private ICommand _ClearCardCacheCommand = new ClearCardCacheCommand();
+        private DisplayViewModel _SelectedDisplay = null;
 
         public AboutViewModel()
         {
@@ -50,18 +51,20 @@ namespace MtGBar.ViewModels
 
             // query displays
             List<DisplayViewModel> displayVMs = new List<DisplayViewModel>();
-            displayVMs.Add(new DisplayViewModel() {
-                FriendlyName = "[your primary monitor]"
-            });
+            displayVMs.Add(new DisplayViewModel(null));
+
             Screen[] displays = MonitorLizard.GetDisplays();
             
             for (int i = 0; i < displays.Length; i++) {
-                displayVMs.Add(new DisplayViewModel() {
-                    Display = displays[i],
-                    FriendlyName = "Display " + (i + 1).ToString() + " (" + displays[i].WorkingArea.Left.ToString() + "x" + displays[i].WorkingArea.Top.ToString() + ")"
-                });
+                DisplayViewModel vm = new DisplayViewModel(displays[i], i);
+                displayVMs.Add(vm);
+
+                if (i == AppState.Instance.Settings.DisplayIndex) {
+                    SelectedDisplay = vm;
+                }
             }
             _DisplayViewModels = displayVMs.ToArray();
+            if (SelectedDisplay == null) SelectedDisplay = displayVMs[0];
         }
 
         public string CardsDirectorySize
@@ -154,6 +157,20 @@ namespace MtGBar.ViewModels
                     AppState.Instance.Settings.SaveCardImageData = value;
                     AppState.Instance.Settings.Save();
                     OnPropertyChanged("SaveCardImageData");
+                }
+            }
+        }
+
+        public DisplayViewModel SelectedDisplay
+        {
+            get { return _SelectedDisplay; }
+            set
+            {
+                if (value != _SelectedDisplay) {
+                    _SelectedDisplay = value;
+                    AppState.Instance.Settings.DisplayIndex = value.Index;
+                    AppState.Instance.Settings.Save();
+                    OnPropertyChanged("SelectedDisplay");
                 }
             }
         }

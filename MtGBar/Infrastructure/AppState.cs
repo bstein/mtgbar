@@ -1,25 +1,24 @@
-﻿using Bazam.KeyAdept;
+﻿using System;
+using System.Windows.Controls;
+using System.Windows.Media.Imaging;
+using Bazam.KeyAdept;
 using Bazam.KeyAdept.Infrastructure;
+using Hardcodet.Wpf.TaskbarNotification;
 using Melek.Utilities;
 using MtGBar.Infrastructure.DataNinjitsu.Models;
+using MtGBar.Infrastructure.UIHelpers.Commands;
 using MtGBar.Infrastructure.Utilities;
 using MtGBar.Views;
 
 namespace MtGBar.Infrastructure
 {
-    public class AppState
+    public sealed class AppState
     {
         #region Singleton
-        private static AppState _Instance;
+        private static readonly AppState _Instance = new AppState();
         public static AppState Instance
         {
-            get
-            {
-                if (_Instance == null) {
-                    _Instance = new AppState();
-                }
-                return _Instance;
-            }
+            get { return _Instance; }
         }
         #endregion
 
@@ -28,6 +27,7 @@ namespace MtGBar.Infrastructure
         public LoggingNinja LoggingNinja { get; private set; }
         public MelekDataStore MelekDataStore { get; private set; }
         public Settings Settings { get; private set; }
+        public TaskbarIcon TaskbarIcon { get; private set; }
 
         private Hotkey _Hotkey;
         public Hotkey Hotkey 
@@ -45,7 +45,7 @@ namespace MtGBar.Infrastructure
         }
         #endregion
 
-        public AppState()
+        private AppState()
         {
             Settings = new Settings();
             HotkeyRegistrar = new HotkeyRegistrar();
@@ -55,6 +55,32 @@ namespace MtGBar.Infrastructure
             Settings.Updated += (theSettings, omgChanged) => {
                 MelekDataStore.StoreCardImagesLocally = Settings.SaveCardImageData;
             };
+
+            // construct the taskbar icon
+            LaunchCommand command = new LaunchCommand();
+
+            TaskbarIcon icon = new TaskbarIcon();
+            icon.IconSource = new BitmapImage(new Uri("pack://application:,,,/Assets/taskbar-icon.ico"));
+            icon.LeftClickCommand = command;
+            icon.ToolTipText = AppConstants.APPNAME + " | loading...";
+
+            ContextMenu menu = new ContextMenu();
+            menu.Items.Add(new MenuItem() {
+                Command = command,
+                Header = "Browse"
+            });
+            menu.Items.Add(new MenuItem() {
+                Command = new AboutCommand(),
+                Header = "Settings"
+            });
+            menu.Items.Add(new Separator());
+            menu.Items.Add(new MenuItem() {
+                Command = new CloseCommand(),
+                Header = "Exit"
+            });
+
+            icon.ContextMenu = menu;
+            this.TaskbarIcon = icon;
         }
 
         public void RegisterHotkey(HotkeyDescription hkd)

@@ -15,7 +15,8 @@ namespace MtGBar.Infrastructure.UIHelpers.Commands
 
         public void Execute(object parameter)
         {
-            (parameter as AboutView).Show();
+            AboutView view = new AboutView();
+            view.Show();
         }
     }
 }

@@ -106,10 +106,6 @@ namespace MtGBar.Views
 
         private void this_Activated(object sender, EventArgs e)
         {
-            // be sure we're on the primary screen? maybe?
-            this.Left = (SystemParameters.PrimaryScreenWidth / 2) - (this.ActualWidth / 2);
-            this.Top = (SystemParameters.PrimaryScreenHeight / 2) - (this.ActualHeight / 2);
-
             // pretty fades
             AnimationBuddy.Animate(this, "Opacity", 1, 150, (lol, wut) => {
                 AnimationBuddy.Animate(TheGrid, "Opacity", 1, 150);

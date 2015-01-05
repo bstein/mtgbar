@@ -45,7 +45,8 @@
                 Text="DISPLAY" />
             <ComboBox
                 ItemsSource="{Binding Displays}"
-                Margin="0,0,12,0">
+                Margin="0,0,12,0"
+                SelectedItem="{Binding SelectedDisplay, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <TextBlock Text="{Binding FriendlyName}" />

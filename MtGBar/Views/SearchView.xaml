@@ -5,6 +5,7 @@
     xmlns:bazamBehavior="clr-namespace:BazamWPF.Behaviors;assembly=BazamWPF"
     xmlns:bazamConvert="clr-namespace:BazamWPF.ValueConverters;assembly=BazamWPF"
     xmlns:bazamUI="clr-namespace:BazamWPF.UIHelpers;assembly=BazamWPF"
+    xmlns:behaviors="clr-namespace:MtGBar.Infrastructure.UIHelpers.Behaviors"
     xmlns:commands="clr-namespace:MtGBar.Infrastructure.UIHelpers.Commands"
     xmlns:controls="clr-namespace:MtGBarControls;assembly=MtGBarControls"
     xmlns:convert="clr-namespace:MtGBar.Infrastructure.UIHelpers.Converters"
@@ -18,13 +19,13 @@
     Background="Transparent"
     Icon="/MtGBar;component/icon.ico"
     KeyUp="this_KeyUp"
-    Left="{Binding WindowLeft}"
+    Left="{Binding WindowLeft, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
     Opacity="0"
     PreviewKeyDown="this_PreviewKeyDown"
     ResizeMode="NoResize" 
     ShowInTaskbar="False"
     SizeToContent="Height"
-    Top="{Binding WindowTop}"
+    Top="{Binding WindowTop, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
     WindowStartupLocation="Manual"
     WindowStyle="None"
     Width="800">
@@ -32,7 +33,7 @@
         <vm:SearchViewModel />
     </Window.DataContext>
     <i:Interaction.Behaviors>
-        <bazamBehavior:KeepCenteredBehavior />
+        <behaviors:KeepCenteredBehavior />
     </i:Interaction.Behaviors>
     <Border 
         BorderBrush="{StaticResource SubtleBrush}"

@@ -5,7 +5,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
     mc:Ignorable="d" 
-    d:DesignHeight="300" d:DesignWidth="300">
+    d:DesignHeight="500" d:DesignWidth="500">
     <StackPanel 
         HorizontalAlignment="Right"
         VerticalAlignment="Bottom">
@@ -17,7 +17,7 @@
         <TextBlock 
             Foreground="{StaticResource ForegroundBrush}"
             Style="{StaticResource AboutTextStyle}">
-            MtGBar © 2014 BEN STEIN &amp; JAMMERWARE
+            MtGBar © 2015 BEN STEIN &amp; JAMMERWARE
         </TextBlock>
         <StackPanel 
             HorizontalAlignment="Right"
@@ -25,38 +25,33 @@
             Orientation="Horizontal">
             <Button 
                 Command="{StaticResource ViewUrlCommand}"
-                CommandParameter="http://www.twitter.com/jammerware"
-                Margin="8,0,0,0"
-                Height="36"
-                Style="{StaticResource AboutButtonStyle}">
+                CommandParameter="http://www.twitter.com/jammerware">
                 <StackPanel Margin="8" Orientation="Horizontal">
                     <Image 
+                        Height="12"
                         Source="/Assets/twitter.png"
                         Stretch="Uniform" />
                     <TextBlock
                         Foreground="{StaticResource ForegroundBrush}"
-                        Margin="8,0,8,0"
+                        Margin="4,0,0,0"
                         Style="{StaticResource TextBlockFontStyle}"
-                        Text="@jammerware" 
-                        VerticalAlignment="Center" />
+                        Text="@jammerware" />
                 </StackPanel>
             </Button>
             <Button 
                 Command="{StaticResource ViewUrlCommand}"
                 CommandParameter="mailto:ben@jammerware.com"
-                Height="36"
-                Margin="8,0,0,0"
-                Style="{StaticResource AboutButtonStyle}">
+                Margin="8,0,0,0">
                 <StackPanel Margin="8" Orientation="Horizontal">
                     <Image 
+                        Height="12"
                         Source="/Assets/mail.png"
                         Stretch="Uniform" />
                     <TextBlock
                         Foreground="{StaticResource ForegroundBrush}"
-                        Margin="8,0,8,0"
+                        Margin="4,0,0,0"
                         Style="{StaticResource TextBlockFontStyle}"
-                        Text="ben@jammerware.com"
-                        VerticalAlignment="Center" />
+                        Text="ben@jammerware.com" />
                 </StackPanel>
             </Button>
         </StackPanel>
@@ -69,19 +64,123 @@
             Style="{StaticResource AboutTextStyle}">
             MtGBar WAS CREATED USING THE FOLLOWING LIBRARIES:
         </TextBlock>
-
-        <TextBlock 
-            Style="{StaticResource AboutTextStyle}" 
-            Text="SHARPZIPLIB by ICSHARPCODE (http://www.icsharpcode.net/opensource/sharpziplib/)" />
+        <StackPanel 
+            HorizontalAlignment="Right"
+            Orientation="Horizontal">
+            <TextBlock
+                Margin="0"
+                Style="{StaticResource AboutTextStyle}"
+                Text="ModernUI by THE XAMLSPY TEAM (" />
+            <Button
+                Command="{StaticResource ViewUrlCommand}"
+                CommandParameter="https://mui.codeplex.com/"
+                Cursor="Hand"
+                Margin="0">
+                <Button.Template>
+                    <ControlTemplate>
+                        <TextBlock 
+                            Foreground="{StaticResource AccentBrush}"
+                            Margin="0"
+                            Style="{StaticResource AboutTextStyle}"
+                            Text="https://mui.codeplex.com/"
+                            TextDecorations="Underline" />
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+            <TextBlock
+                Margin="0"
+                Style="{StaticResource AboutTextStyle}"
+                Text=")" />
+        </StackPanel>
+        <StackPanel 
+            HorizontalAlignment="Right"
+            Orientation="Horizontal">
+            <TextBlock
+                Margin="0"
+                Style="{StaticResource AboutTextStyle}"
+                Text="SHARPZIPLIB by ICSHARPCODE (" />
+            <Button
+                Command="{StaticResource ViewUrlCommand}"
+                CommandParameter="http://icsharpcode.github.io/SharpZipLib/"
+                Cursor="Hand"
+                Margin="0">
+                <Button.Template>
+                    <ControlTemplate>
+                        <TextBlock 
+                            Foreground="{StaticResource AccentBrush}"
+                            Margin="0"
+                            Style="{StaticResource AboutTextStyle}"
+                            Text="http://icsharpcode.github.io/SharpZipLib/"
+                            TextDecorations="Underline" />
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+            <TextBlock
+                Margin="0"
+                Style="{StaticResource AboutTextStyle}"
+                Text=")" />
+        </StackPanel>
+        <StackPanel 
+            HorizontalAlignment="Right" 
+            Orientation="Horizontal">
+            <TextBlock
+                Style="{StaticResource AboutTextStyle}"
+                Text="WPF NOTIFYICON by PHILIPP SUMI (" />
+            <Button
+                Command="{StaticResource ViewUrlCommand}"
+                CommandParameter="http://www.hardcodet.net/wpf-notifyicon"
+                Cursor="Hand"
+                Margin="0">
+                <Button.Template>
+                    <ControlTemplate>
+                        <TextBlock 
+                            Foreground="{StaticResource AccentBrush}"
+                            Style="{StaticResource AboutTextStyle}"
+                            Text="http://www.hardcodet.net/wpf-notifyicon"
+                            TextDecorations="Underline" />
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+            <TextBlock
+                Margin="0"
+                Style="{StaticResource AboutTextStyle}"
+                Text=")" />
+        </StackPanel>
+        
         <TextBlock
             Foreground="{StaticResource ForegroundBrush}"
             Margin="0"
             Style="{StaticResource AboutTextStyle}"
             Text="SPECIAL THANKS TO:" />
-        <TextBlock
+        <StackPanel 
+            HorizontalAlignment="Right" 
             Margin="0"
-            Style="{StaticResource AboutTextStyle}"
-            Text="ANDREW PEPPERRELL &amp; ALFRED (FOR THE INSPIRATION)" />
+            Orientation="Horizontal">
+            <TextBlock
+                Margin="0"
+                Style="{StaticResource AboutTextStyle}"
+                Text="ANDREW PEPPERELL &amp; " />
+            <Button
+                Command="{StaticResource ViewUrlCommand}"
+                CommandParameter="http://www.alfredapp.com/"
+                Cursor="Hand"
+                Margin="0">
+                <Button.Template>
+                    <ControlTemplate>
+                        <TextBlock 
+                            Foreground="{StaticResource AccentBrush}"
+                            Margin="0"
+                            Style="{StaticResource AboutTextStyle}"
+                            Text="ALFRED"
+                            TextDecorations="Underline" />
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+            <TextBlock
+                Margin="0"
+                Style="{StaticResource AboutTextStyle}"
+                Text=" (FOR THE INSPIRATION)" />
+        </StackPanel>
         <StackPanel 
             HorizontalAlignment="Right" 
             Margin="0"
@@ -107,7 +206,6 @@
                 </Button.Template>
             </Button>
         </StackPanel>
-        
         <TextBlock
             Margin="0"
             Style="{StaticResource AboutTextStyle}"

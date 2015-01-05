@@ -10,15 +10,12 @@ namespace MtGBar.Infrastructure.UIHelpers.Commands
 
         public bool CanExecute(object parameter)
         {
-            // for some reason App.xaml binds the CanExecute property of this command before it creates the SearchView object, even 
-            // though the SearchView is defined first. Dumb.
-            // return parameter != null && parameter.GetType() == typeof(SearchView);
             return true;
         }
 
         public void Execute(object parameter)
         {
-            (parameter as SearchView).Show();
+            (App.Current.Resources["SearchView"] as SearchView).Show();
         }
     }
 }

@@ -135,6 +135,7 @@
     <Compile Include="Infrastructure\DataNinjitsu\Models\HotkeyDescription.cs" />
     <Compile Include="Infrastructure\DataNinjitsu\Models\Settings.cs" />
     <Compile Include="Infrastructure\UIHelpers\Behaviors\EscapeCloseBehavior.cs" />
+    <Compile Include="Infrastructure\UIHelpers\Behaviors\KeepCenteredBehavior.cs" />
     <Compile Include="Infrastructure\UIHelpers\Commands\AboutCommand.cs" />
     <Compile Include="Infrastructure\UIHelpers\Commands\ClearAppDataCacheCommand.cs" />
     <Compile Include="Infrastructure\UIHelpers\Commands\ClearCardCacheCommand.cs" />
