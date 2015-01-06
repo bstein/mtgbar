@@ -58,6 +58,7 @@ namespace MtGBar.ViewModels
 
             AppState.Instance.Settings.Updated += (theSettings, haveChanged) => {                
                 ShowPricingData = AppState.Instance.Settings.ShowPricingData;
+                SetWindowPosition();
             };
         }
         #endregion
