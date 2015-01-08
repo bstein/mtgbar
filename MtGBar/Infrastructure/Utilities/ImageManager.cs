@@ -65,7 +65,7 @@ namespace MtGBar.Infrastructure.Utilities
                                 DownloadImage(AppConstants.PACKAGEBACKGROUND_URL_BASE + fileName, localPath);
                             }
 
-                            if (package.DataUpdated > maxDate && File.Exists(localPath)) {
+                            if (package.CardsReleased > maxDate && File.Exists(localPath)) {
                                 maxDate = package.DataUpdated;
                                 localPathToUse = localPath;
                             }
