@@ -19,11 +19,19 @@
             Style="{StaticResource AboutTextStyle}">
             MtGBar © 2015 BEN STEIN &amp; JAMMERWARE
         </TextBlock>
-        <StackPanel 
-            HorizontalAlignment="Right"
-            Margin="0,0,0,20"
-            Orientation="Horizontal">
+        
+        <!--<Grid Margin="0,0,0,20">
+            <Grid.RowDefinitions>
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+
             <Button 
+                Grid.Column="0"
                 Command="{StaticResource ViewUrlCommand}"
                 CommandParameter="http://www.twitter.com/jammerware">
                 <StackPanel Margin="8" Orientation="Horizontal">
@@ -35,10 +43,12 @@
                         Foreground="{StaticResource ForegroundBrush}"
                         Margin="4,0,0,0"
                         Style="{StaticResource TextBlockFontStyle}"
-                        Text="@jammerware" />
+                        Text="tweet" />
                 </StackPanel>
             </Button>
+            
             <Button 
+                Grid.Column="1"
                 Command="{StaticResource ViewUrlCommand}"
                 CommandParameter="mailto:ben@jammerware.com"
                 Margin="8,0,0,0">
@@ -51,10 +61,113 @@
                         Foreground="{StaticResource ForegroundBrush}"
                         Margin="4,0,0,0"
                         Style="{StaticResource TextBlockFontStyle}"
-                        Text="ben@jammerware.com" />
+                        Text="email" />
                 </StackPanel>
             </Button>
-        </StackPanel>
+
+            <Button 
+                Grid.Column="2"
+                Command="{StaticResource ViewUrlCommand}"
+                CommandParameter="{Binding DonateUrl}"
+                Margin="8,0,0,0">
+                <StackPanel Margin="8" Orientation="Horizontal">
+                    <Image 
+                        Height="12"
+                        Source="/Assets/paypal.png"
+                        Stretch="Uniform" />
+                    <TextBlock
+                        Foreground="{StaticResource ForegroundBrush}"
+                        Margin="4,0,0,0"
+                        Style="{StaticResource TextBlockFontStyle}"
+                        Text="donate" />
+                </StackPanel>
+            </Button>
+        </Grid>-->
+
+        <Grid Margin="0,0,0,20">
+            <Grid.RowDefinitions>
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <Button 
+                Grid.Column="0"
+                Command="{StaticResource ViewUrlCommand}"
+                CommandParameter="http://twitter.com/jammerware"
+                Height="98"
+                HorizontalAlignment="Right"
+                Width="98"
+                Margin="4,0,0,0">
+                <Grid
+                    Height="88"
+                    Width="66">
+                    <Image 
+                        Height="40"
+                        HorizontalAlignment="Center"
+                        Source="/Assets/twitter-big.png"
+                        Stretch="Uniform"
+                        VerticalAlignment="Center" />
+                    <TextBlock
+                        Foreground="{StaticResource ForegroundBrush}"
+                        Style="{StaticResource TextBlockFontStyle}"
+                        Text="tweet"
+                        VerticalAlignment="Bottom" />
+                </Grid>
+            </Button>
+            
+            <Button 
+                Grid.Column="1"
+                Command="{StaticResource ViewUrlCommand}"
+                CommandParameter="mailto:ben@jammerware.com"
+                Height="98"
+                Width="98"
+                Margin="4,0,0,0">
+                <Grid 
+                    Height="88"
+                    Width="66">
+                    <Image 
+                        Width="40"
+                        HorizontalAlignment="Center"
+                        Source="/Assets/mail-big.png"
+                        Stretch="Uniform"
+                        VerticalAlignment="Center" />
+                    <TextBlock
+                        Foreground="{StaticResource ForegroundBrush}"
+                        Style="{StaticResource TextBlockFontStyle}"
+                        Text="email"
+                        VerticalAlignment="Bottom" />
+                </Grid>
+            </Button>
+
+            <Button 
+                Grid.Column="2"
+                Command="{StaticResource ViewUrlCommand}"
+                CommandParameter="{Binding DonateUrl}"
+                Height="98"
+                Width="98"
+                Margin="4,0,0,0">
+                <Grid
+                    Height="88"
+                    Width="66">
+                    <Image 
+                        Height="40"
+                        HorizontalAlignment="Center"
+                        Source="/Assets/paypal-big.png"
+                        Stretch="Uniform"
+                        VerticalAlignment="Center" />
+                    <TextBlock
+                        Foreground="{StaticResource ForegroundBrush}"
+                        Style="{StaticResource TextBlockFontStyle}"
+                        Text="donate"
+                        VerticalAlignment="Bottom" />
+                </Grid>
+            </Button>
+        </Grid>
+
         <TextBlock Style="{StaticResource AboutTextStyle}">
             MAGIC: THE GATHERING, ITS IMAGES, LOGOS, ICONS, AND CARDS ARE PROPERTY OF WIZARDS OF THE COAST. MtGBar, BEN STEIN, AND JAMMERWARE ARE NOT AFFILIATED WITH OR LICENSED BY WIZARDS OF THE COAST. PRICES DISPLAYED IN THIS APPLICATION ARE NOT A GUARANTEE OF ON BEHALF OF VENDORS DEPICTED. ACTUAL PRICE MAY VARY.
         </TextBlock>

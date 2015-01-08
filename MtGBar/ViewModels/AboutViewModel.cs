@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using System.Windows.Forms;
 using System.Windows.Input;
@@ -31,7 +32,7 @@ namespace MtGBar.ViewModels
             _Hotkey = AppState.Instance.Settings.Hotkey;
 
             // get packages
-            _Packages = AppState.Instance.MelekDataStore.GetPackages();
+            GetPackages();
 
             // find out about the card cache size
             QueryCardCacheSize();
@@ -46,7 +47,7 @@ namespace MtGBar.ViewModels
 
             // listen in case the packages get updated so we can requery things
             AppState.Instance.MelekDataStore.PackagesUpdated += (newPackages) => {
-                _Packages = AppState.Instance.MelekDataStore.GetPackages();
+                GetPackages();
             };
 
             // query displays
@@ -79,6 +80,16 @@ namespace MtGBar.ViewModels
             }
         }
 
+        public ICommand ClearAppDatacacheCommand
+        {
+            get { return _ClearAppDataCacheCommand; }
+        }
+
+        public ICommand ClearCardCacheCommand
+        {
+            get { return _ClearCardCacheCommand; }
+        }
+
         public bool DismissOnFocusLoss
         {
             get { return AppState.Instance.Settings.DismissOnFocusLoss; }
@@ -95,6 +106,11 @@ namespace MtGBar.ViewModels
         public DisplayViewModel[] Displays
         {
             get { return _DisplayViewModels; }
+        }
+
+        public string DonateUrl
+        {
+            get { return AppConstants.PAYPAL_DONATE_URL; }
         }
 
         public IEnumerable<Package> Packages
@@ -201,17 +217,12 @@ namespace MtGBar.ViewModels
             }
         }
 
-        public ICommand ClearAppDatacacheCommand
-        {
-            get { return _ClearAppDataCacheCommand; }
-        }
-
-        public ICommand ClearCardCacheCommand
-        {
-            get { return _ClearCardCacheCommand; }
-        }
-
         public string VersionString { get; set; }
+
+        private void GetPackages()
+        {
+            this.Packages = AppState.Instance.MelekDataStore.GetPackages().OrderBy(p => p.Name).OrderBy(p => p.CardsReleased);
+        }
 
         public void QueryCardCacheSize()
         {

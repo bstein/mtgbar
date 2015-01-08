@@ -398,8 +398,15 @@ namespace MtGBar.ViewModels
         {
             int? displayIndex = AppState.Instance.Settings.DisplayIndex;
             Screen targetScreen = Screen.PrimaryScreen;
+
             if (displayIndex != null) {
-                targetScreen = Screen.AllScreens[displayIndex.Value];
+                if (Screen.AllScreens.Count() >= displayIndex) {
+                    targetScreen = Screen.AllScreens[displayIndex.Value];
+                }
+                else {
+                    AppState.Instance.Settings.DisplayIndex = null;
+                    AppState.Instance.Settings.Save();
+                }
             }
 
             WindowLeft = targetScreen.Bounds.Left + (targetScreen.WorkingArea.Width / 2) - (WINDOW_WIDTH / 2);

@@ -50,7 +50,13 @@ namespace MtGBar.Infrastructure
             Settings = new Settings();
             HotkeyRegistrar = new HotkeyRegistrar();
             LoggingNinja = new LoggingNinja(FileSystemManager.LogFileName);
-            MelekDataStore = new MelekDataStore(FileSystemManager.MelekDataDirectory, Settings.SaveCardImageData, LoggingNinja);
+
+            if (string.IsNullOrEmpty(Settings.MelekDevAuthkey)) {
+                MelekDataStore = new MelekDataStore(FileSystemManager.MelekDataDirectory, Settings.SaveCardImageData, LoggingNinja);
+            }
+            else {
+                MelekDataStore = new MelekDataStore(FileSystemManager.MelekDataDirectory, Settings.SaveCardImageData, LoggingNinja, Settings.MelekDevAuthkey);
+            }
 
             Settings.Updated += (theSettings, omgChanged) => {
                 MelekDataStore.StoreCardImagesLocally = Settings.SaveCardImageData;

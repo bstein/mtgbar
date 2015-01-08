@@ -23,6 +23,7 @@ namespace MtGBar.Infrastructure.DataNinjitsu.Models
         public int? DisplayIndex { get; set; }
         public DateTime LastImageCheck { get; set; }
         public HotkeyDescription Hotkey { get; set; }
+        public string MelekDevAuthkey { get; private set; }
         public bool SaveCardImageData { get; set; }
         public bool ShowPricingData { get; set; }
         public bool StartOnSignIn { get; set; }
@@ -41,6 +42,7 @@ namespace MtGBar.Infrastructure.DataNinjitsu.Models
                     DisplayIndex = (settingsData.Attribute("displayIndex") != null ? (int?)XMLPal.GetInt(settingsData.Attribute("displayIndex")) : null);
                     Hotkey = (settingsData.Attribute("hotkey") != null ? new HotkeyDescription(XMLPal.GetString(settingsData.Attribute("hotkey"))) : null);
                     LastImageCheck = XMLPal.GetDate(settingsData.Attribute("lastImageCheck"));
+                    MelekDevAuthkey = (settingsData.Attribute("melekDevAuthKey") != null ? XMLPal.GetString(settingsData.Attribute("melekDevAuthKey")) : null);
                     SaveCardImageData = XMLPal.GetBool(settingsData.Attribute("saveCardImageData"));
                     ShowPricingData = XMLPal.GetBool(settingsData.Attribute("showPricingData"));
                     StartOnSignIn = XMLPal.GetBool(settingsData.Attribute("startOnSignIn"));
@@ -69,6 +71,7 @@ namespace MtGBar.Infrastructure.DataNinjitsu.Models
                     (DisplayIndex != null ? new XAttribute("displayIndex", DisplayIndex.Value) : null),
                     (Hotkey != null ? new XAttribute("hotkey", Hotkey.ToString().Replace(" ", "")) : null),
                     new XAttribute("lastImageCheck", LastImageCheck.ToString()),
+                    (MelekDevAuthkey != null ? new XAttribute("melekDevAuthKey", MelekDevAuthkey) : null),
                     new XAttribute("saveCardImageData", SaveCardImageData.ToString()),
                     new XAttribute("showPricingData", ShowPricingData.ToString()),
                     new XAttribute("startOnSignIn", StartOnSignIn.ToString())

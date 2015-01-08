@@ -386,6 +386,14 @@
   <ItemGroup>
     <Resource Include="Assets\card-back-small.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\paypal.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\mail-big.png" />
+    <Resource Include="Assets\paypal-big.png" />
+    <Resource Include="Assets\twitter-big.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!--<Target Name="AfterCompile">
     <Exec Command="&quot;C:\Program Files (x86)\Microsoft SDKs\Windows\v7.1A\Bin\signtool.exe&quot; sign /f &quot;$(ProjectDir)certificate.pfx&quot; /p whatth3fr@k /v &quot;$(ProjectDir)obj\$(ConfigurationName)\$(TargetFileName)&quot;" />
