@@ -265,8 +265,6 @@
     <Resource Include="Assets\manaSymbols\2r.png" />
     <Resource Include="Assets\manaSymbols\2u.png" />
     <Resource Include="Assets\manaSymbols\2w.png" />
-    <Resource Include="Assets\twitter.png" />
-    <Resource Include="Assets\mail.png" />
     <Resource Include="icon.ico" />
     <None Include="App.config" />
     <Resource Include="Assets\fonts\mplantin.ttf" />
@@ -387,12 +385,30 @@
     <Resource Include="Assets\card-back-small.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Assets\paypal.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Assets\mail-big.png" />
     <Resource Include="Assets\paypal-big.png" />
     <Resource Include="Assets\twitter-big.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\watermarks\jeskai.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\watermarks\abzan.png" />
+    <Resource Include="Assets\watermarks\mardu.png" />
+    <Resource Include="Assets\watermarks\sultai.png" />
+    <Resource Include="Assets\watermarks\temur.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\backgrounds\abzan.jpg" />
+    <Resource Include="Assets\backgrounds\mardu.jpg" />
+    <Resource Include="Assets\backgrounds\sultai.jpg" />
+    <Resource Include="Assets\backgrounds\temur.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\backgrounds\jeskai.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\default-set-symbol.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!--<Target Name="AfterCompile">

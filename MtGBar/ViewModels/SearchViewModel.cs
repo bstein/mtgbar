@@ -303,7 +303,13 @@ namespace MtGBar.ViewModels
         private async void AppearanceSelected(CardAppearance appearance)
         {
             SelectedAppearanceImage = null;
-            SelectedAppearanceImage = await AppState.Instance.MelekDataStore.GetAppearanceImage(appearance);
+
+            if (appearance.Set.IsPromo && !string.IsNullOrEmpty(appearance.Set.MtgImageName)) {
+                SelectedAppearanceImage = await AppState.Instance.MelekDataStore.GetCardImage(appearance.Set, SelectedCard);
+            }
+            else {
+                SelectedAppearanceImage = await AppState.Instance.MelekDataStore.GetCardImage(appearance);
+            }
         }
 
         private string ApplyPriceDefault(string price)
@@ -440,7 +446,7 @@ namespace MtGBar.ViewModels
 
             // then set up pretty picchurs
             foreach (CardViewModel vm in CardMatches) {
-                vm.FullSize = await AppState.Instance.MelekDataStore.GetAppearanceImage(vm.Card.Appearances[0]);
+                vm.FullSize = await AppState.Instance.MelekDataStore.GetCardImage(vm.Card.Appearances[0]);
                 if (vm.FullSize != null) {
                     vm.Thumbnail = new CroppedBitmap(vm.FullSize, new Int32Rect(54, 54, 84, 84));
                 }
