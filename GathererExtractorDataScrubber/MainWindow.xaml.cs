@@ -142,6 +142,7 @@ namespace GathererExtractorDataScrubber
             { "CEL", "pCEL" },
             { "CHA", "pCMP" },
             { "EUR", "pELP" },
+            { "FNM", "pFNM" },
             { "GDC", "pMGD" },
             { "GPX", "pGPX" },
             { "GTW", "pWPN" },
