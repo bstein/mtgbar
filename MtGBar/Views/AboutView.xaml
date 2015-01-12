@@ -23,6 +23,7 @@
             <mui:LinkGroup.Links>
                 <mui:Link DisplayName="settings" Source="/Views/SettingsViews/SettingsView.xaml" />
                 <mui:Link DisplayName="packages" Source="/Views/SettingsViews/PackagesView.xaml" />
+                <mui:Link DisplayName="twitter" Source="/Views/SettingsViews/TweetsView.xaml" />
                 <mui:Link DisplayName="about" Source="/Views/SettingsViews/MoreInfoView.xaml"  />
             </mui:LinkGroup.Links>
         </mui:LinkGroup>

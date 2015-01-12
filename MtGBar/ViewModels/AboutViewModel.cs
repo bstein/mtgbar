@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Windows.Forms;
 using System.Windows.Input;
+using Bazam.APIs;
 using Bazam.KeyAdept;
 using Bazam.Modules;
 using BazamWPF.ViewModels;
@@ -25,6 +26,7 @@ namespace MtGBar.ViewModels
         private string _HotkeyString { get; set; }
         private IEnumerable<Package> _Packages { get; set; }
         private DisplayViewModel _SelectedDisplay = null;
+        public IEnumerable<TweetViewModel> _Tweets = null;
 
         public AboutViewModel()
         {
@@ -66,6 +68,9 @@ namespace MtGBar.ViewModels
             }
             _DisplayViewModels = displayVMs.ToArray();
             if (SelectedDisplay == null) SelectedDisplay = displayVMs[0];
+
+            // get tweets
+            GetTweets();
         }
 
         public string CardsDirectorySize
@@ -217,11 +222,24 @@ namespace MtGBar.ViewModels
             }
         }
 
+        public IEnumerable<TweetViewModel> Tweets
+        {
+            get { return _Tweets; }
+        }
+
         public string VersionString { get; set; }
 
         private void GetPackages()
         {
             this.Packages = AppState.Instance.MelekDataStore.GetPackages().OrderBy(p => p.Name).OrderBy(p => p.CardsReleased);
+        }
+
+        private void GetTweets()
+        {
+            BackgroundBuddy.RunAsync(() => {
+                TwitterGitter gitter = new TwitterGitter("HgM9fPG8L1ffEtzrVnSgtKLOp", "z5RViBlJahCTaNRAnz8Gy1vrTn420CZ80hReakMXceMJzvSnsz");
+                _Tweets = TweetViewModel.FromJson(gitter.GetUserTimeline("jammerware"));
+            });
         }
 
         public void QueryCardCacheSize()

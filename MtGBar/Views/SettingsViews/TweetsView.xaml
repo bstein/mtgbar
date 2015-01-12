@@ -1,0 +1,65 @@
+﻿<UserControl 
+    x:Class="MtGBar.Views.SettingsViews.TweetsView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+    xmlns:c="clr-namespace:MtGBar.Infrastructure.UIHelpers.Converters"
+    mc:Ignorable="d" 
+    d:DesignHeight="500" 
+    d:DesignWidth="500">
+    <ScrollViewer>
+        <ItemsControl 
+            ItemsSource="{Binding Tweets}">
+            <ItemsControl.Resources>
+                <c:StringToUpperConverter x:Key="StringToUpperConverter" />
+            </ItemsControl.Resources>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Grid 
+                        Height="48"
+                        Margin="0,0,4,20">
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        
+                        <Image 
+                            Grid.Row="0"
+                            Grid.Column="0"
+                            Grid.RowSpan="2"
+                            Margin="0,0,8,0"
+                            Source="{Binding AuthorImage}"
+                            Height="48"
+                            VerticalAlignment="Top"
+                            Width="48" />
+                        
+                        <TextBlock
+                            Grid.Row="0"
+                            Grid.Column="1"
+                            FontSize="12"
+                            Text="{Binding Text}"
+                            TextWrapping="Wrap" />
+                        
+                        <TextBlock
+                            Grid.Row="1"
+                            Grid.Column="1"
+                            FontFamily="Arial"
+                            FontSize="10"
+                            FontWeight="Bold"
+                            Foreground="{StaticResource SubtleBrush}">
+                            <Run FontStretch="UltraExpanded" Text="{Binding AuthorTwitterName, Converter={StaticResource StringToUpperConverter}}" />
+                            <Run Text=" @ " />
+                            <Run Text="{Binding Date}" />
+                        </TextBlock>
+                    </Grid>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+    </ScrollViewer>
+</UserControl>

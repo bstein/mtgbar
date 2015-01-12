@@ -103,6 +103,10 @@
     <Reference Include="Melek">
       <HintPath>..\Project\Libs\Melek.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Libs\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Deployment" />
@@ -167,6 +171,7 @@
     <Compile Include="Infrastructure\UIHelpers\Converters\ResultsDelimiterVisibilityConverter.cs" />
     <Compile Include="Infrastructure\UIHelpers\Converters\ResultsViewVisibilityConverter.cs" />
     <Compile Include="Infrastructure\UIHelpers\Converters\CardSetImageConverter.cs" />
+    <Compile Include="Infrastructure\UIHelpers\Converters\StringToUpperConverter.cs" />
     <Compile Include="Infrastructure\UIHelpers\DataTemplateSelectors\CardTextDataTemplateSelector.cs" />
     <Compile Include="Infrastructure\Utilities\FileSystemManager.cs" />
     <Compile Include="Infrastructure\Utilities\ImageManager.cs" />
@@ -178,6 +183,7 @@
     <Compile Include="ViewModels\CardViewModel.cs" />
     <Compile Include="ViewModels\DisplayViewModel.cs" />
     <Compile Include="ViewModels\SearchViewModel.cs" />
+    <Compile Include="ViewModels\TweetViewModel.cs" />
     <Compile Include="Views\AboutView.xaml.cs">
       <DependentUpon>AboutView.xaml</DependentUpon>
     </Compile>
@@ -192,6 +198,9 @@
     </Compile>
     <Compile Include="Views\SettingsViews\SettingsView.xaml.cs">
       <DependentUpon>SettingsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SettingsViews\TweetsView.xaml.cs">
+      <DependentUpon>TweetsView.xaml</DependentUpon>
     </Compile>
     <Page Include="Styles\AppStyles.xaml">
       <SubType>Designer</SubType>
@@ -218,6 +227,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\SettingsViews\SettingsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SettingsViews\TweetsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
