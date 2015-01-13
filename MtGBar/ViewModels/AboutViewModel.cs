@@ -225,6 +225,11 @@ namespace MtGBar.ViewModels
         public IEnumerable<TweetViewModel> Tweets
         {
             get { return _Tweets; }
+            private set
+            {
+                _Tweets = value;
+                OnPropertyChanged("Tweets");
+            }
         }
 
         public string VersionString { get; set; }
@@ -238,7 +243,20 @@ namespace MtGBar.ViewModels
         {
             BackgroundBuddy.RunAsync(() => {
                 TwitterGitter gitter = new TwitterGitter("HgM9fPG8L1ffEtzrVnSgtKLOp", "z5RViBlJahCTaNRAnz8Gy1vrTn420CZ80hReakMXceMJzvSnsz");
-                _Tweets = TweetViewModel.FromJson(gitter.GetUserTimeline("jammerware"));
+                //_Tweets = TweetViewModel.FromJson(gitter.GetUserTimeline("jammerware"));
+                Dictionary<long, TweetViewModel> tweets = new Dictionary<long, TweetViewModel>();
+
+                foreach (TweetViewModel tweet in TweetViewModel.FromTimelineJson(gitter.GetUserTimeline("jammerware"))) {
+                    tweets.Add(tweet.TweetID, tweet);
+                }
+
+                foreach (TweetViewModel tweet in TweetViewModel.FromJson(gitter.Search("@jammerware OR from:jammerware"))) {
+                    if (!tweets.Keys.Contains(tweet.TweetID)) {
+                        tweets.Add(tweet.TweetID, tweet);
+                    }
+                }
+
+                Tweets = tweets.Values.OrderByDescending(t => t.Date);
             });
         }
 

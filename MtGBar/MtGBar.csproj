@@ -172,6 +172,8 @@
     <Compile Include="Infrastructure\UIHelpers\Converters\ResultsViewVisibilityConverter.cs" />
     <Compile Include="Infrastructure\UIHelpers\Converters\CardSetImageConverter.cs" />
     <Compile Include="Infrastructure\UIHelpers\Converters\StringToUpperConverter.cs" />
+    <Compile Include="Infrastructure\UIHelpers\Converters\TweetViewModelAuthorUrlConverter.cs" />
+    <Compile Include="Infrastructure\UIHelpers\Converters\TweetViewModelUrlConverter.cs" />
     <Compile Include="Infrastructure\UIHelpers\DataTemplateSelectors\CardTextDataTemplateSelector.cs" />
     <Compile Include="Infrastructure\Utilities\FileSystemManager.cs" />
     <Compile Include="Infrastructure\Utilities\ImageManager.cs" />

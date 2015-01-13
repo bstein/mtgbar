@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Windows.Input;
-using Microsoft.Win32;
 
 namespace MtGBar.Infrastructure.UIHelpers.Commands
 {
@@ -16,7 +15,7 @@ namespace MtGBar.Infrastructure.UIHelpers.Commands
 
         public void Execute(object parameter)
         {
-            if (parameter != null && parameter.ToString() != string.Empty) {
+            if (parameter != null && !string.IsNullOrEmpty(parameter.ToString())) {
                 Process proc = new Process();
                 ProcessStartInfo info = new ProcessStartInfo(parameter.ToString());
                 info.UseShellExecute = true;

@@ -17,13 +17,40 @@ namespace MtGBar.ViewModels
         public static TweetViewModel[] FromJson(string apiResult)
         {
             List<TweetViewModel> retVal = new List<TweetViewModel>();
+            JToken data = JObject.Parse(apiResult);
+
+            foreach (JToken tweetData in data["statuses"]) {
+                JToken user = tweetData["user"];
+
+                TweetViewModel tweet = new TweetViewModel() {
+                    AuthorImage = new Uri(user["profile_image_url"].ToString().Replace("normal", "bigger")),
+                    AuthorRealName = user["name"].ToString(),
+                    AuthorTwitterName = user["screen_name"].ToString(),
+                    Date = DateTime.ParseExact(
+                        tweetData["created_at"].ToString(),
+                        "ddd MMM dd HH:mm:ss %K yyyy",
+                        CultureInfo.InvariantCulture.DateTimeFormat
+                    ),
+                    Text = tweetData["text"].ToString(),
+                    TweetID = long.Parse(tweetData["id"].ToString()),
+                };
+
+                retVal.Add(tweet);
+            }
+
+            return retVal.ToArray();
+        }
+
+        public static TweetViewModel[] FromTimelineJson(string apiResult)
+        {
+            List<TweetViewModel> retVal = new List<TweetViewModel>();
             JToken data = JArray.Parse(apiResult);
 
             foreach (JToken tweetData in data.Children()) {
                 JToken user = tweetData["user"];
 
                 TweetViewModel tweet = new TweetViewModel() {
-                    AuthorImage = new Uri(user["profile_image_url"].ToString()),
+                    AuthorImage = new Uri(user["profile_image_url"].ToString().Replace("normal", "bigger")),
                     AuthorRealName = user["name"].ToString(),
                     AuthorTwitterName = user["screen_name"].ToString(),
                     Date = DateTime.ParseExact(
