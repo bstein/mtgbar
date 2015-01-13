@@ -26,7 +26,7 @@ namespace MtGBar.ViewModels
         private string _HotkeyString { get; set; }
         private IEnumerable<Package> _Packages { get; set; }
         private DisplayViewModel _SelectedDisplay = null;
-        public IEnumerable<TweetViewModel> _Tweets = null;
+        public IEnumerable<TweetViewModel> _Tweets = new List<TweetViewModel>();
 
         public AboutViewModel()
         {
@@ -222,6 +222,11 @@ namespace MtGBar.ViewModels
             }
         }
 
+        public int TweetCount
+        {
+            get { return _Tweets.Count(); }
+        }
+
         public IEnumerable<TweetViewModel> Tweets
         {
             get { return _Tweets; }
@@ -229,6 +234,7 @@ namespace MtGBar.ViewModels
             {
                 _Tweets = value;
                 OnPropertyChanged("Tweets");
+                OnPropertyChanged("TweetCount");
             }
         }
 

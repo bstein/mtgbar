@@ -4,84 +4,95 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+    xmlns:bazamConvert="clr-namespace:BazamWPF.ValueConverters;assembly=BazamWPF"
     xmlns:command="clr-namespace:MtGBar.Infrastructure.UIHelpers.Commands"
     xmlns:convert="clr-namespace:MtGBar.Infrastructure.UIHelpers.Converters">
     <ScrollViewer>
-        <ItemsControl 
-            ItemsSource="{Binding Tweets}">
-            <ItemsControl.Resources>
-                <convert:StringToUpperConverter x:Key="StringToUpperConverter" />
-                <convert:TweetViewModelAuthorUrlConverter x:Key="TweetViewModelAuthorUrlConverter" />
-                <convert:TweetViewModelUrlConverter x:Key="TweetViewModelUrlConverter" />
-                <command:ViewUrlCommand x:Key="ViewUrlCommand" />
-            </ItemsControl.Resources>
-            <ItemsControl.ItemTemplate>
-                <DataTemplate>
-                    <Button
-                        Command="{StaticResource ViewUrlCommand}"
-                        CommandParameter="{Binding Converter={StaticResource TweetViewModelUrlConverter}}"
-                        Cursor="Hand"
-                        Margin="0,0,4,10">
-                        <Button.Template>
-                            <ControlTemplate>
-                                <Grid>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="Auto" />
-                                        <RowDefinition Height="Auto" />
-                                    </Grid.RowDefinitions>
+        <StackPanel>
+            <StackPanel.Resources>
+                <bazamConvert:IntegerVisibilityConverter x:Key="IntegerVisibilityConverter" />
+            </StackPanel.Resources>
+            <TextBlock 
+                FontSize="14"
+                Foreground="{StaticResource SubtleBrush}"
+                Text="LOADING TWEETS..."
+                Visibility="{Binding TweetCount, Converter={StaticResource IntegerVisibilityConverter}, ConverterParameter=true}"/>
+            <ItemsControl 
+                ItemsSource="{Binding Tweets}">
+                <ItemsControl.Resources>
+                    <convert:StringToUpperConverter x:Key="StringToUpperConverter" />
+                    <convert:TweetViewModelAuthorUrlConverter x:Key="TweetViewModelAuthorUrlConverter" />
+                    <convert:TweetViewModelUrlConverter x:Key="TweetViewModelUrlConverter" />
+                    <command:ViewUrlCommand x:Key="ViewUrlCommand" />
+                </ItemsControl.Resources>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Button
+                            Command="{StaticResource ViewUrlCommand}"
+                            CommandParameter="{Binding Converter={StaticResource TweetViewModelUrlConverter}}"
+                            Cursor="Hand"
+                            Margin="0,0,4,10">
+                            <Button.Template>
+                                <ControlTemplate>
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+                                        </Grid.RowDefinitions>
 
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="Auto" />
-                                        <ColumnDefinition />
-                                    </Grid.ColumnDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition />
+                                        </Grid.ColumnDefinitions>
 
-                                    <Button
-                                        Grid.Row="0"
-                                        Grid.Column="0"
-                                        Grid.RowSpan="2"
-                                        Command="{StaticResource ViewUrlCommand}" 
-                                        CommandParameter="{Binding AuthorTwitterName, Converter={StaticResource TweetViewModelAuthorUrlConverter}}"
-                                        Cursor="Hand"
-                                        Margin="0,0,8,0"
-                                        Padding="0"
-                                        VerticalAlignment="Top">
-                                        <Button.Template>
-                                            <ControlTemplate>
-                                                <Image 
-                                                    Source="{Binding AuthorImage}"
-                                                    Height="64"
-                                                    Width="64" />
-                                            </ControlTemplate>
-                                        </Button.Template>
-                                    </Button>
+                                        <Button
+                                            Grid.Row="0"
+                                            Grid.Column="0"
+                                            Grid.RowSpan="2"
+                                            Command="{StaticResource ViewUrlCommand}" 
+                                            CommandParameter="{Binding AuthorTwitterName, Converter={StaticResource TweetViewModelAuthorUrlConverter}}"
+                                            Cursor="Hand"
+                                            Margin="0,0,8,0"
+                                            Padding="0"
+                                            VerticalAlignment="Top">
+                                            <Button.Template>
+                                                <ControlTemplate>
+                                                    <Image 
+                                                        Source="{Binding AuthorImage}"
+                                                        Height="64"
+                                                        Width="64" />
+                                                </ControlTemplate>
+                                            </Button.Template>
+                                        </Button>
 
-                                    <TextBlock
-                                        Grid.Row="0"
-                                        Grid.Column="1"
-                                        FontSize="12"
-                                        Height="46"
-                                        Text="{Binding Text}"
-                                        TextWrapping="Wrap" />
+                                        <TextBlock
+                                            Grid.Row="0"
+                                            Grid.Column="1"
+                                            FontSize="12"
+                                            Height="46"
+                                            Text="{Binding Text}"
+                                            TextWrapping="Wrap" />
 
-                                    <TextBlock
-                                        Grid.Row="1"
-                                        Grid.Column="1"
-                                        FontFamily="Arial"
-                                        FontSize="10"
-                                        FontWeight="Bold"
-                                        Foreground="{StaticResource SubtleBrush}"
-                                        Margin="0,0,0,12"
-                                        VerticalAlignment="Bottom">
-                                        <Run FontStretch="UltraExpanded" Text="{Binding AuthorTwitterName, Converter={StaticResource StringToUpperConverter}}" />
-                                        <Run Text=" @ " />
-                                        <Run Text="{Binding Date}" />
-                                    </TextBlock>
-                                </Grid>
-                            </ControlTemplate>
-                        </Button.Template>
-                    </Button>
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
-        </ItemsControl>
+                                        <TextBlock
+                                            Grid.Row="1"
+                                            Grid.Column="1"
+                                            FontFamily="Arial"
+                                            FontSize="10"
+                                            FontWeight="Bold"
+                                            Foreground="{StaticResource SubtleBrush}"
+                                            Margin="0,0,0,12"
+                                            VerticalAlignment="Bottom">
+                                            <Run FontStretch="UltraExpanded" Text="{Binding AuthorTwitterName, Converter={StaticResource StringToUpperConverter}}" />
+                                            <Run Text=" @ " />
+                                            <Run Text="{Binding Date}" />
+                                        </TextBlock>
+                                    </Grid>
+                                </ControlTemplate>
+                            </Button.Template>
+                        </Button>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </StackPanel>
     </ScrollViewer>
 </UserControl>
