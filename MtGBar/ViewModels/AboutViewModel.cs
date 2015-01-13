@@ -243,7 +243,6 @@ namespace MtGBar.ViewModels
         {
             BackgroundBuddy.RunAsync(() => {
                 TwitterGitter gitter = new TwitterGitter("HgM9fPG8L1ffEtzrVnSgtKLOp", "z5RViBlJahCTaNRAnz8Gy1vrTn420CZ80hReakMXceMJzvSnsz");
-                //_Tweets = TweetViewModel.FromJson(gitter.GetUserTimeline("jammerware"));
                 Dictionary<long, TweetViewModel> tweets = new Dictionary<long, TweetViewModel>();
 
                 foreach (TweetViewModel tweet in TweetViewModel.FromTimelineJson(gitter.GetUserTimeline("jammerware"))) {
