@@ -255,7 +255,7 @@ namespace MtGBar.ViewModels
                     tweets.Add(tweet.TweetID, tweet);
                 }
 
-                foreach (TweetViewModel tweet in TweetViewModel.FromJson(gitter.Search("@jammerware OR from:jammerware"))) {
+                foreach (TweetViewModel tweet in TweetViewModel.FromJson(gitter.Search("@jammerware"))) {
                     if (!tweets.Keys.Contains(tweet.TweetID)) {
                         tweets.Add(tweet.TweetID, tweet);
                     }

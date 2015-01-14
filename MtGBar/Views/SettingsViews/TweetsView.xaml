@@ -6,7 +6,8 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
     xmlns:bazamConvert="clr-namespace:BazamWPF.ValueConverters;assembly=BazamWPF"
     xmlns:command="clr-namespace:MtGBar.Infrastructure.UIHelpers.Commands"
-    xmlns:convert="clr-namespace:MtGBar.Infrastructure.UIHelpers.Converters">
+    xmlns:convert="clr-namespace:MtGBar.Infrastructure.UIHelpers.Converters"
+    xmlns:templateSelectors="clr-namespace:MtGBar.Infrastructure.UIHelpers.DataTemplateSelectors">
     <ScrollViewer>
         <StackPanel>
             <StackPanel.Resources>
@@ -23,7 +24,73 @@
                     <convert:StringToUpperConverter x:Key="StringToUpperConverter" />
                     <convert:TweetViewModelAuthorUrlConverter x:Key="TweetViewModelAuthorUrlConverter" />
                     <convert:TweetViewModelUrlConverter x:Key="TweetViewModelUrlConverter" />
+                    <convert:TwitterHashtagUrlConverter x:Key="TwitterHashtagUrlConverter" />
+                    <convert:TwitterMentionUrlConverter x:Key="TwitterMentionUrlConverter" />
                     <command:ViewUrlCommand x:Key="ViewUrlCommand" />
+
+                    <!--DataTemplates-->
+                    <DataTemplate x:Key="HashtagTemplate">
+                        <Button
+                            Command="{StaticResource ViewUrlCommand}"
+                            CommandParameter="{Binding Converter={StaticResource TwitterHashtagUrlConverter}}"
+                            Margin="3,0,0,0">
+                            <Button.Template>
+                                <ControlTemplate>
+                                    <TextBlock 
+                                        FontSize="12"
+                                        Foreground="{StaticResource AccentBrush}"
+                                        TextDecorations="Underline"
+                                        Text="{Binding Text}" />
+                                </ControlTemplate>
+                            </Button.Template>
+                        </Button>
+                    </DataTemplate>
+                    <DataTemplate x:Key="MentionTemplate">
+                        <Button
+                            Command="{StaticResource ViewUrlCommand}"
+                            CommandParameter="{Binding Converter={StaticResource TwitterMentionUrlConverter}}"
+                            Margin="3,0,0,0">
+                            <Button.Template>
+                                <ControlTemplate>
+                                    <TextBlock 
+                                        FontSize="12"
+                                        Foreground="{StaticResource AccentBrush}"
+                                        TextDecorations="Underline"
+                                        Text="{Binding Text}" />
+                                </ControlTemplate>
+                            </Button.Template>
+                        </Button>
+                    </DataTemplate>
+                    <DataTemplate x:Key="TweetWordTemplate">
+                        <TextBlock 
+                            FontSize="12"
+                            Margin="3,0,0,0"
+                            Text="{Binding Text}" />
+                    </DataTemplate>
+                    <DataTemplate x:Key="UrlTemplate">
+                        <Button
+                            Command="{StaticResource ViewUrlCommand}"
+                            CommandParameter="{Binding Text}"
+                            Margin="3,0,0,0">
+                            <Button.Template>
+                                <ControlTemplate>
+                                    <TextBlock 
+                                        FontSize="12"
+                                        Foreground="{StaticResource AccentBrush}"
+                                        TextDecorations="Underline"
+                                        Text="{Binding Text}" />
+                                </ControlTemplate>
+                            </Button.Template>
+                        </Button>
+                    </DataTemplate>
+                    
+                    <!--TemplateSelector-->
+                    <templateSelectors:TweetWordDataTemplateSelector 
+                        x:Key="TweetWordDataTemplateSelector"
+                        HashtagTemplate="{StaticResource HashtagTemplate}" 
+                        MentionTemplate="{StaticResource MentionTemplate}" 
+                        TweetWordTemplate="{StaticResource TweetWordTemplate}" 
+                        UrlTemplate="{StaticResource UrlTemplate}" />
                 </ItemsControl.Resources>
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
@@ -65,13 +132,18 @@
                                             </Button.Template>
                                         </Button>
 
-                                        <TextBlock
+                                        <ItemsControl
                                             Grid.Row="0"
                                             Grid.Column="1"
-                                            FontSize="12"
                                             Height="46"
-                                            Text="{Binding Text}"
-                                            TextWrapping="Wrap" />
+                                            ItemsSource="{Binding Text}"
+                                            ItemTemplateSelector="{StaticResource TweetWordDataTemplateSelector}">
+                                            <ItemsControl.ItemsPanel>
+                                                <ItemsPanelTemplate>
+                                                    <WrapPanel Orientation="Horizontal" />
+                                                </ItemsPanelTemplate>
+                                            </ItemsControl.ItemsPanel>
+                                        </ItemsControl>
 
                                         <TextBlock
                                             Grid.Row="1"

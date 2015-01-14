@@ -4,7 +4,7 @@
     xmlns:controls="clr-namespace:MtGBarControls;assembly=MtGBarControls" xmlns:UIHelpers="clr-namespace:MtGBarControls.UIHelpers;assembly=MtGBarControls">
 
     <!--Colors-->
-    <Color x:Key="AccentColor">#FFFFFF</Color>
+    <Color x:Key="AccentColor">#FF7A32</Color>
     <Color x:Key="BackgroundColor" R="44" G="44" B="44" A="255" />
     <Color x:Key="ForegroundColor">#FFFFFF</Color>
     <Color x:Key="SubtleColor" R="168" G="168" B="168" A="255" />
