@@ -268,6 +268,7 @@ namespace MtGBar.ViewModels
         public void QueryCardCacheSize()
         {
             BackgroundBuddy.RunAsync(() => {
+                CardsDirectorySize = AppState.Instance.MelekDataStore.GetCardImageCacheSize(true);
                 CardsDirectorySize = AppState.Instance.MelekDataStore.GetCardImageCacheSize();
             });
         }

@@ -4,7 +4,8 @@
     xmlns:controls="clr-namespace:MtGBarControls;assembly=MtGBarControls" xmlns:UIHelpers="clr-namespace:MtGBarControls.UIHelpers;assembly=MtGBarControls">
 
     <!--Colors-->
-    <Color x:Key="AccentColor">#FF7A32</Color>
+    <!--Note that what would ordinarily be "AccentColor" is "MyAccentColor" here to avoid collision with MUI.-->
+    <Color x:Key="MyAccentColor">#FF7A32</Color>
     <Color x:Key="BackgroundColor" R="44" G="44" B="44" A="255" />
     <Color x:Key="ForegroundColor">#FFFFFF</Color>
     <Color x:Key="SubtleColor" R="168" G="168" B="168" A="255" />
@@ -12,7 +13,7 @@
     <Color x:Key="CommonColor">#FFFFFF</Color>
 
     <!--Brushes-->
-    <SolidColorBrush x:Key="AccentBrush" Color="{StaticResource AccentColor}" />
+    <SolidColorBrush x:Key="AccentBrush" Color="{StaticResource MyAccentColor}" />
     <SolidColorBrush x:Key="BackgroundBrush" Color="{StaticResource BackgroundColor}" />
     <SolidColorBrush x:Key="DisabledBrush" Color="{StaticResource SubtleColor}" />
     <SolidColorBrush x:Key="ForegroundBrush" Color="{StaticResource ForegroundColor}" />

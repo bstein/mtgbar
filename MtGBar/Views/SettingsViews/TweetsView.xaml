@@ -16,7 +16,8 @@
             <TextBlock 
                 FontSize="14"
                 Foreground="{StaticResource SubtleBrush}"
-                Text="LOADING TWEETS..."/>
+                Text="LOADING TWEETS..."
+                Visibility="{Binding TweetCount, Converter={StaticResource IntegerVisibilityConverter}, ConverterParameter=true}"/>
             <ItemsControl 
                 ItemsSource="{Binding Tweets}">
                 <ItemsControl.Resources>

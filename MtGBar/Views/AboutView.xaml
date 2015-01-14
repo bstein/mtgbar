@@ -5,7 +5,7 @@
     xmlns:mui="http://firstfloorsoftware.com/ModernUI"
     xmlns:vm="clr-namespace:MtGBar.ViewModels"
     ContentSource="/Views/SettingsViews/SettingsView.xaml"
-    Height="535" Width="500"
+    Height="570" Width="500"
     Icon="/MtGBar;component/icon.ico"
     ResizeMode="NoResize"
     Title="About MtGBar" 

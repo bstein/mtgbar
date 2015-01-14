@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Windows;
+using System.Windows.Media;
 using System.Windows.Threading;
 using Bazam.KeyAdept.Infrastructure;
+using FirstFloor.ModernUI.Presentation;
 using MtGBar.Infrastructure;
 using MtGBar.Infrastructure.Utilities;
 using MtGBar.Infrastructure.Utilities.Updates;
@@ -87,6 +89,10 @@ namespace MtGBar
             if (AppState.Instance.Settings.Hotkey != null) {
                 AppState.Instance.RegisterHotkey(AppState.Instance.Settings.Hotkey);
             }
+
+            // set up MUI theme
+            Color myAccentColor = (Color)App.Current.FindResource("MyAccentColor");
+            AppearanceManager.Current.AccentColor = myAccentColor;
 
             // HEY! LISTEN!
             // ... to the hotkey registrar so we can tell the user if they try to do something that will fuck stuff up

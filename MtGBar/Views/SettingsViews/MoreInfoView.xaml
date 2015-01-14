@@ -19,70 +19,6 @@
             Style="{StaticResource AboutTextStyle}">
             MtGBar © 2015 BEN STEIN &amp; JAMMERWARE
         </TextBlock>
-        
-        <!--<Grid Margin="0,0,0,20">
-            <Grid.RowDefinitions>
-                <RowDefinition />
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition />
-                <ColumnDefinition />
-                <ColumnDefinition />
-            </Grid.ColumnDefinitions>
-
-            <Button 
-                Grid.Column="0"
-                Command="{StaticResource ViewUrlCommand}"
-                CommandParameter="http://www.twitter.com/jammerware">
-                <StackPanel Margin="8" Orientation="Horizontal">
-                    <Image 
-                        Height="12"
-                        Source="/Assets/twitter.png"
-                        Stretch="Uniform" />
-                    <TextBlock
-                        Foreground="{StaticResource ForegroundBrush}"
-                        Margin="4,0,0,0"
-                        Style="{StaticResource TextBlockFontStyle}"
-                        Text="tweet" />
-                </StackPanel>
-            </Button>
-            
-            <Button 
-                Grid.Column="1"
-                Command="{StaticResource ViewUrlCommand}"
-                CommandParameter="mailto:ben@jammerware.com"
-                Margin="8,0,0,0">
-                <StackPanel Margin="8" Orientation="Horizontal">
-                    <Image 
-                        Height="12"
-                        Source="/Assets/mail.png"
-                        Stretch="Uniform" />
-                    <TextBlock
-                        Foreground="{StaticResource ForegroundBrush}"
-                        Margin="4,0,0,0"
-                        Style="{StaticResource TextBlockFontStyle}"
-                        Text="email" />
-                </StackPanel>
-            </Button>
-
-            <Button 
-                Grid.Column="2"
-                Command="{StaticResource ViewUrlCommand}"
-                CommandParameter="{Binding DonateUrl}"
-                Margin="8,0,0,0">
-                <StackPanel Margin="8" Orientation="Horizontal">
-                    <Image 
-                        Height="12"
-                        Source="/Assets/paypal.png"
-                        Stretch="Uniform" />
-                    <TextBlock
-                        Foreground="{StaticResource ForegroundBrush}"
-                        Margin="4,0,0,0"
-                        Style="{StaticResource TextBlockFontStyle}"
-                        Text="donate" />
-                </StackPanel>
-            </Button>
-        </Grid>-->
 
         <Grid Margin="0,0,0,20">
             <Grid.RowDefinitions>
@@ -183,7 +119,35 @@
             <TextBlock
                 Margin="0"
                 Style="{StaticResource AboutTextStyle}"
-                Text="ModernUI by THE XAMLSPY TEAM (" />
+                Text="Json.NET by JAMES NEWTON KING (" />
+            <Button
+                Command="{StaticResource ViewUrlCommand}"
+                CommandParameter="http://james.newtonking.com/json"
+                Cursor="Hand"
+                Margin="0">
+                <Button.Template>
+                    <ControlTemplate>
+                        <TextBlock 
+                            Foreground="{StaticResource AccentBrush}"
+                            Margin="0"
+                            Style="{StaticResource AboutTextStyle}"
+                            Text="http://james.newtonking.com/json"
+                            TextDecorations="Underline" />
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+            <TextBlock
+                Margin="0"
+                Style="{StaticResource AboutTextStyle}"
+                Text=")" />
+        </StackPanel>
+        <StackPanel 
+            HorizontalAlignment="Right"
+            Orientation="Horizontal">
+            <TextBlock
+                Margin="0"
+                Style="{StaticResource AboutTextStyle}"
+                Text="ModernUI by FIRST FLOOR SOFTWARE (" />
             <Button
                 Command="{StaticResource ViewUrlCommand}"
                 CommandParameter="https://mui.codeplex.com/"
