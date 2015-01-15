@@ -24,7 +24,7 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
-    <InstallUrl>http://software.jammerware.com/mtgbar/publish.htm/</InstallUrl>
+    <InstallUrl>http://software.jammerware.com/mtgbar/</InstallUrl>
     <UpdateUrl>http://software.jammerware.com/mtgbar/</UpdateUrl>
     <TargetCulture>en-US</TargetCulture>
     <ProductName>MtGBar</ProductName>
@@ -32,7 +32,7 @@
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
     <OpenBrowserOnPublish>false</OpenBrowserOnPublish>
-    <ApplicationRevision>16</ApplicationRevision>
+    <ApplicationRevision>17</ApplicationRevision>
     <ApplicationVersion>1.1.0.%2a</ApplicationVersion>
     <UseApplicationTrust>true</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
