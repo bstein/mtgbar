@@ -6,12 +6,13 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Forms;
+using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using Bazam.Modules;
+using BazamWPF.UIHelpers;
 using BazamWPF.ViewModels;
 using Melek.Models;
 using MtGBar.Infrastructure;
-using MtGBar.Infrastructure.DataNinjitsu.Models;
 using MtGBar.Infrastructure.Utilities;
 
 namespace MtGBar.ViewModels
@@ -31,11 +32,12 @@ namespace MtGBar.ViewModels
         private string _CFPrice = PRICE_DEFAULT;
         private string _DefaultBackground;
         private Dictionary<string, Dictionary<string, string>> _PriceCache = new Dictionary<string, Dictionary<string, string>>();
-        private Screen _Screen;
         private string _SearchTerm;
         private CardAppearance _SelectedAppearance;
         private BitmapImage _SelectedAppearanceImage;
         private Card _SelectedCard;
+        private CardAppearance _SelectedPrintingTransformsIntoPrinting;
+        private Card _SelectedPrintingTransformsIntoCard;
         private bool _ShowPricingData;
         private string _TCGPlayerLink;
         private string _TCGPlayerPrice = PRICE_DEFAULT;
@@ -53,12 +55,11 @@ namespace MtGBar.ViewModels
         public SearchViewModel()
         {
             _DefaultBackground = Path.Combine(FileSystemManager.PackageArtDirectory, "default.jpg");
-            SetWindowPosition();
+            ReadSettings();
             ShuffleWatermarkText();
 
-            AppState.Instance.Settings.Updated += (theSettings, haveChanged) => {                
-                ShowPricingData = AppState.Instance.Settings.ShowPricingData;
-                SetWindowPosition();
+            AppState.Instance.Settings.Updated += (theSettings, haveChanged) => {
+                ReadSettings();
             };
         }
         #endregion
@@ -132,6 +133,22 @@ namespace MtGBar.ViewModels
             get { return new BitmapImage(new Uri("pack://application:,,,/Assets/card-back.png")); }
         }
 
+        public ICommand FlipCardCommand
+        {
+            get 
+            { 
+                return new RelayCommand(
+                    (omgHaveAParam) => {
+                        // have to retain a reference to the printing to select after we select the card (because selecting the
+                        // card manipulates the SelectedPrintingTransformsIntoPrinting property.
+                        CardAppearance printingToSelect = SelectedPrintingTransformsIntoPrinting;
+                        SelectedCard = SelectedPrintingTransformsIntoCard;
+                        SelectedAppearance = printingToSelect;
+                    }
+                ); 
+            }
+        }
+
         public string SearchTerm
         {
             get { return _SearchTerm; }
@@ -165,12 +182,21 @@ namespace MtGBar.ViewModels
             {
                 if (_SelectedAppearance != value) {
                     _SelectedAppearance = value;
-                    if (SelectedAppearance != null) {
+                    if (value != null) {
                         QueryPriceData();
                         AppearanceSelected(value);
+
+                        if (!string.IsNullOrEmpty(value.TransformsToMultiverseID)) {
+                            SelectedPrintingTransformsIntoCard = AppState.Instance.MelekDataStore.GetCardByMultiverseID(value.TransformsToMultiverseID);
+                            SelectedPrintingTransformsIntoPrinting = SelectedPrintingTransformsIntoCard.Appearances.Where(p => p.MultiverseID == value.TransformsToMultiverseID).FirstOrDefault();
+                        }
                     }
-                    OnPropertyChanged("SelectedAppearance");
+                    else {
+                        SelectedPrintingTransformsIntoCard = null;
+                        SelectedPrintingTransformsIntoPrinting = null; 
+                    }
                 }
+                OnPropertyChanged("SelectedAppearance");
             }
         }
 
@@ -211,6 +237,26 @@ namespace MtGBar.ViewModels
                         CardSelected(this, EventArgs.Empty);
                     }
                 }
+            }
+        }
+
+        public CardAppearance SelectedPrintingTransformsIntoPrinting
+        {
+            get { return _SelectedPrintingTransformsIntoPrinting; }
+            set
+            {
+                _SelectedPrintingTransformsIntoPrinting = value;
+                OnPropertyChanged("SelectedPrintingTransformsIntoPrinting");
+            }
+        }
+
+        public Card SelectedPrintingTransformsIntoCard
+        {
+            get { return _SelectedPrintingTransformsIntoCard; }
+            set
+            {
+                _SelectedPrintingTransformsIntoCard = value;
+                OnPropertyChanged("SelectedPrintingTransformsIntoCard");
             }
         }
 
@@ -388,6 +434,12 @@ namespace MtGBar.ViewModels
                     TCGPlayerPrice = ApplyPriceDefault(tcgPlayerPrice);
                 });
             }
+        }
+
+        private void ReadSettings()
+        {
+            SetWindowPosition();
+            ShowPricingData = AppState.Instance.Settings.ShowPricingData;
         }
 
         private void ResetPriceData()

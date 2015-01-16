@@ -42,6 +42,7 @@
         <Border.Resources>
             <bazamConvert:BooleanVisibilityConverter x:Key="BooleanVisibilityConverter" />
             <bazamConvert:CapitalizationConverter x:Key="CapitalizationConverter" />
+            <bazamConvert:ObjectVisibilityConverter x:Key="ObjectVisibilityConverter" />
             <bazamConvert:StringVisibilityConverter x:Key="StringVisibilityConverter" />
             <commands:GathererViewCommand x:Key="GathererViewCommand" />
             <convert:CardAppearancesMaxConverter x:Key="CardAppearancesMaxConverter" />
@@ -324,8 +325,8 @@
                     <ListBox
                         x:Name="lstAppearances"
                         ItemsSource="{Binding SelectedCard.Appearances, Converter={StaticResource CardAppearancesMaxConverter}}"
-                        Style="{StaticResource AppearancesListStyle}"
                         SelectedValue="{Binding SelectedAppearance, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                        Style="{StaticResource AppearancesListStyle}"
                         Visibility="{Binding SelectedCard.Appearances, Converter={StaticResource CardAppearancesVisibilityConverter}}">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
@@ -370,6 +371,7 @@
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
 
@@ -382,7 +384,7 @@
                     <Image 
                         Grid.Row="0"
                         Grid.Column="0"
-                        Grid.RowSpan="7"
+                        Grid.RowSpan="8"
                         Grid.ColumnSpan="2"
                         HorizontalAlignment="Center"
                         Margin="0,14,0,0"
@@ -493,7 +495,31 @@
                         Style="{StaticResource CardAttributeValueStyle}"
                         Text="{Binding SelectedAppearance.Artist}" 
                         Visibility="{Binding SelectedAppearance.Artist, Converter={StaticResource StringVisibilityConverter}}" />
+                    
+                    <TextBlock 
+                        Grid.Row="5"
+                        Grid.Column="0"
+                        Style="{StaticResource CardAttributeLabelStyle}"
+                        Text="Flips to"
+                        Visibility="{Binding SelectedPrintingTransformsIntoPrinting, Converter={StaticResource ObjectVisibilityConverter}}" />
 
+                    <Button
+                        Grid.Row="5"
+                        Grid.Column="1"
+                        Command="{Binding FlipCardCommand}"
+                        Cursor="Hand"
+                        Visibility="{Binding SelectedPrintingTransformsIntoPrinting, Converter={StaticResource ObjectVisibilityConverter}}">
+                        <Button.Template>
+                            <ControlTemplate>
+                                <StackPanel>
+                                    <TextBlock 
+                                        Style="{StaticResource CardAttributeValueStyle}"
+                                        Text="{Binding SelectedPrintingTransformsIntoCard.Name}" />
+                                </StackPanel>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
+                        
                     <ItemsControl
                         Grid.Row="5"
                         Grid.Column="0"

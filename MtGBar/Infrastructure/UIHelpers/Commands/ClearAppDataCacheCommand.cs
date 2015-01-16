@@ -23,7 +23,7 @@ namespace MtGBar.Infrastructure.UIHelpers.Commands
                 Process p = new Process();
                 string args = "\"" + AppState.Instance.MelekDataStore.PackagesDirectory + "\" \"" + FileSystemManager.PackageArtDirectory +"\" \"" + FileSystemManager.SetSymbolsDirectory + "\"";
                 Debug.WriteLine(args);
-                ProcessStartInfo info =new ProcessStartInfo("MtGBarRepairbot.exe", args);
+                ProcessStartInfo info = new ProcessStartInfo("MtGBarRepairbot.exe", args);
                 info.UseShellExecute = false;
                 p.StartInfo = info;
                 p.Start();

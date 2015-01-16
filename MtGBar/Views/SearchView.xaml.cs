@@ -81,6 +81,7 @@ namespace MtGBar.Views
 
         private void NextListItem(ListBox box, bool forward)
         {
+            Kontroller.Blur(TheTextBox);
             if (forward) {
                 if (box.SelectedIndex < box.Items.Count - 1) {
                     box.SelectedIndex++;
