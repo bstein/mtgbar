@@ -7,11 +7,16 @@ using Melek.Models;
 
 namespace MtGBar.Infrastructure.UIHelpers.Converters
 {
-    public class CardAppearancesMaxConverter : IValueConverter
+    public class CardFirstPrintingConverter : IValueConverter
     {
         public Object Convert(Object value, Type targetType, Object parameter, CultureInfo culture)
         {
-            return (value as List<CardAppearance>).OrderByDescending(a => a.Set.Date).Take(5).ToArray();
+            IOrderedEnumerable<CardPrinting> printings = (value as List<CardPrinting>).OrderByDescending(a => a.Set.Date);
+            CardPrinting first = printings.FirstOrDefault(a => a.Set.IsPromo == false);
+            if (first == null) {
+                first = printings.FirstOrDefault();
+            }
+            return first;
         }
 
         public object ConvertBack(Object value, Type targetType, Object parameter, System.Globalization.CultureInfo culture)

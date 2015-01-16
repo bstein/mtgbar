@@ -106,7 +106,7 @@
         </Setter>
     </Style>
 
-    <Style x:Key="AppearancesListItemStyle" TargetType="{x:Type ListBoxItem}">
+    <Style x:Key="PrintingsListItemStyle" TargetType="{x:Type ListBoxItem}">
         <Setter Property="SnapsToDevicePixels" Value="true" />
         <Setter Property="OverridesDefaultStyle" Value="true" />
         <Setter Property="Template">
@@ -149,9 +149,9 @@
         </Setter>
     </Style>
 
-    <Style x:Key="AppearancesListStyle" TargetType="{x:Type ListBox}">
+    <Style x:Key="PrintingsListStyle" TargetType="{x:Type ListBox}">
         <Setter Property="HorizontalAlignment" Value="Center" />
-        <Setter Property="ItemContainerStyle" Value="{StaticResource AppearancesListItemStyle}" />
+        <Setter Property="ItemContainerStyle" Value="{StaticResource PrintingsListItemStyle}" />
         <Setter Property="Margin" Value="0,8,0,0" />
         <Setter Property="OverridesDefaultStyle" Value="true" />
         <Setter Property="SnapsToDevicePixels" Value="true" />
@@ -297,102 +297,6 @@
         <Setter Property="FontSize" Value="16" />
         <Setter Property="FontWeight" Value="Light" />
         <Setter Property="Margin" Value="-8,-1,0,0" />
-    </Style>
-
-    <Style x:Key="AboutButtonStyle" TargetType="{x:Type Button}">
-        <Setter Property="MinHeight" Value="28" />
-        <Setter Property="MinWidth" Value="28" />
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate>
-                    <Border
-						x:Name="Border"
-						BorderThickness="2"
-						Height="{TemplateBinding Height}"
-						Width="{TemplateBinding Width}">
-                        <Border.BorderBrush>
-                            <SolidColorBrush x:Name="BorderBrush" Color="{StaticResource AccentColor}" />
-                        </Border.BorderBrush>
-                        <VisualStateManager.VisualStateGroups>
-                            <VisualStateGroup x:Name="CommonStates">
-                                <VisualState x:Name="Disabled">
-                                    <Storyboard>
-                                        <ColorAnimation
-											Storyboard.TargetName="BackgroundBrush" 
-											Storyboard.TargetProperty="Color"
-											To="Transparent"
-											Duration="0:0:0.1"/>
-                                        <ColorAnimation
-											Storyboard.TargetName="BorderBrush" 
-											Storyboard.TargetProperty="Color"
-											To="{StaticResource SubtleColor}"
-											Duration="0:0:0.1"/>
-                                        <ColorAnimation
-											Storyboard.TargetName="ForegroundBrush" 
-											Storyboard.TargetProperty="Color"
-											To="{StaticResource SubtleColor}"
-											Duration="0:0:0.1"/>
-                                    </Storyboard>
-                                </VisualState>
-                                <VisualState x:Name="Normal">
-                                    <Storyboard>
-                                        <ColorAnimation
-											Storyboard.TargetName="BackgroundBrush" 
-											Storyboard.TargetProperty="Color"
-											To="Transparent"
-											Duration="0:0:0.1"/>
-                                        <ColorAnimation
-											Storyboard.TargetName="BorderBrush" 
-											Storyboard.TargetProperty="Color"
-											To="{StaticResource AccentColor}"
-											Duration="0:0:0.1"/>
-                                        <ColorAnimation
-											Storyboard.TargetName="ForegroundBrush" 
-											Storyboard.TargetProperty="Color"
-											To="{StaticResource AccentColor}"
-											Duration="0:0:0.1"/>
-                                    </Storyboard>
-                                </VisualState>
-                                <VisualState x:Name="Pressed">
-                                    <Storyboard>
-                                        <ColorAnimation
-											Storyboard.TargetName="BackgroundBrush" 
-											Storyboard.TargetProperty="Color"
-											To="{StaticResource AccentColor}"
-											Duration="0:0:0.1"/>
-                                        <ColorAnimation
-											Storyboard.TargetName="BorderBrush" 
-											Storyboard.TargetProperty="Color"
-											To="{StaticResource AccentColor}"
-											Duration="0:0:0.1"/>
-                                        <ColorAnimation
-											Storyboard.TargetName="ForegroundBrush" 
-											Storyboard.TargetProperty="Color"
-											To="{StaticResource BackgroundColor}"
-											Duration="0:0:0.1"/>
-                                    </Storyboard>
-                                </VisualState>
-                            </VisualStateGroup>
-                        </VisualStateManager.VisualStateGroups>
-                        <Border.Background>
-                            <SolidColorBrush x:Name="BackgroundBrush" />
-                        </Border.Background>
-                        <ContentControl 
-							x:Name="theContent"                                
-							Content="{TemplateBinding ContentControl.Content}" 
-							FontFamily="Segoe WP SemiLight"
-							FontSize="14"
-							FontWeight="SemiBold"
-							HorizontalAlignment="Center" 
-							VerticalAlignment="Center">
-                            <ContentControl.Foreground>
-                                <SolidColorBrush x:Name="ForegroundBrush" Color="{StaticResource AccentColor}" />
-                            </ContentControl.Foreground>
-                        </ContentControl>
-                    </Border>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
     </Style>
 
     <!--MAJOR TABS-->

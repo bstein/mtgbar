@@ -13,10 +13,10 @@ namespace MtGBar.Infrastructure.UIHelpers.Converters
         public Object Convert(Object value, Type targetType, Object parameter, CultureInfo culture)
         {
             if (value != null) {
-                CardAppearance appearance = (value as CardAppearance);
+                CardPrinting printing = (value as CardPrinting);
 
                 try {
-                    string localPath = ImageManager.GetSetSymbolPath(appearance.Set, appearance.Rarity); 
+                    string localPath = ImageManager.GetSetSymbolPath(printing.Set, printing.Rarity); 
                     Uri uri;
 
                     if (File.Exists(localPath)) {
@@ -24,9 +24,9 @@ namespace MtGBar.Infrastructure.UIHelpers.Converters
                         return new BitmapImage(uri);
                     }
                     else {
-                        uri = new Uri(ImageManager.GetSetSymbolUrl(appearance.Set, appearance.Rarity));
+                        uri = new Uri(ImageManager.GetSetSymbolUrl(printing.Set, printing.Rarity));
                         // download it for next time
-                        ImageManager.DownloadSetSymbol(appearance.Set, appearance.Rarity);
+                        ImageManager.DownloadSetSymbol(printing.Set, printing.Rarity);
                     }
                     return new BitmapImage(uri);
                 }

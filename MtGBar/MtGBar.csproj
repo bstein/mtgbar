@@ -152,12 +152,12 @@
     <Compile Include="Infrastructure\UIHelpers\Commands\LaunchCommand.cs" />
     <Compile Include="Infrastructure\UIHelpers\Commands\GathererViewCommand.cs" />
     <Compile Include="Infrastructure\UIHelpers\Commands\ViewUrlCommand.cs" />
-    <Compile Include="Infrastructure\UIHelpers\Converters\CardAppearancesMaxConverter.cs" />
-    <Compile Include="Infrastructure\UIHelpers\Converters\CardAppearancesVisibilityConverter.cs" />
+    <Compile Include="Infrastructure\UIHelpers\Converters\CardPrintingsMaxConverter.cs" />
+    <Compile Include="Infrastructure\UIHelpers\Converters\CardPrintingsVisibilityConverter.cs" />
     <Compile Include="Infrastructure\UIHelpers\Converters\CardBackgroundImageConverter.cs" />
     <Compile Include="Infrastructure\UIHelpers\Converters\CardCostCollectionVisibilityConverter.cs" />
     <Compile Include="Infrastructure\UIHelpers\Converters\CardCostConverter.cs" />
-    <Compile Include="Infrastructure\UIHelpers\Converters\CardFirstAppearanceConverter.cs" />
+    <Compile Include="Infrastructure\UIHelpers\Converters\CardFirstPrintingConverter.cs" />
     <Compile Include="Infrastructure\UIHelpers\Converters\CardPowerToughnessVisibilityConverter.cs" />
     <Compile Include="Infrastructure\UIHelpers\Converters\CardRarityStringConverter.cs" />
     <Compile Include="Infrastructure\UIHelpers\Converters\CardTextConverter.cs" />

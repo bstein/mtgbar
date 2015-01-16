@@ -45,12 +45,12 @@
             <bazamConvert:ObjectVisibilityConverter x:Key="ObjectVisibilityConverter" />
             <bazamConvert:StringVisibilityConverter x:Key="StringVisibilityConverter" />
             <commands:GathererViewCommand x:Key="GathererViewCommand" />
-            <convert:CardAppearancesMaxConverter x:Key="CardAppearancesMaxConverter" />
-            <convert:CardAppearancesVisibilityConverter x:Key="CardAppearancesVisibilityConverter" />
             <convert:CardBackgroundImageConverter x:Key="CardBackgroundImageConverter" />
             <convert:CardCostCollectionVisibilityConverter x:Key="CardCostCollectionVisibilityConverter" />
             <convert:CardCostConverter x:Key="CardCostConverter" />
             <convert:CardPowerToughnessVisibilityConverter x:Key="CardPowerToughnessVisibilityConverter" />
+            <convert:CardPrintingsMaxConverter x:Key="CardPrintingsMaxConverter" />
+            <convert:CardPrintingsVisibilityConverter x:Key="CardPrintingsVisibilityConverter" />
             <convert:CardRarityStringConverter x:Key="CardRarityStringConverter" />
             <convert:CardSetImageConverter x:Key="CardSetImageConverter" />
             <convert:CardTextConverter x:Key="CardTextConverter" />
@@ -299,7 +299,7 @@
                                 x:Name="theCardImage"
                                 Stretch="Uniform">
                                 <Image.Source>
-                                    <Binding Path="SelectedAppearanceImage" IsAsync="True" NotifyOnTargetUpdated="True">
+                                    <Binding Path="SelectedPrintingImage" IsAsync="True" NotifyOnTargetUpdated="True">
                                         <Binding.FallbackValue>
                                             <BitmapImage UriSource="pack://application:,,,/Assets/card-back.png" />
                                         </Binding.FallbackValue>
@@ -323,11 +323,11 @@
                         </StackPanel>
                     </Border>
                     <ListBox
-                        x:Name="lstAppearances"
-                        ItemsSource="{Binding SelectedCard.Appearances, Converter={StaticResource CardAppearancesMaxConverter}}"
-                        SelectedValue="{Binding SelectedAppearance, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                        Style="{StaticResource AppearancesListStyle}"
-                        Visibility="{Binding SelectedCard.Appearances, Converter={StaticResource CardAppearancesVisibilityConverter}}">
+                        x:Name="lstPrintings"
+                        ItemsSource="{Binding SelectedCard.Printings, Converter={StaticResource CardPrintingsMaxConverter}}"
+                        SelectedValue="{Binding SelectedPrinting, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                        Style="{StaticResource PrintingsListStyle}"
+                        Visibility="{Binding SelectedCard.Printings, Converter={StaticResource CardPrintingsVisibilityConverter}}">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
                                 <Image 
@@ -475,11 +475,11 @@
                         Orientation="Horizontal">
                         <Image 
                             Margin="0,0,4,0"
-                            Source="{Binding SelectedAppearance, Converter={StaticResource CardSetImageConverter}}" 
+                            Source="{Binding SelectedPrinting, Converter={StaticResource CardSetImageConverter}}" 
                             Style="{StaticResource CardSetSymbolStyle}" />
                         <TextBlock
                             Style="{StaticResource CardAttributeValueStyle}"
-                            Text="{Binding SelectedAppearance.Set.Name}" />
+                            Text="{Binding SelectedPrinting.Set.Name}" />
                     </StackPanel>
                     
                     <TextBlock 
@@ -487,14 +487,14 @@
                         Grid.Column="0"
                         Style="{StaticResource CardAttributeLabelStyle}"
                         Text="Artist"
-                        Visibility="{Binding SelectedAppearance.Artist, Converter={StaticResource StringVisibilityConverter}}" />
+                        Visibility="{Binding SelectedPrinting, Converter={StaticResource StringVisibilityConverter}}" />
 
                     <TextBlock 
                         Grid.Row="4"
                         Grid.Column="1"
                         Style="{StaticResource CardAttributeValueStyle}"
-                        Text="{Binding SelectedAppearance.Artist}" 
-                        Visibility="{Binding SelectedAppearance.Artist, Converter={StaticResource StringVisibilityConverter}}" />
+                        Text="{Binding SelectedPrinting.Artist}" 
+                        Visibility="{Binding SelectedPrinting.Artist, Converter={StaticResource StringVisibilityConverter}}" />
                     
                     <TextBlock 
                         Grid.Row="5"
@@ -521,12 +521,12 @@
                     </Button>
                         
                     <ItemsControl
-                        Grid.Row="5"
+                        Grid.Row="6"
                         Grid.Column="0"
                         Grid.ColumnSpan="2"
-                        ItemsSource="{Binding SelectedAppearance.FlavorText, Converter={StaticResource CardTextConverter}}"
+                        ItemsSource="{Binding SelectedPrinting.FlavorText, Converter={StaticResource CardTextConverter}}"
                         Margin="0,12,0,0"
-                        Visibility="{Binding SelectedAppearance.FlavorText, Converter={StaticResource StringVisibilityConverter}}">
+                        Visibility="{Binding SelectedPrinting.FlavorText, Converter={StaticResource StringVisibilityConverter}}">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
                                 <TextBlock
@@ -538,7 +538,7 @@
                     </ItemsControl>
 
                     <Grid
-                        Grid.Row="6"
+                        Grid.Row="7"
                         Grid.Column="0"
                         Grid.ColumnSpan="2"
                         Margin="0,30,0,0">
@@ -569,7 +569,7 @@
                             Grid.Row="1"
                             Grid.Column="0"
                             Command="{StaticResource GathererViewCommand}" 
-                            CommandParameter="{Binding SelectedAppearance.MultiverseID}"
+                            CommandParameter="{Binding SelectedPrinting.MultiverseID}"
                             Cursor="Hand"
                             HorizontalAlignment="Left"
                             VerticalAlignment="Top">

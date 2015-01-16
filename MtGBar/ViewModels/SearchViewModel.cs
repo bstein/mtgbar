@@ -33,10 +33,10 @@ namespace MtGBar.ViewModels
         private string _DefaultBackground;
         private Dictionary<string, Dictionary<string, string>> _PriceCache = new Dictionary<string, Dictionary<string, string>>();
         private string _SearchTerm;
-        private CardAppearance _SelectedAppearance;
-        private BitmapImage _SelectedAppearanceImage;
         private Card _SelectedCard;
-        private CardAppearance _SelectedPrintingTransformsIntoPrinting;
+        private CardPrinting _SelectedPrinting;
+        private BitmapImage _SelectedPrintingImage;
+        private CardPrinting _SelectedPrintingTransformsIntoPrinting;
         private Card _SelectedPrintingTransformsIntoCard;
         private bool _ShowPricingData;
         private string _TCGPlayerLink;
@@ -141,9 +141,9 @@ namespace MtGBar.ViewModels
                     (omgHaveAParam) => {
                         // have to retain a reference to the printing to select after we select the card (because selecting the
                         // card manipulates the SelectedPrintingTransformsIntoPrinting property.
-                        CardAppearance printingToSelect = SelectedPrintingTransformsIntoPrinting;
+                        CardPrinting printingToSelect = SelectedPrintingTransformsIntoPrinting;
                         SelectedCard = SelectedPrintingTransformsIntoCard;
-                        SelectedAppearance = printingToSelect;
+                        SelectedPrinting = printingToSelect;
                     }
                 ); 
             }
@@ -175,43 +175,6 @@ namespace MtGBar.ViewModels
             }
         }
 
-        public CardAppearance SelectedAppearance
-        {
-            get { return _SelectedAppearance; }
-            set
-            {
-                if (_SelectedAppearance != value) {
-                    _SelectedAppearance = value;
-                    if (value != null) {
-                        QueryPriceData();
-                        AppearanceSelected(value);
-
-                        if (!string.IsNullOrEmpty(value.TransformsToMultiverseID)) {
-                            SelectedPrintingTransformsIntoCard = AppState.Instance.MelekDataStore.GetCardByMultiverseID(value.TransformsToMultiverseID);
-                            SelectedPrintingTransformsIntoPrinting = SelectedPrintingTransformsIntoCard.Appearances.Where(p => p.MultiverseID == value.TransformsToMultiverseID).FirstOrDefault();
-                        }
-                    }
-                    else {
-                        SelectedPrintingTransformsIntoCard = null;
-                        SelectedPrintingTransformsIntoPrinting = null; 
-                    }
-                }
-                OnPropertyChanged("SelectedAppearance");
-            }
-        }
-
-        public BitmapImage SelectedAppearanceImage
-        {
-            get { return _SelectedAppearanceImage; }
-            private set
-            {
-                if (_SelectedAppearanceImage != value) {
-                    _SelectedAppearanceImage = value;
-                    OnPropertyChanged("SelectedAppearanceImage");
-                }
-            }
-        }
-
         public Card SelectedCard
         {
             get { return _SelectedCard; }
@@ -224,12 +187,12 @@ namespace MtGBar.ViewModels
                     ResetPriceData();
                     _PriceCache.Clear();
 
-                    // changing the selected appearance automatically requeries price data
+                    // changing the selected printing automatically requeries price data
                     if (value == null) {
-                        SelectedAppearance = null;
+                        SelectedPrinting = null;
                     }
                     else {
-                        SelectedAppearance = value.Appearances.OrderByDescending(a => a.Set.Date).First();
+                        SelectedPrinting = value.Printings.OrderByDescending(a => a.Set.Date).First();
                     }
 
                     OnPropertyChanged("SelectedCard");
@@ -240,7 +203,44 @@ namespace MtGBar.ViewModels
             }
         }
 
-        public CardAppearance SelectedPrintingTransformsIntoPrinting
+        public CardPrinting SelectedPrinting
+        {
+            get { return _SelectedPrinting; }
+            set
+            {
+                if (_SelectedPrinting != value) {
+                    _SelectedPrinting = value;
+                    if (value != null) {
+                        QueryPriceData();
+                        PrintingSelected(value);
+
+                        if (!string.IsNullOrEmpty(value.TransformsToMultiverseID)) {
+                            SelectedPrintingTransformsIntoCard = AppState.Instance.MelekDataStore.GetCardByMultiverseID(value.TransformsToMultiverseID);
+                            SelectedPrintingTransformsIntoPrinting = SelectedPrintingTransformsIntoCard.Printings.Where(p => p.MultiverseID == value.TransformsToMultiverseID).FirstOrDefault();
+                        }
+                    }
+                    else {
+                        SelectedPrintingTransformsIntoCard = null;
+                        SelectedPrintingTransformsIntoPrinting = null;
+                    }
+                }
+                OnPropertyChanged("SelectedPrinting");
+            }
+        }
+
+        public BitmapImage SelectedPrintingImage
+        {
+            get { return _SelectedPrintingImage; }
+            private set
+            {
+                if (_SelectedPrintingImage != value) {
+                    _SelectedPrintingImage = value;
+                    OnPropertyChanged("SelectedPrintingImage");
+                }
+            }
+        }
+
+        public CardPrinting SelectedPrintingTransformsIntoPrinting
         {
             get { return _SelectedPrintingTransformsIntoPrinting; }
             set
@@ -346,18 +346,6 @@ namespace MtGBar.ViewModels
         #endregion
 
         #region Private utility methods
-        private async void AppearanceSelected(CardAppearance appearance)
-        {
-            SelectedAppearanceImage = null;
-
-            if (appearance.Set.IsPromo && !string.IsNullOrEmpty(appearance.Set.MtgImageName)) {
-                SelectedAppearanceImage = await AppState.Instance.MelekDataStore.GetCardImage(appearance.Set, SelectedCard);
-            }
-            else {
-                SelectedAppearanceImage = await AppState.Instance.MelekDataStore.GetCardImage(appearance);
-            }
-        }
-
         private string ApplyPriceDefault(string price)
         {
             return price == string.Empty ? PRICE_DEFAULT : price;
@@ -381,11 +369,11 @@ namespace MtGBar.ViewModels
         private void QueryPriceData()
         {
             ResetPriceData();
-            if (_ShowPricingData && SelectedAppearance != null && SelectedCard != null) {
+            if (_ShowPricingData && SelectedPrinting != null && SelectedCard != null) {
                 // snag references to these in case they're gone by the time the async functions come back
-                string multiverseID = SelectedAppearance.MultiverseID;
+                string multiverseID = SelectedPrinting.MultiverseID;
                 Card selectedCard = SelectedCard;
-                Set set = SelectedAppearance.Set;
+                Set set = SelectedPrinting.Set;
 
                 BackgroundBuddy.RunAsync(() => {
                     AmazonLink = VendorRelations.GetAmazonLink(selectedCard);
@@ -433,6 +421,18 @@ namespace MtGBar.ViewModels
                     }
                     TCGPlayerPrice = ApplyPriceDefault(tcgPlayerPrice);
                 });
+            }
+        }
+
+        private async void PrintingSelected(CardPrinting printing)
+        {
+            SelectedPrintingImage = null;
+
+            if (printing.Set.IsPromo && !string.IsNullOrEmpty(printing.Set.MtgImageName)) {
+                SelectedPrintingImage = await AppState.Instance.MelekDataStore.GetCardImage(printing.Set, SelectedCard);
+            }
+            else {
+                SelectedPrintingImage = await AppState.Instance.MelekDataStore.GetCardImage(printing);
             }
         }
 
@@ -498,7 +498,7 @@ namespace MtGBar.ViewModels
 
             // then set up pretty picchurs
             foreach (CardViewModel vm in CardMatches) {
-                vm.FullSize = await AppState.Instance.MelekDataStore.GetCardImage(vm.Card.Appearances[0]);
+                vm.FullSize = await AppState.Instance.MelekDataStore.GetCardImage(vm.Card.Printings[0]);
                 if (vm.FullSize != null) {
                     vm.Thumbnail = new CroppedBitmap(vm.FullSize, new Int32Rect(54, 54, 84, 84));
                 }

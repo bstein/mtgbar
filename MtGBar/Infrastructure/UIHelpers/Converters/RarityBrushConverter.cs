@@ -11,7 +11,7 @@ namespace MtGBar.Infrastructure.UIHelpers.Converters
         public Object Convert(Object value, Type targetType, Object parameter, CultureInfo culture)
         {
             if (value != null) {
-                switch ((value as Card).Appearances[0].Rarity) {
+                switch ((value as Card).Printings[0].Rarity) {
                     case CardRarity.C:
                         return App.Current.FindResource("CommonBrush");
                     case CardRarity.U:
@@ -28,7 +28,7 @@ namespace MtGBar.Infrastructure.UIHelpers.Converters
             return App.Current.FindResource("ForegroundBrush");
         }
 
-        public object ConvertBack(Object value, Type targetType, Object parameter, System.Globalization.CultureInfo culture)
+        public object ConvertBack(Object value, Type targetType, Object parameter, CultureInfo culture)
         {
             throw new NotImplementedException();
         }

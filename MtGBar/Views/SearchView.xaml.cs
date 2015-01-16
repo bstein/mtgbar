@@ -60,10 +60,10 @@ namespace MtGBar.Views
                     NextListItem(lstResults, false);
                     break;
                 case Key.Right:
-                    NextListItem(lstAppearances, true);
+                    NextListItem(lstPrintings, true);
                     break;
                 case Key.Left:
-                    NextListItem(lstAppearances, false);
+                    NextListItem(lstPrintings, false);
                     break;
                 case Key.Return:
                     ViewModel.SelectedCard = (lstResults.SelectedItem as CardViewModel).Card;
@@ -128,7 +128,7 @@ namespace MtGBar.Views
 
         private void this_PreviewKeyDown(object sender, KeyEventArgs e)
         {
-            // this allows me to use the left and right arrow keys to page through the card's appearances. 
+            // this allows me to use the left and right arrow keys to page through the card's printings. 
             // if they're hitting one of those keys, let the event go through. Otherwise, refocus the textbox
             if (e.Key != Key.Left && e.Key != Key.Right) {
                 TheTextBox.Focus();

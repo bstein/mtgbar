@@ -1,22 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
+using System.Windows;
 using System.Windows.Data;
 using Melek.Models;
 
 namespace MtGBar.Infrastructure.UIHelpers.Converters
 {
-    public class CardFirstAppearanceConverter : IValueConverter
+    public class CardPrintingsVisibilityConverter : IValueConverter
     {
         public Object Convert(Object value, Type targetType, Object parameter, CultureInfo culture)
         {
-            IOrderedEnumerable<CardAppearance> appearances = (value as List<CardAppearance>).OrderByDescending(a => a.Set.Date);
-            CardAppearance first = appearances.FirstOrDefault(a => a.Set.IsPromo == false);
-            if (first == null) {
-                first = appearances.FirstOrDefault();
-            }
-            return first;
+            List<CardPrinting> printings = value as List<CardPrinting>;
+            return printings.Count > 1 ? Visibility.Visible : Visibility.Collapsed;
         }
 
         public object ConvertBack(Object value, Type targetType, Object parameter, System.Globalization.CultureInfo culture)
