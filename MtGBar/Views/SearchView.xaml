@@ -513,6 +513,7 @@
                             <ControlTemplate>
                                 <StackPanel>
                                     <TextBlock 
+                                        Foreground="{StaticResource AccentBrush}"
                                         Style="{StaticResource CardAttributeValueStyle}"
                                         Text="{Binding SelectedPrintingTransformsIntoCard.Name}" />
                                 </StackPanel>
