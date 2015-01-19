@@ -290,14 +290,15 @@
                     Grid.Row="0"
                     Grid.Column="0"
                     Grid.RowSpan="3">
-                    <Border Style="{StaticResource CardImageStyle}">
+                    <Border Style="{StaticResource CardImageBorderStyle}">
                         <StackPanel Style="{StaticResource CardImageContainerStyle}">
                             <StackPanel.Background>
                                 <ImageBrush ImageSource="/Assets/card-back.png" />
                             </StackPanel.Background>
                             <Image
                                 x:Name="theCardImage"
-                                Stretch="Uniform">
+                                Stretch="Uniform"
+                                Style="{StaticResource CardImageStyle}">
                                 <Image.Source>
                                     <Binding Path="SelectedPrintingImage" IsAsync="True" NotifyOnTargetUpdated="True">
                                         <Binding.FallbackValue>

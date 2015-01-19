@@ -500,7 +500,7 @@ namespace MtGBar.ViewModels
             foreach (CardViewModel vm in CardMatches) {
                 vm.FullSize = await AppState.Instance.MelekDataStore.GetCardImage(vm.Card.Printings[0]);
                 if (vm.FullSize != null) {
-                    vm.Thumbnail = new CroppedBitmap(vm.FullSize, new Int32Rect(54, 54, 84, 84));
+                    vm.Thumbnail = new CroppedBitmap(vm.FullSize, new Int32Rect(120, 100, 240, 240));
                 }
             }
         }
