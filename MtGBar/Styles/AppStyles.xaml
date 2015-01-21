@@ -6,9 +6,9 @@
     <!--Colors-->
     <!--Note that what would ordinarily be "AccentColor" is "MyAccentColor" here to avoid collision with MUI.-->
     <Color x:Key="MyAccentColor">#FF7A32</Color>
-    <Color x:Key="BackgroundColor" R="44" G="44" B="44" A="255" />
+    <Color x:Key="BackgroundColor">#444444</Color>
     <Color x:Key="ForegroundColor">#FFFFFF</Color>
-    <Color x:Key="SubtleColor" R="168" G="168" B="168" A="255" />
+    <Color x:Key="SubtleColor">#A8A8A8</Color>
 
     <Color x:Key="CommonColor">#FFFFFF</Color>
 
