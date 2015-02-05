@@ -223,10 +223,10 @@
                                         </VisualBrush.Visual>
                                     </VisualBrush>
                                 </Border.Background>
-                                
                             </Border>
                             <StackPanel>
                                 <TextBlock 
+                                    Canvas.ZIndex="1"
                                     Style="{StaticResource ResultTitleStyle}"
                                     Text="{Binding Card.Name}" />
                                 <StackPanel 
@@ -342,11 +342,6 @@
                     </ListBox>
                 </StackPanel>
                 
-                <TextBlock
-                    Grid.Row="0"
-                    Grid.Column="1"
-                    Style="{StaticResource CardTitleStyle}" 
-                    Text="{Binding SelectedCard.Name}"/>
                 <StackPanel
                     Grid.Row="1"
                     Grid.Column="1"
@@ -360,6 +355,12 @@
                         Style="{StaticResource CardSubtitleStyle}"
                         Text="{Binding SelectedCard, Converter={StaticResource CardTypeStringConverter}}" />
                 </StackPanel>
+                <TextBlock
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    Style="{StaticResource CardTitleStyle}" 
+                    Text="{Binding SelectedCard.Name}" />
+                
                 <Grid
                     Grid.Row="2"
                     Grid.Column="1"

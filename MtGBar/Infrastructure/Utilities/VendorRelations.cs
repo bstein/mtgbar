@@ -10,16 +10,16 @@ namespace MtGBar.Infrastructure.Utilities
 {
     public static class VendorRelations
     {
-        public static string GetAmazonLink(Card card)
+        public static string GetAmazonLink(Card card, Set set)
         {
             string cardName = card.Name.Replace("/", string.Empty).ToLower();
-            return "http://www.amazon.com/s/field-keywords=mtg+" + HttpUtility.UrlEncode(cardName);
+            return "http://www.amazon.com/s/field-keywords=mtg+" + HttpUtility.UrlEncode(set.Name).ToLower() + "+" + HttpUtility.UrlEncode(cardName);
         }
 
-        public static string GetAmazonPrice(Card card)
+        public static string GetAmazonPrice(Card card, Set set)
         {
             try {
-                string url = VendorRelations.GetAmazonLink(card);
+                string url = VendorRelations.GetAmazonLink(card, set);
                 string html = new WebClient().DownloadString(url);
 
                 Match match = Regex.Match(html, "<div id=\"atfResults\"[\\s\\S]+?(\\$[0-9]+\\.[0-9]{2})");

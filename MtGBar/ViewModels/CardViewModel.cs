@@ -1,5 +1,4 @@
-﻿using System.Windows;
-using System.Windows.Media.Imaging;
+﻿using System.Windows.Media.Imaging;
 using BazamWPF.ViewModels;
 using Melek.Models;
 
@@ -7,7 +6,9 @@ namespace MtGBar.ViewModels
 {
     public class CardViewModel : ViewModelBase
     {
+        [RelatedProperty("FullSize")]
         private BitmapImage _FullSize;
+        [RelatedProperty("Thumbnail")]
         private CroppedBitmap _Thumbnail;
 
         public Card Card { get; private set; }
@@ -15,25 +16,13 @@ namespace MtGBar.ViewModels
         public BitmapImage FullSize
         {
             get { return _FullSize; }
-            set
-            {
-                if (_FullSize != value) {
-                    _FullSize = value;
-                    OnPropertyChanged("FullSize");
-                }
-            }
+            set { ChangeProperty<CardViewModel>(c => c.FullSize, value); }
         }
 
         public CroppedBitmap Thumbnail 
         {
             get { return _Thumbnail; }
-            set
-            {
-                if (_Thumbnail != value) {
-                    _Thumbnail = value;
-                    OnPropertyChanged("Thumbnail");
-                }
-            }
+            set { ChangeProperty<CardViewModel>(c => c.Thumbnail, value); }
         }
 
         public CardViewModel(Card card)

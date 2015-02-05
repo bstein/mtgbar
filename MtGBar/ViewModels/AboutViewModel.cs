@@ -18,13 +18,15 @@ namespace MtGBar.ViewModels
 {
     public class AboutViewModel : ViewModelBase
     {
+        [RelatedProperty("CardsDirectorySize")]
         private string _CardsDirectorySize = string.Empty;
         private ICommand _ClearAppDataCacheCommand = new ClearAppDataCacheCommand();
         private ICommand _ClearCardCacheCommand = new ClearCardCacheCommand();
         private DisplayViewModel[] _DisplayViewModels;
         private HotkeyDescription _Hotkey { get; set; }
         private string _HotkeyString { get; set; }
-        private IEnumerable<Package> _Packages { get; set; }
+        [RelatedProperty("Packages")]
+        private IEnumerable<Package> _Packages;
         private DisplayViewModel _SelectedDisplay = null;
         public IEnumerable<TweetViewModel> _Tweets = new List<TweetViewModel>();
 
@@ -76,13 +78,7 @@ namespace MtGBar.ViewModels
         public string CardsDirectorySize
         {
             get { return _CardsDirectorySize; }
-            set
-            {
-                if (_CardsDirectorySize != value) {
-                    _CardsDirectorySize = value;
-                    OnPropertyChanged("CardsDirectorySize");
-                }
-            }
+            set { ChangeProperty<AboutViewModel>(vm => vm.CardsDirectorySize, value); }
         }
 
         public ICommand ClearAppDatacacheCommand
@@ -103,7 +99,7 @@ namespace MtGBar.ViewModels
                 if (AppState.Instance.Settings.DismissOnFocusLoss != value) {
                     AppState.Instance.Settings.DismissOnFocusLoss = value;
                     AppState.Instance.Settings.Save();
-                    OnPropertyChanged("DismissOnFocusLoss");
+                    RaisePropertyChanged("DismissOnFocusLoss");
                 }
             }
         }
@@ -121,11 +117,7 @@ namespace MtGBar.ViewModels
         public IEnumerable<Package> Packages
         {
             get { return _Packages; }
-            set
-            {
-                _Packages = value;
-                OnPropertyChanged("Packages");
-            }
+            set { ChangeProperty<AboutViewModel>(vm => vm.Packages, value); }
         }
 
         public HotkeyDescription Hotkey
@@ -158,8 +150,8 @@ namespace MtGBar.ViewModels
                         AppState.Instance.Settings.Save();
                     }
 
-                    OnPropertyChanged("Hotkey");
-                    OnPropertyChanged("HotkeyString");
+                    RaisePropertyChanged("Hotkey");
+                    RaisePropertyChanged("HotkeyString");
                 }
             }
         }
@@ -177,7 +169,7 @@ namespace MtGBar.ViewModels
                 if (AppState.Instance.Settings.SaveCardImageData != value) {
                     AppState.Instance.Settings.SaveCardImageData = value;
                     AppState.Instance.Settings.Save();
-                    OnPropertyChanged("SaveCardImageData");
+                    RaisePropertyChanged("SaveCardImageData");
                 }
             }
         }
@@ -191,7 +183,7 @@ namespace MtGBar.ViewModels
                     _SelectedDisplay = value;
                     AppState.Instance.Settings.DisplayIndex = value.Index;
                     AppState.Instance.Settings.Save();
-                    OnPropertyChanged("SelectedDisplay");
+                    RaisePropertyChanged("SelectedDisplay");
                 }
             }
         }
@@ -204,7 +196,7 @@ namespace MtGBar.ViewModels
                 if (AppState.Instance.Settings.ShowPricingData != value) {
                     AppState.Instance.Settings.ShowPricingData = value;
                     AppState.Instance.Settings.Save();
-                    OnPropertyChanged("ShowPricingData");
+                    RaisePropertyChanged("ShowPricingData");
                 }
             }
         }
@@ -217,7 +209,7 @@ namespace MtGBar.ViewModels
                 if (AppState.Instance.Settings.StartOnSignIn != value) {
                     AppState.Instance.Settings.StartOnSignIn = value;
                     AppState.Instance.Settings.Save();
-                    OnPropertyChanged("StartOnSignIn");
+                    RaisePropertyChanged("StartOnSignIn");
                 }
             }
         }
@@ -233,8 +225,8 @@ namespace MtGBar.ViewModels
             private set
             {
                 _Tweets = value;
-                OnPropertyChanged("Tweets");
-                OnPropertyChanged("TweetCount");
+                RaisePropertyChanged("Tweets");
+                RaisePropertyChanged("TweetCount");
             }
         }
 

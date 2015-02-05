@@ -55,7 +55,7 @@ namespace MtGBar.Infrastructure
                 MelekDataStore = new MelekDataStore(FileSystemManager.MelekDataDirectory, Settings.SaveCardImageData, LoggingNinja);
             }
             else {
-                MelekDataStore = new MelekDataStore(FileSystemManager.MelekDataDirectory, Settings.SaveCardImageData, LoggingNinja, Settings.MelekDevAuthkey);
+                MelekDataStore = new MelekDataStore(FileSystemManager.MelekDataDirectory, Settings.SaveCardImageData, LoggingNinja, false, Settings.MelekDevAuthkey);
             }
 
             Settings.Updated += (theSettings, omgChanged) => {

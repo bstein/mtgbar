@@ -25,25 +25,43 @@ namespace MtGBar.ViewModels
         #endregion
 
         #region Fields
+        [RelatedProperty("AmazonLink")]
         private string _AmazonLink;
+        [RelatedProperty("AmazonPrice")]
         private string _AmazonPrice = PRICE_DEFAULT;
+        [RelatedProperty("CardMatches")]
         private CardViewModel[] _CardMatches;
+        [RelatedProperty("CFLink")]
         private string _CFLink;
+        [RelatedProperty("CFPrice")]
         private string _CFPrice = PRICE_DEFAULT;
         private string _DefaultBackground;
         private Dictionary<string, Dictionary<string, string>> _PriceCache = new Dictionary<string, Dictionary<string, string>>();
+        [RelatedProperty("SearchTerm")]
         private string _SearchTerm;
+        [RelatedProperty("SelectedCard")]
         private Card _SelectedCard;
+        [RelatedProperty("SelectedPrinting")]
         private CardPrinting _SelectedPrinting;
+        [RelatedProperty("SelectedPrintingImage")]
         private BitmapImage _SelectedPrintingImage;
+        [RelatedProperty("SelectedPrintingTransformsIntoPrinting")]
         private CardPrinting _SelectedPrintingTransformsIntoPrinting;
+        [RelatedProperty("SelectedPrintingTransformsIntoCard")]
         private Card _SelectedPrintingTransformsIntoCard;
+        [RelatedProperty("ShowPricingData")]
         private bool _ShowPricingData;
+        [RelatedProperty("TCGPlayerLink")]
         private string _TCGPlayerLink;
+        [RelatedProperty("TCGPlayerPrice")]
         private string _TCGPlayerPrice = PRICE_DEFAULT;
+        [RelatedProperty("WatermarkText")]
         private string _WatermarkText;
+        [RelatedProperty("WindowHeight")]
         private int _WindowHeight;
+        [RelatedProperty("WindowLeft")]
         private int _WindowLeft;
+        [RelatedProperty("WindowTop")]
         private int _WindowTop;
         #endregion
 
@@ -68,59 +86,31 @@ namespace MtGBar.ViewModels
         public string AmazonLink
         {
             get { return _AmazonLink; }
-            set
-            {
-                if (_AmazonLink != value) {
-                    _AmazonLink = value;
-                    OnPropertyChanged("AmazonLink");
-                }
-            }
+            set { ChangeProperty<SearchViewModel>(vm => vm.AmazonLink, value); }
         }
 
         public string AmazonPrice
         {
             get { return _AmazonPrice; }
-            set
-            {
-                if (_AmazonPrice != value) {
-                    _AmazonPrice = value;
-                    OnPropertyChanged("AmazonPrice");
-                }
-            }
+            set { ChangeProperty<SearchViewModel>(vm => vm.AmazonPrice, value); }
         }
 
         public CardViewModel[] CardMatches
         {
             get { return _CardMatches; }
-            set
-            {
-                _CardMatches = value;
-                OnPropertyChanged("CardMatches");
-            }
+            set { ChangeProperty<SearchViewModel>(vm => vm.CardMatches, value); }
         }
 
         public string CFLink
         {
             get { return _CFLink; }
-            set
-            {
-                if (_CFLink != value) {
-                    _CFLink = value;
-                    OnPropertyChanged("CFLink");
-                }
-            }
+            set { ChangeProperty<SearchViewModel>(vm => vm.CFLink, value); }
         }
 
         public string CFPrice
         {
             get { return _CFPrice; }
-            set
-            {
-                if (_CFPrice != value) {
-                    _CFPrice = value;
-                    OnPropertyChanged("CFPrice");
-                }
-            }
+            set { ChangeProperty<SearchViewModel>(vm => vm.CFPrice, value); }
         }
 
         public string DefaultBackground
@@ -159,7 +149,6 @@ namespace MtGBar.ViewModels
                 }
 
                 if (_SearchTerm != value) {
-                    _SearchTerm = value;
                     string searchTerm = value.Trim().ToLower();
                     string setCode = string.Empty;
                     Match setCodeMatch = Regex.Match(searchTerm, "^([a-z0-9]{2,3}):");
@@ -170,7 +159,7 @@ namespace MtGBar.ViewModels
                     }
 
                     UpdateResults(searchTerm, setCode);
-                    OnPropertyChanged("SearchTerm");
+                    ChangeProperty<SearchViewModel>(vm => vm.SearchTerm, value);
                 }
             }
         }
@@ -182,7 +171,6 @@ namespace MtGBar.ViewModels
             {
                 if (SelectedCard != value) {
                     _SelectedCard = value;
-
                     // clear the price cache
                     ResetPriceData();
                     _PriceCache.Clear();
@@ -195,7 +183,7 @@ namespace MtGBar.ViewModels
                         SelectedPrinting = value.Printings.OrderByDescending(a => a.Set.Date).First();
                     }
 
-                    OnPropertyChanged("SelectedCard");
+                    RaisePropertyChanged("SelectedCard");
                     if (CardSelected != null) {
                         CardSelected(this, EventArgs.Empty);
                     }
@@ -209,7 +197,7 @@ namespace MtGBar.ViewModels
             set
             {
                 if (_SelectedPrinting != value) {
-                    _SelectedPrinting = value;
+                    ChangeProperty<SearchViewModel>(vm => vm.SelectedPrinting, value);
                     if (value != null) {
                         QueryPriceData();
                         PrintingSelected(value);
@@ -224,124 +212,67 @@ namespace MtGBar.ViewModels
                         SelectedPrintingTransformsIntoPrinting = null;
                     }
                 }
-                OnPropertyChanged("SelectedPrinting");
             }
         }
 
         public BitmapImage SelectedPrintingImage
         {
             get { return _SelectedPrintingImage; }
-            private set
-            {
-                if (_SelectedPrintingImage != value) {
-                    _SelectedPrintingImage = value;
-                    OnPropertyChanged("SelectedPrintingImage");
-                }
-            }
+            private set { ChangeProperty<SearchViewModel>(vm => vm.SelectedPrintingImage, value); }
         }
 
         public CardPrinting SelectedPrintingTransformsIntoPrinting
         {
             get { return _SelectedPrintingTransformsIntoPrinting; }
-            set
-            {
-                _SelectedPrintingTransformsIntoPrinting = value;
-                OnPropertyChanged("SelectedPrintingTransformsIntoPrinting");
-            }
+            set { ChangeProperty<SearchViewModel>(vm => vm.SelectedPrintingTransformsIntoPrinting, value); }
         }
 
         public Card SelectedPrintingTransformsIntoCard
         {
             get { return _SelectedPrintingTransformsIntoCard; }
-            set
-            {
-                _SelectedPrintingTransformsIntoCard = value;
-                OnPropertyChanged("SelectedPrintingTransformsIntoCard");
-            }
+            set { ChangeProperty<SearchViewModel>(vm => vm.SelectedPrintingTransformsIntoCard, value); }
         }
 
         public bool ShowPricingData
         {
             get { return _ShowPricingData; }
-            set
-            {
-                if (_ShowPricingData != value) {
-                    _ShowPricingData = value;
-                    OnPropertyChanged("ShowPricingData");
-                }
-            }
+            set { ChangeProperty<SearchViewModel>(vm => vm.ShowPricingData, value); }
         }
 
         public string TCGPlayerLink
         {
             get { return _TCGPlayerLink; }
-            set
-            {
-                if (_TCGPlayerLink != value) {
-                    _TCGPlayerLink = value;
-                    OnPropertyChanged("TCGPlayerLink");
-                }
-            }
+            set { ChangeProperty<SearchViewModel>(vm => vm.TCGPlayerLink, value); }
         }
 
         public string TCGPlayerPrice
         {
             get { return _TCGPlayerPrice; }
-            set
-            {
-                if (_TCGPlayerPrice != value) {
-                    _TCGPlayerPrice = value;
-                    OnPropertyChanged("TCGPlayerPrice");
-                }
-            }
+            set { ChangeProperty<SearchViewModel>(vm => vm.TCGPlayerPrice, value); }
         }
 
         public string WatermarkText
         {
             get { return _WatermarkText; }
-            set
-            {
-                if (_WatermarkText != value) {
-                    _WatermarkText = value;
-                    OnPropertyChanged("WatermarkText");
-                }
-            }
+            set { ChangeProperty<SearchViewModel>(vm => vm.WatermarkText, value); }
         }
 
         public int WindowHeight
         {
             get { return _WindowHeight; }
-            set
-            {
-                if (_WindowHeight != value) {
-                    _WindowHeight = value;
-                    OnPropertyChanged("WindowHeight");
-                }
-            }
+            set { ChangeProperty<SearchViewModel>(vm => vm.WindowHeight, value); }
         }
 
         public int WindowLeft
         {
             get { return _WindowLeft; }
-            set
-            {
-                if (_WindowLeft != value) {
-                    _WindowLeft = value;
-                    OnPropertyChanged("WindowLeft");
-                }
-            }
+            set { ChangeProperty<SearchViewModel>(vm => vm.WindowLeft, value); }
         }
 
         public int WindowTop
         {
             get { return _WindowTop; }
-            set
-            {
-                if (_WindowTop != value) {
-                    _WindowTop = value;
-                    OnPropertyChanged("WindowTop");
-                }
-            }
+            set { ChangeProperty<SearchViewModel>(vm => vm.WindowTop, value); }
         }
         #endregion
 
@@ -376,14 +307,14 @@ namespace MtGBar.ViewModels
                 Set set = SelectedPrinting.Set;
 
                 BackgroundBuddy.RunAsync(() => {
-                    AmazonLink = VendorRelations.GetAmazonLink(selectedCard);
+                    AmazonLink = VendorRelations.GetAmazonLink(selectedCard, set);
 
                     string amazonPrice = string.Empty;
                     if (IsPriceCached(multiverseID, "amazon")) {
                         amazonPrice = _PriceCache[multiverseID]["amazon"];
                     }
                     else {
-                        amazonPrice = VendorRelations.GetAmazonPrice(selectedCard);
+                        amazonPrice = VendorRelations.GetAmazonPrice(selectedCard, set);
                         CachePrice(multiverseID, "amazon", amazonPrice);
                     }
                     AmazonPrice = ApplyPriceDefault(amazonPrice);
