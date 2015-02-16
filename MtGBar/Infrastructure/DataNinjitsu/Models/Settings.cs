@@ -91,13 +91,11 @@ namespace MtGBar.Infrastructure.DataNinjitsu.Models
             string allProgramsPath = Environment.GetFolderPath(Environment.SpecialFolder.Programs);
             string shortcutPath = Path.Combine(allProgramsPath, publisherName);
             shortcutPath = Path.Combine(shortcutPath, productName) + ".appref-ms";
-            AppState.Instance.LoggingNinja.LogMessage("Resolved shortcut path to " + shortcutPath);
             regKey.DeleteSubKey("MtGBar", false);
 
             if (StartOnSignIn) {
                 regKey.SetValue("MtGBar", shortcutPath);
                 regKey.Close();
-                AppState.Instance.LoggingNinja.LogMessage("Created the reg key.");
             }
 
             if (Updated != null) {

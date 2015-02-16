@@ -4,6 +4,7 @@ using System.Windows.Media.Imaging;
 using Bazam.KeyAdept;
 using Bazam.KeyAdept.Infrastructure;
 using Hardcodet.Wpf.TaskbarNotification;
+using Melek.DataStore;
 using Melek.Utilities;
 using MtGBar.Infrastructure.DataNinjitsu.Models;
 using MtGBar.Infrastructure.UIHelpers.Commands;
@@ -47,9 +48,9 @@ namespace MtGBar.Infrastructure
 
         private AppState()
         {
+            LoggingNinja = new LoggingNinja(FileSystemManager.LogFileName);
             Settings = new Settings();
             HotkeyRegistrar = new HotkeyRegistrar();
-            LoggingNinja = new LoggingNinja(FileSystemManager.LogFileName);
 
             if (string.IsNullOrEmpty(Settings.MelekDevAuthkey)) {
                 MelekDataStore = new MelekDataStore(FileSystemManager.MelekDataDirectory, Settings.SaveCardImageData, LoggingNinja);

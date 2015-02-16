@@ -11,6 +11,7 @@ using System.Windows.Media.Imaging;
 using Bazam.Modules;
 using BazamWPF.UIHelpers;
 using BazamWPF.ViewModels;
+using Melek.DataStore;
 using Melek.Models;
 using MtGBar.Infrastructure;
 using MtGBar.Infrastructure.Utilities;
@@ -409,7 +410,14 @@ namespace MtGBar.ViewModels
 
         private async void UpdateResults(string searchTerm, string setCode)
         {
-            Card[] results = await Task<Card[]>.Factory.StartNew(() => { return AppState.Instance.MelekDataStore.Search(searchTerm, setCode).Take(5).ToArray(); });
+            Card[] results = await Task<Card[]>.Factory.StartNew(() => { 
+                return AppState.Instance.MelekDataStore.Search(
+                    new DataStoreSearchArgs() {
+                        Name = searchTerm,
+                        SetCode = setCode
+                    }
+                ).Take(5).ToArray(); 
+            });
             List<CardViewModel> vms = new List<CardViewModel>();
 
             foreach (Card card in results) {
