@@ -84,6 +84,11 @@ namespace MtGBar.Infrastructure.Utilities
             return "http://gatherer.wizards.com/Pages/Card/Details.aspx?multiverseid=" + multiverseID;
         }
 
+        public static string GetMagicCardsInfoLink(string cardName)
+        {
+            return string.Format("http://magiccards.info/query?q={0}&v=card&s=cname", HttpUtility.UrlEncode(cardName));
+        }
+
         public static string GetTCGPlayerLinkDefault(string cardName, Set set)
         {
             return string.Format("http://store.tcgplayer.com/magic/{0}/{1}", Slugger.Slugify(string.IsNullOrEmpty(set.TCGPlayerName) ? set.Name : set.TCGPlayerName), Slugger.Slugify(cardName));

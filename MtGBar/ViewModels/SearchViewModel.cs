@@ -37,6 +37,10 @@ namespace MtGBar.ViewModels
         [RelatedProperty("CFPrice")]
         private string _CFPrice = PRICE_DEFAULT;
         private string _DefaultBackground;
+        [RelatedProperty("GathererLink")]
+        private string _GathererLink;
+        [RelatedProperty("MagicCardsInfoLink")]
+        private string _MagicCardsInfoLink;
         private Dictionary<string, Dictionary<string, string>> _PriceCache = new Dictionary<string, Dictionary<string, string>>();
         [RelatedProperty("SearchTerm")]
         private string _SearchTerm;
@@ -138,6 +142,18 @@ namespace MtGBar.ViewModels
                     }
                 ); 
             }
+        }
+
+        public string GathererLink
+        {
+            get { return _GathererLink; }
+            set { ChangeProperty<SearchViewModel>(s => s.GathererLink, value); }
+        }
+
+        public string MagicCardsInfoLink
+        {
+            get { return _MagicCardsInfoLink; }
+            set { ChangeProperty<SearchViewModel>(s => s.MagicCardsInfoLink, value); }
         }
 
         public string SearchTerm
@@ -306,6 +322,10 @@ namespace MtGBar.ViewModels
                 string multiverseID = SelectedPrinting.MultiverseID;
                 Card selectedCard = SelectedCard;
                 Set set = SelectedPrinting.Set;
+                
+                // get the gatherer and magiccards.info links, because that's an easy chestnut
+                GathererLink = VendorRelations.GetGathererLink(SelectedPrinting.MultiverseID);
+                MagicCardsInfoLink = VendorRelations.GetMagicCardsInfoLink(selectedCard.Name);
 
                 BackgroundBuddy.RunAsync(() => {
                     AmazonLink = VendorRelations.GetAmazonLink(selectedCard, set);
@@ -380,6 +400,7 @@ namespace MtGBar.ViewModels
             AmazonPrice = PRICE_DEFAULT;
             CFLink = string.Empty;
             CFPrice = PRICE_DEFAULT;
+            MagicCardsInfoLink = string.Empty;
             TCGPlayerLink = string.Empty;
             TCGPlayerPrice = PRICE_DEFAULT;
         }

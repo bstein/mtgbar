@@ -6,7 +6,6 @@
     xmlns:bazamConvert="clr-namespace:BazamWPF.ValueConverters;assembly=BazamWPF"
     xmlns:bazamUI="clr-namespace:BazamWPF.UIHelpers;assembly=BazamWPF"
     xmlns:behaviors="clr-namespace:MtGBar.Infrastructure.UIHelpers.Behaviors"
-    xmlns:commands="clr-namespace:MtGBar.Infrastructure.UIHelpers.Commands"
     xmlns:controls="clr-namespace:MtGBarControls;assembly=MtGBarControls"
     xmlns:convert="clr-namespace:MtGBar.Infrastructure.UIHelpers.Converters"
     xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
@@ -44,7 +43,6 @@
             <bazamConvert:CapitalizationConverter x:Key="CapitalizationConverter" />
             <bazamConvert:ObjectVisibilityConverter x:Key="ObjectVisibilityConverter" />
             <bazamConvert:StringVisibilityConverter x:Key="StringVisibilityConverter" />
-            <commands:GathererViewCommand x:Key="GathererViewCommand" />
             <convert:CardBackgroundImageConverter x:Key="CardBackgroundImageConverter" />
             <convert:CardCostCollectionVisibilityConverter x:Key="CardCostCollectionVisibilityConverter" />
             <convert:CardCostConverter x:Key="CardCostConverter" />
@@ -544,8 +542,10 @@
                         Grid.Row="7"
                         Grid.Column="0"
                         Grid.ColumnSpan="2"
-                        Margin="0,30,0,0">
+                        Margin="0,30,0,30">
                         <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
@@ -571,154 +571,212 @@
                         <Button 
                             Grid.Row="1"
                             Grid.Column="0"
-                            Command="{StaticResource GathererViewCommand}" 
-                            CommandParameter="{Binding SelectedPrinting.MultiverseID}"
-                            Cursor="Hand"
-                            HorizontalAlignment="Left"
-                            VerticalAlignment="Top">
+                            Command="{StaticResource ViewUrlCommand}"
+                            CommandParameter="{Binding GathererLink}"
+                            Style="{StaticResource CardVendorButtonStyle}">
                             <Button.Template>
                                 <ControlTemplate>
-                                    <Image Style="{StaticResource CardDatabaseImageStyle}" Source="/Assets/gatherer-logo.png" />
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition />
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="30" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+                                        <Image 
+                                                Grid.Row="0"
+                                                Grid.Column="0"
+                                                Height="16" 
+                                                Width="16" 
+                                                Source="/Assets/gatherer-favicon.ico"
+                                                VerticalAlignment="Center" />
+                                        <TextBlock 
+                                                Grid.Row="0"
+                                                Grid.Column="1"
+                                                Foreground="{StaticResource ForegroundBrush}" 
+                                                Margin="4,-4,0,0"
+                                                Style="{StaticResource CardAttributeValueStyle}"
+                                                Text="gatherer"
+                                                VerticalAlignment="Center" />
+                                    </Grid>
                                 </ControlTemplate>
                             </Button.Template>
                         </Button>
 
-                        <StackPanel
+                        <Button 
+                            Grid.Row="2"
+                            Grid.Column="0"
+                            Command="{StaticResource ViewUrlCommand}"
+                            CommandParameter="{Binding MagicCardsInfoLink}"
+                            Style="{StaticResource CardVendorButtonStyle}">
+                            <Button.Template>
+                                <ControlTemplate>
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition />
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="30" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+                                        <Image 
+                                            Grid.Row="0"
+                                            Grid.Column="0"
+                                            Height="16" 
+                                            Width="16" 
+                                            Source="/Assets/magiccardsinfo-favicon.png"
+                                            VerticalAlignment="Center" />
+                                        <TextBlock 
+                                            Grid.Row="0"
+                                            Grid.Column="1"
+                                            Foreground="{StaticResource ForegroundBrush}" 
+                                            Margin="4,-4,0,0"
+                                            Style="{StaticResource CardAttributeValueStyle}"
+                                            Text="magiccards.info"
+                                            VerticalAlignment="Center" />
+                                    </Grid>
+                                </ControlTemplate>
+                            </Button.Template>
+                        </Button>
+
+                        <Button 
                             Grid.Row="1"
                             Grid.Column="1"
-                            VerticalAlignment="Top">
-                            <Button 
-                                Command="{StaticResource ViewUrlCommand}"
-                                CommandParameter="{Binding AmazonLink}"
-                                Style="{StaticResource CardVendorButtonStyle}">
-                                <Button.Template>
-                                    <ControlTemplate>
-                                        <Grid>
-                                            <Grid.RowDefinitions>
-                                                <RowDefinition />
-                                            </Grid.RowDefinitions>
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="30" />
-                                                <ColumnDefinition Width="*" />
-                                                <ColumnDefinition Width="60" />
-                                            </Grid.ColumnDefinitions>
-                                            <Image 
-                                                Grid.Row="0"
-                                                Grid.Column="0"
-                                                Height="16" 
-                                                Width="16" 
-                                                Source="/Assets/amazon-favicon.ico"
-                                                VerticalAlignment="Center" />
-                                            <TextBlock 
-                                                Grid.Row="0"
-                                                Grid.Column="1"
-                                                Foreground="{StaticResource ForegroundBrush}" 
-                                                Margin="4,-4,0,0"
-                                                Style="{StaticResource CardAttributeValueStyle}"
-                                                Text="amazon.com"
-                                                VerticalAlignment="Center" />
-                                            <TextBlock 
-                                                Grid.Row="0"
-                                                Grid.Column="2"
-                                                Foreground="{StaticResource ForegroundBrush}" 
-                                                Margin="4,-4,0,0"
-                                                Style="{StaticResource CardAttributeValueStyle}"
-                                                Text="{Binding AmazonPrice}"
-                                                VerticalAlignment="Center"
-                                                Visibility="{Binding ShowPricingData, Converter={StaticResource BooleanVisibilityConverter}}" />
-                                        </Grid>
-                                    </ControlTemplate>
-                                </Button.Template>
-                            </Button>
+                            Command="{StaticResource ViewUrlCommand}"
+                            CommandParameter="{Binding AmazonLink}"
+                            Style="{StaticResource CardVendorButtonStyle}">
+                            <Button.Template>
+                                <ControlTemplate>
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition />
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="30" />
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="60" />
+                                        </Grid.ColumnDefinitions>
+                                        <Image 
+                                            Grid.Row="0"
+                                            Grid.Column="0"
+                                            Height="16" 
+                                            Width="16" 
+                                            Source="/Assets/amazon-favicon.ico"
+                                            VerticalAlignment="Center" />
+                                        <TextBlock 
+                                            Grid.Row="0"
+                                            Grid.Column="1"
+                                            Foreground="{StaticResource ForegroundBrush}" 
+                                            Margin="4,-4,0,0"
+                                            Style="{StaticResource CardAttributeValueStyle}"
+                                            Text="amazon.com"
+                                            VerticalAlignment="Center" />
+                                        <TextBlock 
+                                            Grid.Row="0"
+                                            Grid.Column="2"
+                                            Foreground="{StaticResource ForegroundBrush}" 
+                                            Margin="4,-4,0,0"
+                                            Style="{StaticResource CardAttributeValueStyle}"
+                                            Text="{Binding AmazonPrice}"
+                                            VerticalAlignment="Center"
+                                            Visibility="{Binding ShowPricingData, Converter={StaticResource BooleanVisibilityConverter}}" />
+                                    </Grid>
+                                </ControlTemplate>
+                            </Button.Template>
+                        </Button>
 
-                            <Button
-                                Command="{StaticResource ViewUrlCommand}"
-                                CommandParameter="{Binding CFLink}"
-                                Style="{StaticResource CardVendorButtonStyle}">
-                                <Button.Template>
-                                    <ControlTemplate>
-                                        <Grid>
-                                            <Grid.RowDefinitions>
-                                                <RowDefinition />
-                                            </Grid.RowDefinitions>
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="30" />
-                                                <ColumnDefinition Width="*" />
-                                                <ColumnDefinition Width="60" />
-                                            </Grid.ColumnDefinitions>
-                                            <Image 
-                                                Grid.Row="0"
-                                                Grid.Column="0"
-                                                Height="16" 
-                                                Width="16" 
-                                                Source="/Assets/cf-favicon.ico"
-                                                VerticalAlignment="Center" />
-                                            <TextBlock 
-                                                Grid.Row="0"
-                                                Grid.Column="1"
-                                                Foreground="{StaticResource ForegroundBrush}" 
-                                                Margin="4,-4,0,0"
-                                                Style="{StaticResource CardAttributeValueStyle}"
-                                                Text="channelfireball.com"
-                                                VerticalAlignment="Center" />
-                                            <TextBlock 
-                                                Grid.Row="0"
-                                                Grid.Column="2"
-                                                Foreground="{StaticResource ForegroundBrush}" 
-                                                Margin="4,-4,0,0"
-                                                Style="{StaticResource CardAttributeValueStyle}"
-                                                Text="{Binding CFPrice}"
-                                                VerticalAlignment="Center" 
-                                                Visibility="{Binding ShowPricingData, Converter={StaticResource BooleanVisibilityConverter}}" />
-                                        </Grid>
-                                    </ControlTemplate>
-                                </Button.Template>
-                            </Button>
+                        <Button
+                            Grid.Row="2"
+                            Grid.Column="1"
+                            Command="{StaticResource ViewUrlCommand}"
+                            CommandParameter="{Binding CFLink}"
+                            Style="{StaticResource CardVendorButtonStyle}">
+                            <Button.Template>
+                                <ControlTemplate>
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition />
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="30" />
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="60" />
+                                        </Grid.ColumnDefinitions>
+                                        <Image 
+                                            Grid.Row="0"
+                                            Grid.Column="0"
+                                            Height="16" 
+                                            Width="16" 
+                                            Source="/Assets/cf-favicon.ico"
+                                            VerticalAlignment="Center" />
+                                        <TextBlock 
+                                            Grid.Row="0"
+                                            Grid.Column="1"
+                                            Foreground="{StaticResource ForegroundBrush}" 
+                                            Margin="4,-4,0,0"
+                                            Style="{StaticResource CardAttributeValueStyle}"
+                                            Text="channelfireball.com"
+                                            VerticalAlignment="Center" />
+                                        <TextBlock 
+                                            Grid.Row="0"
+                                            Grid.Column="2"
+                                            Foreground="{StaticResource ForegroundBrush}" 
+                                            Margin="4,-4,0,0"
+                                            Style="{StaticResource CardAttributeValueStyle}"
+                                            Text="{Binding CFPrice}"
+                                            VerticalAlignment="Center" 
+                                            Visibility="{Binding ShowPricingData, Converter={StaticResource BooleanVisibilityConverter}}" />
+                                    </Grid>
+                                </ControlTemplate>
+                            </Button.Template>
+                        </Button>
 
-                            <Button
-                                Command="{StaticResource ViewUrlCommand}"
-                                CommandParameter="{Binding TCGPlayerLink}"
-                                Style="{StaticResource CardVendorButtonStyle}">
-                                <Button.Template>
-                                    <ControlTemplate>
-                                        <Grid>
-                                            <Grid.RowDefinitions>
-                                                <RowDefinition />
-                                            </Grid.RowDefinitions>
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="30" />
-                                                <ColumnDefinition Width="*" />
-                                                <ColumnDefinition Width="60" />
-                                            </Grid.ColumnDefinitions>
-                                            <Image 
-                                                Grid.Row="0"
-                                                Grid.Column="0"
-                                                Height="16" 
-                                                Width="16" 
-                                                Source="/Assets/tcgplayer-favicon.ico"
-                                                VerticalAlignment="Center" />
-                                            <TextBlock 
-                                                Grid.Row="0"
-                                                Grid.Column="1"
-                                                Foreground="{StaticResource ForegroundBrush}" 
-                                                Margin="4,-4,0,0"
-                                                Style="{StaticResource CardAttributeValueStyle}"
-                                                Text="tcgplayer.com"
-                                                VerticalAlignment="Center" />
-                                            <TextBlock 
-                                                Grid.Row="0"
-                                                Grid.Column="2"
-                                                Foreground="{StaticResource ForegroundBrush}" 
-                                                Margin="4,-4,0,0"
-                                                Style="{StaticResource CardAttributeValueStyle}"
-                                                Text="{Binding TCGPlayerPrice}"
-                                                VerticalAlignment="Center"
-                                                Visibility="{Binding ShowPricingData, Converter={StaticResource BooleanVisibilityConverter}}" />
-                                        </Grid>
-                                    </ControlTemplate>
-                                </Button.Template>
-                            </Button>
-                        </StackPanel>
+                        <Button
+                            Grid.Row="3"
+                            Grid.Column="1"
+                            Command="{StaticResource ViewUrlCommand}"
+                            CommandParameter="{Binding TCGPlayerLink}"
+                            Style="{StaticResource CardVendorButtonStyle}">
+                            <Button.Template>
+                                <ControlTemplate>
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition />
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="30" />
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="60" />
+                                        </Grid.ColumnDefinitions>
+                                        <Image 
+                                            Grid.Row="0"
+                                            Grid.Column="0"
+                                            Height="16" 
+                                            Width="16" 
+                                            Source="/Assets/tcgplayer-favicon.ico"
+                                            VerticalAlignment="Center" />
+                                        <TextBlock 
+                                            Grid.Row="0"
+                                            Grid.Column="1"
+                                            Foreground="{StaticResource ForegroundBrush}" 
+                                            Margin="4,-4,0,0"
+                                            Style="{StaticResource CardAttributeValueStyle}"
+                                            Text="tcgplayer.com"
+                                            VerticalAlignment="Center" />
+                                        <TextBlock 
+                                            Grid.Row="0"
+                                            Grid.Column="2"
+                                            Foreground="{StaticResource ForegroundBrush}" 
+                                            Margin="4,-4,0,0"
+                                            Style="{StaticResource CardAttributeValueStyle}"
+                                            Text="{Binding TCGPlayerPrice}"
+                                            VerticalAlignment="Center"
+                                            Visibility="{Binding ShowPricingData, Converter={StaticResource BooleanVisibilityConverter}}" />
+                                    </Grid>
+                                </ControlTemplate>
+                            </Button.Template>
+                        </Button>
                     </Grid>
                 </Grid>
             </Grid>
