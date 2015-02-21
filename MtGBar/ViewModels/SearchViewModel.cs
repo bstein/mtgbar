@@ -15,6 +15,7 @@ using Melek.DataStore;
 using Melek.Models;
 using MtGBar.Infrastructure;
 using MtGBar.Infrastructure.Utilities;
+using MtGBar.Infrastructure.Utilities.VendorRelations;
 
 namespace MtGBar.ViewModels
 {
@@ -324,31 +325,31 @@ namespace MtGBar.ViewModels
                 Set set = SelectedPrinting.Set;
                 
                 // get the gatherer and magiccards.info links, because that's an easy chestnut
-                GathererLink = VendorRelations.GetGathererLink(SelectedPrinting.MultiverseID);
-                MagicCardsInfoLink = VendorRelations.GetMagicCardsInfoLink(selectedCard.Name);
+                GathererLink = VendorRelationsUtilities.GetGathererLink(SelectedPrinting.MultiverseID);
+                MagicCardsInfoLink = VendorRelationsUtilities.GetMagicCardsInfoLink(selectedCard.Name);
 
                 BackgroundBuddy.RunAsync(() => {
-                    AmazonLink = VendorRelations.GetAmazonLink(selectedCard, set);
+                    AmazonLink = VendorRelationsUtilities.GetAmazonLink(selectedCard, set);
 
                     string amazonPrice = string.Empty;
                     if (IsPriceCached(multiverseID, "amazon")) {
                         amazonPrice = _PriceCache[multiverseID]["amazon"];
                     }
                     else {
-                        amazonPrice = VendorRelations.GetAmazonPrice(selectedCard, set);
+                        amazonPrice = VendorRelationsUtilities.GetAmazonPrice(selectedCard, set);
                         CachePrice(multiverseID, "amazon", amazonPrice);
                     }
                     AmazonPrice = ApplyPriceDefault(amazonPrice);
                 });
                 BackgroundBuddy.RunAsync(() => {
-                    CFLink = VendorRelations.GetCFLink(selectedCard.Name, set);
+                    CFLink = VendorRelationsUtilities.GetCFLink(selectedCard.Name, set);
 
                     string cfPrice = string.Empty;
                     if (IsPriceCached(multiverseID, "cf")) {
                         cfPrice = _PriceCache[multiverseID]["cf"];
                     }
                     else {
-                        cfPrice = VendorRelations.GetCFPrice(selectedCard.Name, set);
+                        cfPrice = VendorRelationsUtilities.GetCFPrice(selectedCard.Name, set);
                         CachePrice(multiverseID, "cf", cfPrice);
                     }
                     CFPrice = ApplyPriceDefault(cfPrice);
@@ -356,11 +357,11 @@ namespace MtGBar.ViewModels
 
                 BackgroundBuddy.RunAsync(() => {
                     // set the default tcgplayer link in case the API takes a bit
-                    TCGPlayerLink = VendorRelations.GetTCGPlayerLinkDefault(selectedCard.Name, set);
-                    string tcgPlayerAPIData = VendorRelations.GetTCGPlayerAPIData(selectedCard.Name, set);
-                    string apiLink = VendorRelations.GetTCGPlayerLink(tcgPlayerAPIData);
+                    TCGPlayerLink = VendorRelationsUtilities.GetTCGPlayerLinkDefault(selectedCard.Name, set);
+                    string tcgPlayerAPIData = VendorRelationsUtilities.GetTCGPlayerAPIData(selectedCard.Name, set);
+                    string apiLink = VendorRelationsUtilities.GetTCGPlayerLink(tcgPlayerAPIData);
                     if (!string.IsNullOrEmpty(apiLink)) {
-                        TCGPlayerLink = VendorRelations.GetTCGPlayerLink(tcgPlayerAPIData);
+                        TCGPlayerLink = VendorRelationsUtilities.GetTCGPlayerLink(tcgPlayerAPIData);
                     }
 
                     string tcgPlayerPrice = string.Empty;
@@ -368,7 +369,7 @@ namespace MtGBar.ViewModels
                         tcgPlayerPrice = _PriceCache[multiverseID]["tcgPlayer"];
                     }
                     else {
-                        tcgPlayerPrice = VendorRelations.GetTCGPlayerPrice(tcgPlayerAPIData);
+                        tcgPlayerPrice = VendorRelationsUtilities.GetTCGPlayerPrice(tcgPlayerAPIData);
                         CachePrice(multiverseID, "tcgPlayer", tcgPlayerPrice);
                     }
                     TCGPlayerPrice = ApplyPriceDefault(tcgPlayerPrice);

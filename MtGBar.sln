@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MtGBarControls", "MtGBarCon
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MtGBarRepairbot", "MtGBarRestarter\MtGBarRepairbot.csproj", "{3529F0D9-BF3E-40C1-A3B3-D01FAAE8C54D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MtGBarTests", "MtGBarTests\MtGBarTests.csproj", "{BF0DFEE6-D60B-4C01-9355-2012869A3077}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{3529F0D9-BF3E-40C1-A3B3-D01FAAE8C54D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3529F0D9-BF3E-40C1-A3B3-D01FAAE8C54D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3529F0D9-BF3E-40C1-A3B3-D01FAAE8C54D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BF0DFEE6-D60B-4C01-9355-2012869A3077}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BF0DFEE6-D60B-4C01-9355-2012869A3077}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BF0DFEE6-D60B-4C01-9355-2012869A3077}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BF0DFEE6-D60B-4C01-9355-2012869A3077}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -6,9 +6,9 @@ using Bazam.Slugging;
 using Melek.Models;
 using Melek.Utilities;
 
-namespace MtGBar.Infrastructure.Utilities
+namespace MtGBar.Infrastructure.Utilities.VendorRelations
 {
-    public static class VendorRelations
+    public static class VendorRelationsUtilities
     {
         public static string GetAmazonLink(Card card, Set set)
         {
@@ -19,7 +19,7 @@ namespace MtGBar.Infrastructure.Utilities
         public static string GetAmazonPrice(Card card, Set set)
         {
             try {
-                string url = VendorRelations.GetAmazonLink(card, set);
+                string url = VendorRelationsUtilities.GetAmazonLink(card, set);
                 string html = new WebClient().DownloadString(url);
 
                 Match match = Regex.Match(html, "<div id=\"atfResults\"[\\s\\S]+?(\\$[0-9]+\\.[0-9]{2})");
@@ -55,7 +55,7 @@ namespace MtGBar.Infrastructure.Utilities
 
         public static string GetCFPrice(string cardName, Set set)
         {
-            string url = VendorRelations.GetCFSearchLink(cardName, set);
+            string url = VendorRelationsUtilities.GetCFSearchLink(cardName, set);
             string html = string.Empty;
             string pattern = string.Format("<h3 class=\"grid-item-price\">(.+?)</h3>", (string.IsNullOrEmpty(set.CFName) ? set.Name : set.CFName), cardName);
 

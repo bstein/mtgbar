@@ -186,7 +186,11 @@
     <Compile Include="Infrastructure\Utilities\TalkAtcha.cs" />
     <Compile Include="Infrastructure\Utilities\Updates\UpdateFoundEventHandler.cs" />
     <Compile Include="Infrastructure\Utilities\Updates\Updater.cs" />
-    <Compile Include="Infrastructure\Utilities\VendorRelations.cs" />
+    <Compile Include="Infrastructure\Utilities\VendorRelations\ChannelFireball.cs" />
+    <Compile Include="Infrastructure\Utilities\VendorRelations\TcgPlayer.cs" />
+    <Compile Include="Infrastructure\Utilities\VendorRelations\VendorRelations.cs" />
+    <Compile Include="Infrastructure\Utilities\VendorRelations\MtgoTraders.cs" />
+    <Compile Include="Infrastructure\Utilities\VendorRelations\Vendor.cs" />
     <Compile Include="ViewModels\AboutViewModel.cs" />
     <Compile Include="ViewModels\CardViewModel.cs" />
     <Compile Include="ViewModels\DisplayViewModel.cs" />
