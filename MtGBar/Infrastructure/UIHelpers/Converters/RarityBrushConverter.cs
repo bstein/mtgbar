@@ -12,13 +12,13 @@ namespace MtGBar.Infrastructure.UIHelpers.Converters
         {
             if (value != null) {
                 switch ((value as Card).Printings[0].Rarity) {
-                    case CardRarity.C:
+                    case CardRarity.Common:
                         return App.Current.FindResource("CommonBrush");
-                    case CardRarity.U:
+                    case CardRarity.Uncommon:
                         return App.Current.FindResource("UncommonBrush");
-                    case CardRarity.R:
+                    case CardRarity.Rare:
                         return App.Current.FindResource("RareBrush");
-                    case CardRarity.M:
+                    case CardRarity.MythicRare:
                         return App.Current.FindResource("MythicBrush");
                     default:
                         return App.Current.FindResource("ForegroundBrush");

@@ -11,13 +11,13 @@ namespace MtGBar.Infrastructure.UIHelpers.Converters
         {
             if (value != null) {
                 switch ((value as Card).Printings[0].Rarity) {
-                    case CardRarity.C:
+                    case CardRarity.Common:
                         return "COMMON";
-                    case CardRarity.U:
+                    case CardRarity.Uncommon:
                         return "UNCOMMON";
-                    case CardRarity.R:
+                    case CardRarity.Rare:
                         return "RARE";
-                    case CardRarity.M:
+                    case CardRarity.MythicRare:
                         return "MYTHIC RARE";
                     default:
                         return "COMMON";

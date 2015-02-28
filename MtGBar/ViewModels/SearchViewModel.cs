@@ -168,15 +168,7 @@ namespace MtGBar.ViewModels
 
                 if (_SearchTerm != value) {
                     string searchTerm = value.Trim().ToLower();
-                    string setCode = string.Empty;
-                    Match setCodeMatch = Regex.Match(searchTerm, "^([a-z0-9]{2,3}):");
-
-                    if (setCodeMatch != null && setCodeMatch.Groups.Count == 2) {
-                        setCode = setCodeMatch.Groups[1].Value;
-                        searchTerm = searchTerm.Replace(setCodeMatch.Groups[0].Value, string.Empty).Trim();
-                    }
-
-                    UpdateResults(searchTerm, setCode);
+                    UpdateResults(searchTerm);
                     ChangeProperty<SearchViewModel>(vm => vm.SearchTerm, value);
                 }
             }
@@ -430,15 +422,10 @@ namespace MtGBar.ViewModels
             WatermarkText = "try \"" + AppState.Instance.MelekDataStore.GetRandomCardName() + "\"";
         }
 
-        private async void UpdateResults(string searchTerm, string setCode)
+        private async void UpdateResults(string searchTerm)
         {
             Card[] results = await Task<Card[]>.Factory.StartNew(() => { 
-                return AppState.Instance.MelekDataStore.Search(
-                    new DataStoreSearchArgs() {
-                        Name = searchTerm,
-                        SetCode = setCode
-                    }
-                ).Take(5).ToArray(); 
+                return AppState.Instance.MelekDataStore.Search(searchTerm).Take(5).ToArray(); 
             });
             List<CardViewModel> vms = new List<CardViewModel>();
 
