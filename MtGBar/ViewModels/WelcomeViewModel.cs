@@ -16,14 +16,6 @@ namespace MtGBar.ViewModels
             set { ChangeProperty<WelcomeViewModel>(vm => vm.IsLoading, value); }
         }
 
-        [RelatedProperty("Message")]
-        private string _Message = string.Empty;
-        public string Message
-        {
-            get { return _Message; }
-            set { ChangeProperty<WelcomeViewModel>(vm => vm.Message, value); }
-        }
-
         [RelatedProperty("ShowWelcomeScreen")]
         private bool _ShowWelcomeScreen = true;
         public bool ShowWelcomeScreen
@@ -44,10 +36,11 @@ namespace MtGBar.ViewModels
 
         public WelcomeViewModel()
         {
-            ShowWelcomeScreen = AppState.Instance.Settings.ShowWelcomeScreen;
-            WindowSubTitle = "demonic tutor for your PC";
-            WindowTitle = "Welcome to MtGBar";
             Background = new BitmapImage(new Uri("pack://application:,,,/Assets/welcome-bg.jpg"));
+            ContentSource = "Views/AlertViews/WelcomeView.xaml";
+            ShowWelcomeScreen = AppState.Instance.Settings.ShowWelcomeScreen;
+            WindowSubTitle = "think twice for your PC";
+            WindowTitle = "Welcome to MtGBar";
 
             AppState.Instance.MelekDataStore.DataLoaded += (muchData, veryWow) => { IsLoading = false; };
 

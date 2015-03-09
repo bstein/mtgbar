@@ -23,12 +23,7 @@ namespace MtGBar
 
         private void Application_Exit(object sender, ExitEventArgs e)
         {
-            try {
-                AppState.Instance.HotkeyRegistrar.UnregisterAllHotkeys();
-            }
-            catch (Exception) {
-                // nbd
-            }
+            AppState.Instance.HotkeyRegistrar.UnregisterAllHotkeys();
         }
 
         private void MelekDataStore_Loaded(object sender, EventArgs e)
@@ -72,6 +67,12 @@ namespace MtGBar
                 }
             };
 
+            // HEY! LISTEN!
+            // ... to the hotkey registrar so we can tell the user if they try to do something that will screw stuff up
+            AppState.Instance.HotkeyRegistrar.UnavailableHotkeyRegistered += (HotkeyEventArgs args) => {
+                TalkAtcha.TalkAtEm("Oops.", AppConstants.APPNAME + " tried to register its hotkey but couldn't. This is usually because it's trying to use a hotkey that some other software is using. Try visiting settings and changing the hotkey. Sorry :(");
+            };
+
             // pretty sure here's where we should hook up the hotkey
             if (AppState.Instance.Settings.Hotkey != null) {
                 AppState.Instance.RegisterHotkey(AppState.Instance.Settings.Hotkey);
@@ -81,20 +82,14 @@ namespace MtGBar
             Color myAccentColor = (Color)App.Current.FindResource("MyAccentColor");
             AppearanceManager.Current.AccentColor = myAccentColor;
 
-            // HEY! LISTEN!
-            // ... to the hotkey registrar so we can tell the user if they try to do something that will fuck stuff up
-            AppState.Instance.HotkeyRegistrar.UnavailableHotkeyRegistered += (HotkeyEventArgs args) => {
-                TalkAtcha.TalkAtEm("Oops.", AppConstants.APPNAME + " tried to register its hotkey but couldn't. This is usually because it's trying to use a hotkey that some other software is using. Try visiting settings and changing the hotkey. Sorry :(");
-            };
-
-            // let them know that stuff is loading and will be done asap
-            TalkAtcha.TalkAtEm("Welcome to " + AppConstants.APPNAME + "!", "Loading up the sweet dataz...");
-
-            Dispatcher.Invoke(() => {
-                AlertView welcomeView = FindResource("AlertView") as AlertView;
-                welcomeView.DataContext = new WelcomeViewModel();
-                welcomeView.Show();
-            });
+            // we're ready - tell them what's going on
+            if (AppState.Instance.Settings.ShowWelcomeScreen) {
+                Dispatcher.Invoke(() => {
+                    AlertView welcomeView = FindResource("AlertView") as AlertView;
+                    welcomeView.DataContext = new WelcomeViewModel();
+                    welcomeView.Show();
+                });
+            }
         }
     }
 }

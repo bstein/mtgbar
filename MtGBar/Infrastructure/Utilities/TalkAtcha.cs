@@ -1,7 +1,5 @@
-﻿using System;
-using System.Drawing;
-using System.IO;
-using System.Windows;
+﻿using MtGBar.ViewModels;
+using MtGBar.Views;
 
 namespace MtGBar.Infrastructure.Utilities
 {
@@ -9,9 +7,13 @@ namespace MtGBar.Infrastructure.Utilities
     {
         public static void TalkAtEm(string title, string message)
         {
-            using(Stream iconStream = Application.GetResourceStream(new Uri("/Assets/taskbar-icon.ico", UriKind.Relative)).Stream) {
-                AppState.Instance.TaskbarIcon.ShowBalloonTip(title, message, new Icon(iconStream));
-            }
+            AlertView view = (App.Current.FindResource("AlertView") as AlertView);
+            view.DataContext = new AlertViewModel() {
+                WindowTitle = "mtgbar says...",
+                WindowSubTitle = title,
+                Message = message
+            };
+            view.Show();
         }
     }
 }

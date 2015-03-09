@@ -3,21 +3,22 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mui="http://firstfloorsoftware.com/ModernUI"
-    ContentSource="/Views/AlertViews/WelcomeView.xaml"
+    ContentSource="{Binding ContentSource}"
     DataContextChanged="this_DataContextChanged"
-    Width="500" Height="260"
+    Icon="/MtGBar;component/icon.ico"
     ResizeMode="NoResize"
     Title="{Binding WindowTitle}" 
+    Width="500" Height="260"
     WindowStartupLocation="CenterScreen">
     <mui:ModernWindow.BackgroundContent>
         <Image
-            Source="{Binding Background, FallbackValue=/Assets/welcome-bg.jpg}"
+            Source="{Binding Background}"
             Stretch="UniformToFill" />
     </mui:ModernWindow.BackgroundContent>
     <mui:ModernWindow.MenuLinkGroups>
         <mui:LinkGroup x:Name="TheLinkGroup">
             <mui:LinkGroup.Links>
-                <mui:Link x:Name="TheLink" Source="/Views/AlertViews/WelcomeView.xaml" />
+                <mui:Link x:Name="TheLink" />
             </mui:LinkGroup.Links>
         </mui:LinkGroup>
     </mui:ModernWindow.MenuLinkGroups>

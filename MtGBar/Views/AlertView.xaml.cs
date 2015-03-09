@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using FirstFloor.ModernUI.Windows.Controls;
 using MtGBar.ViewModels;
 
@@ -17,6 +18,10 @@ namespace MtGBar.Views
 
             TheLinkGroup.DisplayName = vm.WindowTitle;
             TheLink.DisplayName = vm.WindowSubTitle;
+            if (!string.IsNullOrEmpty(vm.ContentSource)) {
+                TheLink.Source = new Uri(vm.ContentSource, UriKind.Relative);
+            }
+
             vm.CloseRequested += (hey, theyWantToCloseIt) => { this.Close(); };
         }
     }

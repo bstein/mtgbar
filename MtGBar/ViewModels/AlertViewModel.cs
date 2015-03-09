@@ -4,7 +4,7 @@ using BazamWPF.ViewModels;
 
 namespace MtGBar.ViewModels
 {
-    public abstract class AlertViewModel : ViewModelBase
+    public class AlertViewModel : ViewModelBase
     {
         #region Events
         public event EventHandler CloseRequested;
@@ -16,6 +16,22 @@ namespace MtGBar.ViewModels
         {
             get { return _Background; }
             set { ChangeProperty<AlertViewModel>(vm => vm.Background, value); }
+        }
+
+        [RelatedProperty("ContentSource")]
+        private string _ContentSource = string.Empty;
+        public string ContentSource
+        {
+            get { return _ContentSource; }
+            set { ChangeProperty<AlertViewModel>(vm => vm.ContentSource, value); }
+        }
+
+        [RelatedProperty("Message")]
+        private string _Message = string.Empty;
+        public string Message
+        {
+            get { return _Message; }
+            set { ChangeProperty<WelcomeViewModel>(vm => vm.Message, value); }
         }
 
         [RelatedProperty("WindowSubTitle")]
