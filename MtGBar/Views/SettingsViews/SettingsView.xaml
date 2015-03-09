@@ -36,6 +36,10 @@
                 Content="Save downloaded card images on your computer" 
                 IsChecked="{Binding SaveCardImageData, Mode=TwoWay}"
                 Margin="0,0,0,12" />
+            <CheckBox 
+                Content="Show the welcome screen when MtGBar launches" 
+                IsChecked="{Binding ShowWelcomeScreen, Mode=TwoWay}"
+                Margin="0,0,0,12" />
             <TextBlock
                 Foreground="{StaticResource SubtleBrush}"
                 Margin="0,24,0,0"

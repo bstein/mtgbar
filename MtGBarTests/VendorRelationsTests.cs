@@ -26,5 +26,13 @@ namespace MtGBarTests
             string price = vendorClient.GetPrice(new Card() { Name = "Restoration Angel" }, new Set() { Code = "AVR" });
             Assert.IsTrue(Regex.IsMatch(price, expectedRegex));
         }
+
+        [TestMethod]
+        public void MtgoTradersApostropheCardWorks()
+        {
+            string expected = "http://www.mtgotraders.com/store/M15_Ajanis_Pridemate.html";
+
+            Assert.AreEqual(expected, new MtgoTraders().GetLink(new Card() { Name = "Ajani's Pridemate" }, new Set() { Code = "M15" }));
+        }
     }
 }

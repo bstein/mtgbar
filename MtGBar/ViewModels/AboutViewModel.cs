@@ -174,6 +174,19 @@ namespace MtGBar.ViewModels
             }
         }
 
+        public bool ShowWelcomeScreen
+        {
+            get { return AppState.Instance.Settings.ShowWelcomeScreen; }
+            set
+            {
+                if (AppState.Instance.Settings.ShowWelcomeScreen != value) {
+                    AppState.Instance.Settings.ShowWelcomeScreen = value;
+                    AppState.Instance.Settings.Save();
+                    RaisePropertyChanged("ShowWelcomeScreen");
+                }
+            }
+        }
+
         public DisplayViewModel SelectedDisplay
         {
             get { return _SelectedDisplay; }

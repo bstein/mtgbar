@@ -8,13 +8,13 @@ using FirstFloor.ModernUI.Presentation;
 using MtGBar.Infrastructure;
 using MtGBar.Infrastructure.Utilities;
 using MtGBar.Infrastructure.Utilities.Updates;
+using MtGBar.ViewModels;
+using MtGBar.Views;
 
 namespace MtGBar
 {
     public partial class App : Application
     {
-        private bool _IWelcomedThem = false;
-        
         private void Application_DispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
         {
             AppState.Instance.LoggingNinja.LogMessage("UNCAUGHT: " + e.Exception.Message + " STACK TRACE: " + e.Exception.StackTrace);
@@ -27,28 +27,15 @@ namespace MtGBar
                 AppState.Instance.HotkeyRegistrar.UnregisterAllHotkeys();
             }
             catch (Exception) {
-                // LIKE I GIVE A FUCK
+                // nbd
             }
         }
 
         private void MelekDataStore_Loaded(object sender, EventArgs e)
         {
-            if (!_IWelcomedThem) {
-                // welcome, noob
-                string welcome = AppConstants.APPNAME + " is online and ready to help.\n\n";
-                if (AppState.Instance.Settings.Hotkey != null) {
-                    welcome += "Hit " + AppState.Instance.Settings.Hotkey.ToString() + " to get started!";
-                }
-                else {
-                    welcome += "Looks like you don't have a hotkey set up right now. Right-click here and choose Settings to pick one, or just choose Browse to party without a hotkey. But that's way less fun.";
-                }
-
-                TalkAtcha.TalkAtEm("Ready!", welcome);
-                Dispatcher.Invoke(() => {
-                    AppState.Instance.TaskbarIcon.ToolTipText = AppConstants.APPNAME;
-                }, DispatcherPriority.Normal);
-                _IWelcomedThem = true;
-            }
+            Dispatcher.Invoke(() => {
+                AppState.Instance.TaskbarIcon.ToolTipText = AppConstants.APPNAME;
+            });
 
             // start the updater clock so it polls for updates
             Updater.Instance.UpdateFound += () => {
@@ -102,6 +89,12 @@ namespace MtGBar
 
             // let them know that stuff is loading and will be done asap
             TalkAtcha.TalkAtEm("Welcome to " + AppConstants.APPNAME + "!", "Loading up the sweet dataz...");
+
+            Dispatcher.Invoke(() => {
+                AlertView welcomeView = FindResource("AlertView") as AlertView;
+                welcomeView.DataContext = new WelcomeViewModel();
+                welcomeView.Show();
+            });
         }
     }
 }

@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Text;
+﻿using System.Net;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using Melek.Models;
 
 namespace MtGBar.Infrastructure.Utilities.VendorRelations
@@ -13,12 +8,15 @@ namespace MtGBar.Infrastructure.Utilities.VendorRelations
     {
         public override string GetLink(Card card, Set set)
         {
+            string sterilizedCardName = Regex.Replace(card.Name, "[',]", string.Empty);
+            sterilizedCardName = sterilizedCardName.Replace(' ', '_');
             string setCode = set.Code;
+
             if (set.IsPromo) {
                 setCode = "PRM";
             }
 
-            return string.Format("http://www.mtgotraders.com/store/{0}_{1}.html", set.Code, card.Name.Replace(' ', '_').Replace(",", ""));
+            return string.Format("http://www.mtgotraders.com/store/{0}_{1}.html", set.Code, sterilizedCardName);
         }
 
         public override string GetName()

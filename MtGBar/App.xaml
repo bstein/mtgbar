@@ -17,6 +17,7 @@
             </ResourceDictionary.MergedDictionaries>
 
             <!--Views-->
+            <views:AlertView x:Key="AlertView" />
             <views:SearchView x:Key="SearchView" />
 
             <!--Commands-->

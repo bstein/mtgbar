@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
+using System.Windows.Threading;
 using Bazam.KeyAdept;
 using Bazam.KeyAdept.Infrastructure;
 using Hardcodet.Wpf.TaskbarNotification;
@@ -45,10 +46,13 @@ namespace MtGBar.Infrastructure
                 _Hotkey.Pressed += thisHotkey_Pressed;
             }
         }
+
+        private Dispatcher AppDispatcher { get; set; }
         #endregion
 
         private AppState()
         {
+            AppDispatcher = Dispatcher.CurrentDispatcher;
             LoggingNinja = new LoggingNinja(FileSystemManager.LogFileName);
             Settings = new Settings();
             HotkeyRegistrar = new HotkeyRegistrar();
@@ -68,7 +72,10 @@ namespace MtGBar.Infrastructure
             // file and call it when the data store is ready.
             //
             // But I'm not happy about it, okay?
-            MelekDataStore.DataLoaded += (omg, theDataIsReadyGurl) => { Settings.LoadRecentCards(); };
+            MelekDataStore.DataLoaded += (omg, theDataIsReadyGurl) => { 
+                Settings.LoadRecentCards();
+                BuildContextMenu(this.TaskbarIcon);
+            };
             
             Settings.Updated += (theSettings, omgChanged) => {
                 MelekDataStore.StoreCardImagesLocally = Settings.SaveCardImageData;
@@ -80,6 +87,7 @@ namespace MtGBar.Infrastructure
             ViewCardCommand command = new ViewCardCommand();
 
             TaskbarIcon icon = new TaskbarIcon();
+            icon.ContextMenu = new ContextMenu();
             icon.IconSource = new BitmapImage(new Uri("pack://application:,,,/Assets/taskbar-icon.ico"));
             icon.LeftClickCommand = command;
             icon.ToolTipText = AppConstants.APPNAME + " | loading...";
@@ -97,30 +105,38 @@ namespace MtGBar.Infrastructure
 
         private void BuildContextMenu(TaskbarIcon taskbarItem)
         {
-            ContextMenu menu = new ContextMenu();
+            AppDispatcher.Invoke(new Action(() => {
+                ContextMenu menu = taskbarItem.ContextMenu;
+                menu.Items.Clear();
 
-            foreach (MenuItem item in GetContextMenuTop()) {
-                if (taskbarItem.ContextMenu != null && taskbarItem.ContextMenu.Items.Contains(item)) taskbarItem.ContextMenu.Items.Remove(item);
-                menu.Items.Add(item);
-            }
-
-            if (Settings.RecentCards.Length > 0) {
-                menu.Items.Add(new Separator());
-
-                foreach (Card card in Settings.RecentCards) {
-                    menu.Items.Add(new MenuItem() {
-                        Command = new ViewCardCommand(card),
-                        Header = card.Name
-                    });
+                foreach (MenuItem item in GetContextMenuTop()) {
+                    if (taskbarItem.ContextMenu != null && taskbarItem.ContextMenu.Items.Contains(item)) taskbarItem.ContextMenu.Items.Remove(item);
+                    menu.Items.Add(item);
                 }
-            }
 
-            menu.Items.Add(new Separator());
-            foreach (MenuItem item in GetContextMenuBottom()) {
-                menu.Items.Add(item);
-            }
+                if (Settings.RecentCards.Length > 0) {
+                    menu.Items.Add(new Separator());
 
-            taskbarItem.ContextMenu = menu;
+                    menu.Items.Add(new MenuItem() {
+                        Header = "Recent cards",
+                        IsEnabled = false
+                    });
+
+                    foreach (Card card in Settings.RecentCards) {
+                        menu.Items.Add(new MenuItem() {
+                            Command = new ViewCardCommand(card),
+                            Header = card.Name
+                        });
+                    }
+                }
+
+                menu.Items.Add(new Separator());
+                foreach (MenuItem item in GetContextMenuBottom()) {
+                    menu.Items.Add(item);
+                }
+
+                taskbarItem.ContextMenu = menu;
+            }));
         }
 
         private MenuItem[] GetContextMenuTop()
@@ -149,11 +165,14 @@ namespace MtGBar.Infrastructure
 
         private void thisHotkey_Pressed(HotkeyPressedEventArgs args)
         {
+            AlertView alertView = (App.Current.FindResource("AlertView") as AlertView);
             SearchView searchView = (App.Current.FindResource("SearchView") as SearchView);
+
             if (searchView.IsActive) {
                 searchView.Hide();
             }
             else {
+                alertView.Hide();
                 searchView.Show();
                 searchView.Activate();
             }
