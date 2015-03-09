@@ -21,7 +21,7 @@ namespace MtGBarTests
         [TestMethod]
         public void MtgoTradersPriceIsReasonable()
         {
-            string expectedRegex = "\\$[0-9\\.]+";
+            string expectedRegex = @"^\$[0-9\.]+$";
             MtgoTraders vendorClient = new MtgoTraders();
             string price = vendorClient.GetPrice(new Card() { Name = "Restoration Angel" }, new Set() { Code = "AVR" });
             Assert.IsTrue(Regex.IsMatch(price, expectedRegex));

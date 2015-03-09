@@ -20,10 +20,8 @@
             <views:SearchView x:Key="SearchView" />
 
             <!--Commands-->
-            <commands:AboutCommand x:Key="AboutCommand" />
             <commands:CloseCommand x:Key="CloseCommand" />
             <commands:CloseWindowCommand x:Key="CloseWindowCommand" />
-            <commands:LaunchCommand x:Key="LaunchCommand" />
             <commands:ViewUrlCommand x:Key="ViewUrlCommand" />
         </ResourceDictionary>
     </Application.Resources>

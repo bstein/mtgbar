@@ -23,7 +23,7 @@ namespace MtGBar.Infrastructure.Utilities
 
         private static string GetSetSymbolFileName(Set set, CardRarity rarity)
         {
-            return set.Code.ToLower() + "-" + rarity.ToString().ToLower() + ".png";
+            return set.Code.ToLower() + "-" + rarity.ToString().ToCharArray()[0].ToString().ToLower() + ".png";
         }
 
         public static void DownloadSetSymbol(Set set, CardRarity rarity)

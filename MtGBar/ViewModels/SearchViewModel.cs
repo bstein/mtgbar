@@ -42,6 +42,10 @@ namespace MtGBar.ViewModels
         private string _GathererLink;
         [RelatedProperty("MagicCardsInfoLink")]
         private string _MagicCardsInfoLink;
+        [RelatedProperty("MtgoTradersLink")]
+        private string _MtgoTradersLink;
+        [RelatedProperty("MtgoTradersPrice")]
+        private string _MtgoTradersPrice;
         private Dictionary<string, Dictionary<string, string>> _PriceCache = new Dictionary<string, Dictionary<string, string>>();
         [RelatedProperty("SearchTerm")]
         private string _SearchTerm;
@@ -157,6 +161,18 @@ namespace MtGBar.ViewModels
             set { ChangeProperty<SearchViewModel>(s => s.MagicCardsInfoLink, value); }
         }
 
+        public string MtgoTradersLink
+        {
+            get { return _MtgoTradersLink; }
+            set { ChangeProperty<SearchViewModel>(s => s.MtgoTradersLink, value); }
+        }
+
+        public string MtgoTradersPrice
+        {
+            get { return _MtgoTradersPrice; }
+            set { ChangeProperty<SearchViewModel>(s => s.MtgoTradersPrice, value); }
+        }
+
         public string SearchTerm
         {
             get { return _SearchTerm; }
@@ -191,6 +207,9 @@ namespace MtGBar.ViewModels
                     }
                     else {
                         SelectedPrinting = value.Printings.OrderByDescending(a => a.Set.Date).First();
+
+                        // log the fact that this card was selected
+                        AppState.Instance.Settings.LogRecentCard(value);
                     }
 
                     RaisePropertyChanged("SelectedCard");
@@ -333,6 +352,7 @@ namespace MtGBar.ViewModels
                     }
                     AmazonPrice = ApplyPriceDefault(amazonPrice);
                 });
+
                 BackgroundBuddy.RunAsync(() => {
                     CFLink = VendorRelationsUtilities.GetCFLink(selectedCard.Name, set);
 
@@ -345,6 +365,21 @@ namespace MtGBar.ViewModels
                         CachePrice(multiverseID, "cf", cfPrice);
                     }
                     CFPrice = ApplyPriceDefault(cfPrice);
+                });
+
+                BackgroundBuddy.RunAsync(() => {
+                    MtgoTraders mtgoTradersClient = new MtgoTraders();
+                    MtgoTradersLink = mtgoTradersClient.GetLink(selectedCard, set);
+                    string mtgoTradersPrice = string.Empty;
+
+                    if (IsPriceCached(multiverseID, "mtgotraders")) {
+                        mtgoTradersPrice = _PriceCache[multiverseID]["mtgotraders"];
+                    }
+                    else {
+                        mtgoTradersPrice = mtgoTradersClient.GetPrice(selectedCard, set);
+                        CachePrice(multiverseID, "mtgotradrers", mtgoTradersPrice);
+                    }
+                    MtgoTradersPrice = ApplyPriceDefault(mtgoTradersPrice);
                 });
 
                 BackgroundBuddy.RunAsync(() => {
@@ -394,6 +429,8 @@ namespace MtGBar.ViewModels
             CFLink = string.Empty;
             CFPrice = PRICE_DEFAULT;
             MagicCardsInfoLink = string.Empty;
+            MtgoTradersLink = string.Empty;
+            MtgoTradersPrice = PRICE_DEFAULT;
             TCGPlayerLink = string.Empty;
             TCGPlayerPrice = PRICE_DEFAULT;
         }

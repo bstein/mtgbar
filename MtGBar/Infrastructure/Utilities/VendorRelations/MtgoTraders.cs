@@ -18,7 +18,7 @@ namespace MtGBar.Infrastructure.Utilities.VendorRelations
                 setCode = "PRM";
             }
 
-            return string.Format("http://www.mtgotraders.com/store/{0}_{1}.html", set.Code, card.Name.Replace(' ', '_'));
+            return string.Format("http://www.mtgotraders.com/store/{0}_{1}.html", set.Code, card.Name.Replace(' ', '_').Replace(",", ""));
         }
 
         public override string GetName()
@@ -31,9 +31,9 @@ namespace MtGBar.Infrastructure.Utilities.VendorRelations
             WebClient client = new WebClient();
             using(WebClient webClient = new WebClient()) {
                 string pageHtml = webClient.DownloadString(GetLink(card, set));
-                Match match = Regex.Match(pageHtml, "<span class=\"price\">\\S+</span>");
+                Match match = Regex.Match(pageHtml, "<span class=\"price\">(\\S+)</span>");
 
-                if (match != null) return match.ToString();
+                if (match != null) return match.Groups[1].Value;
             }
 
             return string.Empty;

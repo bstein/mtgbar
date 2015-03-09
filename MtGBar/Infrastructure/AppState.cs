@@ -5,6 +5,7 @@ using Bazam.KeyAdept;
 using Bazam.KeyAdept.Infrastructure;
 using Hardcodet.Wpf.TaskbarNotification;
 using Melek.DataStore;
+using Melek.Models;
 using Melek.Utilities;
 using MtGBar.Infrastructure.DataNinjitsu.Models;
 using MtGBar.Infrastructure.UIHelpers.Commands;
@@ -53,40 +54,37 @@ namespace MtGBar.Infrastructure
             HotkeyRegistrar = new HotkeyRegistrar();
 
             if (string.IsNullOrEmpty(Settings.MelekDevAuthkey)) {
-                MelekDataStore = new MelekDataStore(FileSystemManager.MelekDataDirectory, Settings.SaveCardImageData, LoggingNinja);
+                MelekDataStore = new MelekDataStore(FileSystemManager.MelekDataDirectory, true, LoggingNinja);
             }
             else {
-                MelekDataStore = new MelekDataStore(FileSystemManager.MelekDataDirectory, Settings.SaveCardImageData, LoggingNinja, false, Settings.MelekDevAuthkey);
+                MelekDataStore = new MelekDataStore(FileSystemManager.MelekDataDirectory, true, LoggingNinja, false, Settings.MelekDevAuthkey);
             }
 
+            // This is ugly.
+            // 
+            // Basically, right now the Settings object and the MelekDataStore object have a circular dependency. Settings needs MelekDataStore to make
+            // sense of the multiverseIDs it stores as the most recent cards viewed, and MelekDataStore needs to know whether or not it should cache card
+            // images locally, a fact that Settings keeps track of. The solution for now is to expose the method that loads recent cards from the settings
+            // file and call it when the data store is ready.
+            //
+            // But I'm not happy about it, okay?
+            MelekDataStore.DataLoaded += (omg, theDataIsReadyGurl) => { Settings.LoadRecentCards(); };
+            
             Settings.Updated += (theSettings, omgChanged) => {
                 MelekDataStore.StoreCardImagesLocally = Settings.SaveCardImageData;
+                BuildContextMenu(this.TaskbarIcon);
             };
 
             // construct the taskbar icon
-            LaunchCommand command = new LaunchCommand();
+            this.TaskbarIcon = null;
+            ViewCardCommand command = new ViewCardCommand();
 
             TaskbarIcon icon = new TaskbarIcon();
             icon.IconSource = new BitmapImage(new Uri("pack://application:,,,/Assets/taskbar-icon.ico"));
             icon.LeftClickCommand = command;
             icon.ToolTipText = AppConstants.APPNAME + " | loading...";
 
-            ContextMenu menu = new ContextMenu();
-            menu.Items.Add(new MenuItem() {
-                Command = command,
-                Header = "Browse"
-            });
-            menu.Items.Add(new MenuItem() {
-                Command = new AboutCommand(),
-                Header = "Settings"
-            });
-            menu.Items.Add(new Separator());
-            menu.Items.Add(new MenuItem() {
-                Command = new CloseCommand(),
-                Header = "Exit"
-            });
-
-            icon.ContextMenu = menu;
+            BuildContextMenu(icon);
             this.TaskbarIcon = icon;
         }
 
@@ -95,6 +93,58 @@ namespace MtGBar.Infrastructure
             Hotkey hotkey = hkd.ToHotkey();
             HotkeyRegistrar.RegisterHotkey(hotkey);
             this.Hotkey = hotkey;
+        }
+
+        private void BuildContextMenu(TaskbarIcon taskbarItem)
+        {
+            ContextMenu menu = new ContextMenu();
+
+            foreach (MenuItem item in GetContextMenuTop()) {
+                if (taskbarItem.ContextMenu != null && taskbarItem.ContextMenu.Items.Contains(item)) taskbarItem.ContextMenu.Items.Remove(item);
+                menu.Items.Add(item);
+            }
+
+            if (Settings.RecentCards.Length > 0) {
+                menu.Items.Add(new Separator());
+
+                foreach (Card card in Settings.RecentCards) {
+                    menu.Items.Add(new MenuItem() {
+                        Command = new ViewCardCommand(card),
+                        Header = card.Name
+                    });
+                }
+            }
+
+            menu.Items.Add(new Separator());
+            foreach (MenuItem item in GetContextMenuBottom()) {
+                menu.Items.Add(item);
+            }
+
+            taskbarItem.ContextMenu = menu;
+        }
+
+        private MenuItem[] GetContextMenuTop()
+        {
+            return new MenuItem[] {
+                new MenuItem() {
+                    Command = new ViewCardCommand(),
+                    Header = "Browse"
+                },
+                new MenuItem() {
+                    Command = new AboutCommand(),
+                    Header = "Settings"
+                }
+            };
+        }
+
+        private MenuItem[] GetContextMenuBottom()
+        {
+            return new MenuItem[] {
+                new MenuItem() {
+                    Command = new CloseCommand(),
+                    Header = "Exit"
+                }
+            };
         }
 
         private void thisHotkey_Pressed(HotkeyPressedEventArgs args)

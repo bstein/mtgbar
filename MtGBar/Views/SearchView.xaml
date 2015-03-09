@@ -548,6 +548,7 @@
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="200" />
@@ -589,7 +590,7 @@
                                                 Grid.Column="0"
                                                 Height="16" 
                                                 Width="16" 
-                                                Source="/Assets/gatherer-favicon.ico"
+                                                Source="/Assets/vendors/gatherer-favicon.ico"
                                                 VerticalAlignment="Center" />
                                         <TextBlock 
                                                 Grid.Row="0"
@@ -625,7 +626,7 @@
                                             Grid.Column="0"
                                             Height="16" 
                                             Width="16" 
-                                            Source="/Assets/magiccardsinfo-favicon.png"
+                                            Source="/Assets/vendors/magiccardsinfo-favicon.png"
                                             VerticalAlignment="Center" />
                                         <TextBlock 
                                             Grid.Row="0"
@@ -662,7 +663,7 @@
                                             Grid.Column="0"
                                             Height="16" 
                                             Width="16" 
-                                            Source="/Assets/amazon-favicon.ico"
+                                            Source="/Assets/vendors/amazon-favicon.ico"
                                             VerticalAlignment="Center" />
                                         <TextBlock 
                                             Grid.Row="0"
@@ -708,7 +709,7 @@
                                             Grid.Column="0"
                                             Height="16" 
                                             Width="16" 
-                                            Source="/Assets/cf-favicon.ico"
+                                            Source="/Assets/vendors/cf-favicon.ico"
                                             VerticalAlignment="Center" />
                                         <TextBlock 
                                             Grid.Row="0"
@@ -736,6 +737,52 @@
                             Grid.Row="3"
                             Grid.Column="1"
                             Command="{StaticResource ViewUrlCommand}"
+                            CommandParameter="{Binding MtgoTradersLink}"
+                            Style="{StaticResource CardVendorButtonStyle}">
+                            <Button.Template>
+                                <ControlTemplate>
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition />
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="30" />
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="60" />
+                                        </Grid.ColumnDefinitions>
+                                        <Image 
+                                            Grid.Row="0"
+                                            Grid.Column="0"
+                                            Height="16" 
+                                            Width="16" 
+                                            Source="/Assets/vendors/mtgotraders-favicon.ico"
+                                            VerticalAlignment="Center" />
+                                        <TextBlock 
+                                            Grid.Row="0"
+                                            Grid.Column="1"
+                                            Foreground="{StaticResource ForegroundBrush}" 
+                                            Margin="4,-4,0,0"
+                                            Style="{StaticResource CardAttributeValueStyle}"
+                                            Text="mtgotraders.com"
+                                            VerticalAlignment="Center" />
+                                        <TextBlock 
+                                            Grid.Row="0"
+                                            Grid.Column="2"
+                                            Foreground="{StaticResource ForegroundBrush}" 
+                                            Margin="4,-4,0,0"
+                                            Style="{StaticResource CardAttributeValueStyle}"
+                                            Text="{Binding MtgoTradersPrice}"
+                                            VerticalAlignment="Center"
+                                            Visibility="{Binding ShowPricingData, Converter={StaticResource BooleanVisibilityConverter}}" />
+                                    </Grid>
+                                </ControlTemplate>
+                            </Button.Template>
+                        </Button>
+                        
+                        <Button
+                            Grid.Row="4"
+                            Grid.Column="1"
+                            Command="{StaticResource ViewUrlCommand}"
                             CommandParameter="{Binding TCGPlayerLink}"
                             Style="{StaticResource CardVendorButtonStyle}">
                             <Button.Template>
@@ -754,7 +801,7 @@
                                             Grid.Column="0"
                                             Height="16" 
                                             Width="16" 
-                                            Source="/Assets/tcgplayer-favicon.ico"
+                                            Source="/Assets/vendors/tcgplayer-favicon.ico"
                                             VerticalAlignment="Center" />
                                         <TextBlock 
                                             Grid.Row="0"
