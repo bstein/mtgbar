@@ -407,13 +407,7 @@ namespace MtGBar.ViewModels
         private async void PrintingSelected(CardPrinting printing)
         {
             SelectedPrintingImage = null;
-
-            if (printing.Set.IsPromo && !string.IsNullOrEmpty(printing.Set.MtgImageName)) {
-                SelectedPrintingImage = await AppState.Instance.MelekDataStore.GetCardImage(printing.Set, SelectedCard);
-            }
-            else {
-                SelectedPrintingImage = await AppState.Instance.MelekDataStore.GetCardImage(printing);
-            }
+            SelectedPrintingImage = await AppState.Instance.MelekDataStore.GetCardImage(printing);
         }
 
         private void ReadSettings()
@@ -485,7 +479,7 @@ namespace MtGBar.ViewModels
             foreach (CardViewModel vm in CardMatches) {
                 vm.FullSize = await AppState.Instance.MelekDataStore.GetCardImage(vm.Card.Printings[0]);
                 if (vm.FullSize != null) {
-                    vm.Thumbnail = new CroppedBitmap(vm.FullSize, new Int32Rect(120, 100, 240, 240));
+                    vm.Thumbnail = new CroppedBitmap(vm.FullSize, new Int32Rect(65, 50, 96, 96));
                 }
             }
         }
