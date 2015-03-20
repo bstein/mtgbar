@@ -39,7 +39,7 @@ namespace MtGBar.ViewModels
             Background = new BitmapImage(new Uri("pack://application:,,,/Assets/welcome-bg.jpg"));
             ContentSource = "Views/AlertViews/WelcomeView.xaml";
             ShowWelcomeScreen = AppState.Instance.Settings.ShowWelcomeScreen;
-            WindowSubTitle = "think twice for your PC";
+            WindowSubTitle = "\"EITHER I KNOW JUST THE SPELL I NEED, OR I'M ABOUT TO.\"";
             WindowTitle = "Welcome to MtGBar";
 
             AppState.Instance.MelekDataStore.DataLoaded += (muchData, veryWow) => { IsLoading = false; };

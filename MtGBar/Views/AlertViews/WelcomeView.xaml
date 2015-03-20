@@ -18,7 +18,7 @@
                 <bazamConvert:BooleanVisibilityConverter x:Key="BooleanVisibilityConverter" />
             </StackPanel.Resources>
             <TextBlock 
-                Text="Welcome to MtGBar - the fastest and and most fun way to look up cards from Magic: the Gathering." 
+                Text="Welcome to MtGBar, the fastest and and most fun way to look up cards from Magic: the Gathering." 
                 TextWrapping="Wrap" />
             <TextBlock 
                 Margin="{StaticResource VerticalControlMargin}"
