@@ -1,7 +1,5 @@
 ﻿using System;
-using System.IO;
 using System.Windows.Input;
-using MtGBar.Infrastructure.Utilities;
 using MtGBar.ViewModels;
 
 namespace MtGBar.Infrastructure.UIHelpers.Commands
@@ -15,12 +13,12 @@ namespace MtGBar.Infrastructure.UIHelpers.Commands
             return true;
         }
 
-        public void Execute(object parameter)
+        public async void Execute(object parameter)
         {
-            AppState.Instance.MelekDataStore.ClearCardImageCache();
+            await AppState.Instance.MelekClient.ClearCardImageCache();
 
             if (parameter != null && parameter.GetType() == typeof(AboutViewModel)) {
-                (parameter as AboutViewModel).QueryCardCacheSize();
+                await (parameter as AboutViewModel).QueryCardCacheSize();
             };
         }
     }

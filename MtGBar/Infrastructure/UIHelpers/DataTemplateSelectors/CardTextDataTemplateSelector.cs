@@ -1,7 +1,7 @@
 ﻿using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
-using Melek.Models;
+using Melek.Domain;
 
 namespace MtGBar.Infrastructure.UIHelpers.DataTemplateSelectors
 {

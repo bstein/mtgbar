@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Windows.Media.Imaging;
-using BazamWPF.ViewModels;
 using MtGBar.Infrastructure;
 
 namespace MtGBar.ViewModels
@@ -8,22 +7,20 @@ namespace MtGBar.ViewModels
     public class WelcomeViewModel : AlertViewModel
     {
         #region Properties
-        [RelatedProperty("IsLoading")]
         private bool _IsLoading = true;
         public bool IsLoading
         {
             get { return _IsLoading; }
-            set { ChangeProperty<WelcomeViewModel>(vm => vm.IsLoading, value); }
+            set { ChangeProperty(vm => vm.IsLoading, value); }
         }
-
-        [RelatedProperty("ShowWelcomeScreen")]
+        
         private bool _ShowWelcomeScreen = true;
         public bool ShowWelcomeScreen
         {
             get { return _ShowWelcomeScreen; }
             set 
             { 
-                ChangeProperty<WelcomeViewModel>(vm => vm.ShowWelcomeScreen, value);
+                ChangeProperty(vm => vm.ShowWelcomeScreen, value);
                 AppState.Instance.Settings.ShowWelcomeScreen = value;
                 AppState.Instance.Settings.Save();
 
@@ -39,10 +36,10 @@ namespace MtGBar.ViewModels
             Background = new BitmapImage(new Uri("pack://application:,,,/Assets/welcome-bg.jpg"));
             ContentSource = "Views/AlertViews/WelcomeView.xaml";
             ShowWelcomeScreen = AppState.Instance.Settings.ShowWelcomeScreen;
-            WindowSubTitle = "\"EITHER I KNOW JUST THE SPELL I NEED, OR I'M ABOUT TO.\"";
+            WindowSubTitle = @"""EITHER I KNOW JUST THE SPELL I NEED, OR I'M ABOUT TO.""";
             WindowTitle = "Welcome to MtGBar";
 
-            AppState.Instance.MelekDataStore.DataLoaded += (muchData, veryWow) => { IsLoading = false; };
+            AppState.Instance.MelekClient.DataLoaded += () => { IsLoading = false; };
 
             string welcome = "Alrighty! It's time.\n\n";
             if (AppState.Instance.Settings.Hotkey != null) {

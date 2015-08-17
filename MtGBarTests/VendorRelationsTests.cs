@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Text.RegularExpressions;
-using Melek.Models;
+using Melek.Domain;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MtGBar.Infrastructure.Utilities.VendorRelations;
 

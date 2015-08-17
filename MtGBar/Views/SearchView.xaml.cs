@@ -2,7 +2,7 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using BazamWPF.Modules;
+using Bazam.Wpf.Modules;
 using Jammerware.Utilities;
 using MtGBar.Infrastructure;
 using MtGBar.ViewModels;

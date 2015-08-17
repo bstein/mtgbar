@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Globalization;
 using System.Windows.Data;
-using Melek.Models;
+using Melek.Domain;
 
 namespace MtGBar.Infrastructure.UIHelpers.Converters
 {
@@ -11,11 +11,9 @@ namespace MtGBar.Infrastructure.UIHelpers.Converters
         {
             string retVal = string.Empty;
             if (value != null) {
-                Card typedValue = (value as Card);
-                if (typedValue.CardTypes != null) {
-                    foreach (CardType type in typedValue.CardTypes) {
-                        retVal += type.ToString() + " ";
-                    }
+                ICard typedValue = (value as ICard);
+                foreach (CardType type in typedValue.AllTypes) {
+                    retVal += type.ToString() + " ";
                 }
             }
 

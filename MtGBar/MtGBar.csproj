@@ -83,29 +83,47 @@
     <NoWin32Manifest>true</NoWin32Manifest>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Bazam, Version=2.5.4.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>Project\Libs\Bazam.dll</HintPath>
+    <Reference Include="Bazam">
+      <HintPath>lib\Bazam.dll</HintPath>
     </Reference>
-    <Reference Include="BazamWPF, Version=2.0.2.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>Project\Libs\BazamWPF.dll</HintPath>
+    <Reference Include="Bazam.Http">
+      <HintPath>lib\Bazam.Http.dll</HintPath>
     </Reference>
-    <Reference Include="FirstFloor.ModernUI">
-      <HintPath>Project\Libs\FirstFloor.ModernUI.dll</HintPath>
+    <Reference Include="Bazam.KeyAdept">
+      <HintPath>lib\Bazam.KeyAdept.dll</HintPath>
+    </Reference>
+    <Reference Include="Bazam.SharpZipLibHelpers">
+      <HintPath>lib\Bazam.SharpZipLibHelpers.dll</HintPath>
+    </Reference>
+    <Reference Include="Bazam.Twitter">
+      <HintPath>lib\Bazam.Twitter.dll</HintPath>
+    </Reference>
+    <Reference Include="Bazam.WindowsForms">
+      <HintPath>lib\Bazam.WindowsForms.dll</HintPath>
+    </Reference>
+    <Reference Include="Bazam.Wpf">
+      <HintPath>lib\Bazam.Wpf.dll</HintPath>
+    </Reference>
+    <Reference Include="FirstFloor.ModernUI, Version=1.0.6.0, Culture=neutral, PublicKeyToken=2d21ec3cd074c59a, processorArchitecture=MSIL">
+      <HintPath>..\packages\ModernUI.WPF.1.0.6\lib\net45\FirstFloor.ModernUI.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Hardcodet.Wpf.TaskbarNotification">
-      <HintPath>Project\Libs\Hardcodet.Wpf.TaskbarNotification.dll</HintPath>
+      <HintPath>lib\Hardcodet.Wpf.TaskbarNotification.dll</HintPath>
     </Reference>
-    <Reference Include="ICSharpCode.SharpZipLib">
-      <HintPath>Project\Libs\ICSharpCode.SharpZipLib.dll</HintPath>
+    <Reference Include="ICSharpCode.SharpZipLib, Version=0.86.0.518, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpZipLib.0.86.0\lib\20\ICSharpCode.SharpZipLib.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="Melek">
-      <HintPath>Project\Libs\Melek.dll</HintPath>
+    <Reference Include="Melek.Client">
+      <HintPath>lib\Melek.Client.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Melek.Domain">
+      <HintPath>lib\Melek.Domain.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=7.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.7.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -115,7 +133,7 @@
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>Project\Libs\System.Windows.Interactivity.dll</HintPath>
+      <HintPath>lib\System.Windows.Interactivity.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />

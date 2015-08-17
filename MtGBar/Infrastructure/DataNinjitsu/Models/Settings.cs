@@ -5,8 +5,7 @@ using System.Linq;
 using System.Xml.Linq;
 using Bazam.KeyAdept.Infrastructure;
 using Bazam.Modules;
-using Melek.DataStore;
-using Melek.Models;
+using Melek.Domain;
 using Microsoft.Win32;
 using MtGBar.Infrastructure.Utilities;
 
@@ -19,7 +18,7 @@ namespace MtGBar.Infrastructure.DataNinjitsu.Models
         #endregion
 
         #region Fields
-        private List<Card> _RecentCards = new List<Card>();
+        private List<ICard> _RecentCards = new List<ICard>();
         private string _SettingsFile = Path.Combine(FileSystemManager.AppDataDirectory, "settings.xml");
         #endregion
 
@@ -34,7 +33,7 @@ namespace MtGBar.Infrastructure.DataNinjitsu.Models
         public bool ShowWelcomeScreen { get; set; }
         public bool StartOnSignIn { get; set; }
 
-        public Card[] RecentCards 
+        public ICard[] RecentCards 
         {
             get { return _RecentCards.ToArray(); }
         }
@@ -43,21 +42,21 @@ namespace MtGBar.Infrastructure.DataNinjitsu.Models
         public Settings()
         {
             XElement settingsData = null;
-            _RecentCards = new List<Card>();
+            _RecentCards = new List<ICard>();
 
             bool firstRun = false;
             settingsData = GetSettingsData();
 
             if (settingsData != null) {
-                DismissOnFocusLoss = (settingsData.Attribute("dismissOnFocusLoss") != null ? XMLPal.GetBool(settingsData.Attribute("dismissOnFocusLoss")) : true);
-                DisplayIndex = (settingsData.Attribute("displayIndex") != null ? (int?)XMLPal.GetInt(settingsData.Attribute("displayIndex")) : null);
-                Hotkey = (settingsData.Attribute("hotkey") != null ? new HotkeyDescription(XMLPal.GetString(settingsData.Attribute("hotkey"))) : null);
-                LastImageCheck = XMLPal.GetDate(settingsData.Attribute("lastImageCheck"));
-                MelekDevAuthkey = (settingsData.Attribute("melekDevAuthKey") != null ? XMLPal.GetString(settingsData.Attribute("melekDevAuthKey")) : null);
-                SaveCardImageData = XMLPal.GetBool(settingsData.Attribute("saveCardImageData"));
-                ShowPricingData = XMLPal.GetBool(settingsData.Attribute("showPricingData"));
-                ShowWelcomeScreen = (settingsData.Attribute("showWelcomeScreen") != null ? XMLPal.GetBool(settingsData.Attribute("showWelcomeScreen")) : true);
-                StartOnSignIn = XMLPal.GetBool(settingsData.Attribute("startOnSignIn"));
+                DismissOnFocusLoss = (settingsData.Attribute("dismissOnFocusLoss") != null ? XmlPal.GetBool(settingsData.Attribute("dismissOnFocusLoss")) : true);
+                DisplayIndex = (settingsData.Attribute("displayIndex") != null ? (int?)XmlPal.GetInt(settingsData.Attribute("displayIndex")) : null);
+                Hotkey = (settingsData.Attribute("hotkey") != null ? new HotkeyDescription(XmlPal.GetString(settingsData.Attribute("hotkey"))) : null);
+                LastImageCheck = XmlPal.GetDate(settingsData.Attribute("lastImageCheck"));
+                MelekDevAuthkey = (settingsData.Attribute("melekDevAuthKey") != null ? XmlPal.GetString(settingsData.Attribute("melekDevAuthKey")) : null);
+                SaveCardImageData = XmlPal.GetBool(settingsData.Attribute("saveCardImageData"));
+                ShowPricingData = XmlPal.GetBool(settingsData.Attribute("showPricingData"));
+                ShowWelcomeScreen = (settingsData.Attribute("showWelcomeScreen") != null ? XmlPal.GetBool(settingsData.Attribute("showWelcomeScreen")) : true);
+                StartOnSignIn = XmlPal.GetBool(settingsData.Attribute("startOnSignIn"));
             }
             else {
                 firstRun = true;
@@ -79,7 +78,7 @@ namespace MtGBar.Infrastructure.DataNinjitsu.Models
         {
             XElement recentCards = new XElement("recentCards");
             foreach (Card card in RecentCards) {
-                recentCards.Add(new XElement("card", new XAttribute("multiverseID", card.Printings[0].MultiverseID)));
+                recentCards.Add(new XElement("card", new XAttribute("multiverseID", card.Printings[0].MultiverseId)));
             }
 
             XDocument doc = new XDocument(
@@ -118,12 +117,12 @@ namespace MtGBar.Infrastructure.DataNinjitsu.Models
         public void LoadRecentCards()
         {
             XElement settingsData = GetSettingsData();
-            IEnumerable<Card> recentCards = null;
+            IEnumerable<ICard> recentCards = null;
 
             if (settingsData.Element("recentCards") != null) {
                 recentCards = (
                     from recentCard in settingsData.Element("recentCards").Elements("card")
-                    select AppState.Instance.MelekDataStore.GetCardByMultiverseID(recentCard.Attribute("multiverseID").Value)
+                    select AppState.Instance.MelekClient.GetCardByMultiverseId(recentCard.Attribute("multiverseID").Value)
                 );
             }
 

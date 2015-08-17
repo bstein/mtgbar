@@ -26,7 +26,7 @@ namespace MtGBar
             AppState.Instance.HotkeyRegistrar.UnregisterAllHotkeys();
         }
 
-        private void MelekDataStore_Loaded(object sender, EventArgs e)
+        private void MelekClient_Loaded()
         {
             Dispatcher.Invoke(() => {
                 AppState.Instance.TaskbarIcon.ToolTipText = AppConstants.APPNAME;
@@ -52,20 +52,22 @@ namespace MtGBar
             FileSystemManager.Init();
 
             // as soon as a melekdatastore instance is referenced, it'll start loading, so know that shit and register a listener that will do stuff when it's done
-            AppState.Instance.MelekDataStore.DataLoaded += MelekDataStore_Loaded;
-            // also say my name say my name when the thing has new packages
-            AppState.Instance.MelekDataStore.PackagesUpdated += (newPackages) => {
-                // set the lastimagecheck to a low value so that next time the clock comes around, new image data is downloaded (for the new packages)
-                AppState.Instance.Settings.LastImageCheck = DateTime.MinValue;
-                AppState.Instance.Settings.Save();
+            AppState.Instance.MelekClient.DataLoaded += MelekClient_Loaded;
 
-                if (newPackages.Length == 1) {
-                    TalkAtcha.TalkAtEm("New data: " + newPackages[0].Name, AppConstants.APPNAME + " has downloaded new data about " + newPackages[0].Name + ". Search for your favorite spoiler now!");
-                }
-                else if (newPackages.Length > 1) {
-                    TalkAtcha.TalkAtEm("New data!", AppConstants.APPNAME + " just downloaded a bunch of new data. Search for your favorite new card now!");
-                }
-            };
+            // TODO: need MelekClient to raise an event when new data is downloaded?
+            // also say my name say my name when the thing has new packages
+            //AppState.Instance.MelekDataStore.PackagesUpdated += (newPackages) => {
+            //    // set the lastimagecheck to a low value so that next time the clock comes around, new image data is downloaded (for the new packages)
+            //    AppState.Instance.Settings.LastImageCheck = DateTime.MinValue;
+            //    AppState.Instance.Settings.Save();
+
+            //    if (newPackages.Length == 1) {
+            //        TalkAtcha.TalkAtEm("New data: " + newPackages[0].Name, AppConstants.APPNAME + " has downloaded new data about " + newPackages[0].Name + ". Search for your favorite spoiler now!");
+            //    }
+            //    else if (newPackages.Length > 1) {
+            //        TalkAtcha.TalkAtEm("New data!", AppConstants.APPNAME + " just downloaded a bunch of new data. Search for your favorite new card now!");
+            //    }
+            //};
 
             // HEY! LISTEN!
             // ... to the hotkey registrar so we can tell the user if they try to do something that will screw stuff up

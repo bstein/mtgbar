@@ -3,7 +3,7 @@ using System.Globalization;
 using System.IO;
 using System.Windows.Data;
 using System.Windows.Media.Imaging;
-using Melek.Models;
+using Melek.Domain;
 using MtGBar.Infrastructure.Utilities;
 
 namespace MtGBar.Infrastructure.UIHelpers.Converters
@@ -13,7 +13,7 @@ namespace MtGBar.Infrastructure.UIHelpers.Converters
         public Object Convert(Object value, Type targetType, Object parameter, CultureInfo culture)
         {
             if (value != null) {
-                CardPrinting printing = (value as CardPrinting);
+                IPrinting printing = (value as IPrinting);
 
                 try {
                     string localPath = ImageManager.GetSetSymbolPath(printing.Set, printing.Rarity); 

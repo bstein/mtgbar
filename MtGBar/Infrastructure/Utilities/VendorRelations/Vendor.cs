@@ -1,4 +1,4 @@
-﻿using Melek.Models;
+﻿using Melek.Domain;
 
 namespace MtGBar.Infrastructure.Utilities.VendorRelations
 {

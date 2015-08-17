@@ -1,8 +1,9 @@
 ﻿using System;
 using System.IO;
 using System.Net;
+using System.Threading.Tasks;
 using Bazam.Modules;
-using Melek.Models;
+using Melek.Domain;
 
 namespace MtGBar.Infrastructure.Utilities
 {
@@ -46,12 +47,12 @@ namespace MtGBar.Infrastructure.Utilities
             return AppConstants.SETSYMBOL_URL_BASE + GetSetSymbolFileName(set, rarity);
         }
 
-        public static void DownloadImageData()
+        public static async void DownloadImageData()
         {
             if (DateTime.Now - AppState.Instance.Settings.LastImageCheck >= TimeSpan.FromHours(24)) {
-                BackgroundBuddy.RunAsync(() => {
-                    if (AppState.Instance.MelekDataStore != null) {
-                   
+                Task.Factory.StartNew(() => {
+                    if (AppState.Instance.MelekClient != null) {
+
                         // maybe package arts?
                         // we need to know which package has the most recent date so we can know what hip background to make the default
                         DateTime maxDate = DateTime.MinValue;

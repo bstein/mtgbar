@@ -2,24 +2,21 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
-using Bazam.Modules;
-using BazamWPF.UIHelpers;
-using BazamWPF.ViewModels;
-using Melek.DataStore;
-using Melek.Models;
+using Bazam.Wpf.UIHelpers;
+using Bazam.Wpf.ViewModels;
+using Melek.Domain;
 using MtGBar.Infrastructure;
 using MtGBar.Infrastructure.Utilities;
 using MtGBar.Infrastructure.Utilities.VendorRelations;
 
 namespace MtGBar.ViewModels
 {
-    public class SearchViewModel : ViewModelBase
+    public class SearchViewModel : ViewModelBase<SearchViewModel>
     {
         #region Constants
         private const string PRICE_DEFAULT = "--";
@@ -27,51 +24,29 @@ namespace MtGBar.ViewModels
         #endregion
 
         #region Fields
-        [RelatedProperty("AmazonLink")]
         private string _AmazonLink;
-        [RelatedProperty("AmazonPrice")]
         private string _AmazonPrice = PRICE_DEFAULT;
-        [RelatedProperty("CardMatches")]
         private CardViewModel[] _CardMatches;
-        [RelatedProperty("CFLink")]
         private string _CFLink;
-        [RelatedProperty("CFPrice")]
         private string _CFPrice = PRICE_DEFAULT;
         private string _DefaultBackground;
-        [RelatedProperty("GathererLink")]
         private string _GathererLink;
-        [RelatedProperty("MagicCardsInfoLink")]
         private string _MagicCardsInfoLink;
-        [RelatedProperty("MtgoTradersLink")]
         private string _MtgoTradersLink;
-        [RelatedProperty("MtgoTradersPrice")]
         private string _MtgoTradersPrice;
         private Dictionary<string, Dictionary<string, string>> _PriceCache = new Dictionary<string, Dictionary<string, string>>();
-        [RelatedProperty("SearchTerm")]
         private string _SearchTerm;
-        [RelatedProperty("SelectedCard")]
-        private Card _SelectedCard;
-        [RelatedProperty("SelectedPrinting")]
-        private CardPrinting _SelectedPrinting;
-        [RelatedProperty("SelectedPrintingImage")]
+        private ICard _SelectedCard;
+        private IPrinting _SelectedPrinting;
         private BitmapImage _SelectedPrintingImage;
-        [RelatedProperty("SelectedPrintingTransformsIntoPrinting")]
-        private CardPrinting _SelectedPrintingTransformsIntoPrinting;
-        [RelatedProperty("SelectedPrintingTransformsIntoCard")]
-        private Card _SelectedPrintingTransformsIntoCard;
-        [RelatedProperty("ShowPricingData")]
+        private IPrinting _SelectedPrintingTransformsIntoPrinting;
+        private ICard _SelectedPrintingTransformsIntoCard;
         private bool _ShowPricingData;
-        [RelatedProperty("TCGPlayerLink")]
         private string _TCGPlayerLink;
-        [RelatedProperty("TCGPlayerPrice")]
         private string _TCGPlayerPrice = PRICE_DEFAULT;
-        [RelatedProperty("WatermarkText")]
         private string _WatermarkText;
-        [RelatedProperty("WindowHeight")]
         private int _WindowHeight;
-        [RelatedProperty("WindowLeft")]
         private int _WindowLeft;
-        [RelatedProperty("WindowTop")]
         private int _WindowTop;
         #endregion
 
@@ -96,31 +71,31 @@ namespace MtGBar.ViewModels
         public string AmazonLink
         {
             get { return _AmazonLink; }
-            set { ChangeProperty<SearchViewModel>(vm => vm.AmazonLink, value); }
+            set { ChangeProperty(vm => vm.AmazonLink, value); }
         }
 
         public string AmazonPrice
         {
             get { return _AmazonPrice; }
-            set { ChangeProperty<SearchViewModel>(vm => vm.AmazonPrice, value); }
+            set { ChangeProperty(vm => vm.AmazonPrice, value); }
         }
 
         public CardViewModel[] CardMatches
         {
             get { return _CardMatches; }
-            set { ChangeProperty<SearchViewModel>(vm => vm.CardMatches, value); }
+            set { ChangeProperty(vm => vm.CardMatches, value); }
         }
 
         public string CFLink
         {
             get { return _CFLink; }
-            set { ChangeProperty<SearchViewModel>(vm => vm.CFLink, value); }
+            set { ChangeProperty(vm => vm.CFLink, value); }
         }
 
         public string CFPrice
         {
             get { return _CFPrice; }
-            set { ChangeProperty<SearchViewModel>(vm => vm.CFPrice, value); }
+            set { ChangeProperty(vm => vm.CFPrice, value); }
         }
 
         public string DefaultBackground
@@ -138,10 +113,10 @@ namespace MtGBar.ViewModels
             get 
             { 
                 return new RelayCommand(
-                    (omgHaveAParam) => {
+                    () => {
                         // have to retain a reference to the printing to select after we select the card (because selecting the
                         // card manipulates the SelectedPrintingTransformsIntoPrinting property.
-                        CardPrinting printingToSelect = SelectedPrintingTransformsIntoPrinting;
+                        IPrinting printingToSelect = SelectedPrintingTransformsIntoPrinting;
                         SelectedCard = SelectedPrintingTransformsIntoCard;
                         SelectedPrinting = printingToSelect;
                     }
@@ -152,25 +127,25 @@ namespace MtGBar.ViewModels
         public string GathererLink
         {
             get { return _GathererLink; }
-            set { ChangeProperty<SearchViewModel>(s => s.GathererLink, value); }
+            set { ChangeProperty(s => s.GathererLink, value); }
         }
 
         public string MagicCardsInfoLink
         {
             get { return _MagicCardsInfoLink; }
-            set { ChangeProperty<SearchViewModel>(s => s.MagicCardsInfoLink, value); }
+            set { ChangeProperty(s => s.MagicCardsInfoLink, value); }
         }
 
         public string MtgoTradersLink
         {
             get { return _MtgoTradersLink; }
-            set { ChangeProperty<SearchViewModel>(s => s.MtgoTradersLink, value); }
+            set { ChangeProperty(s => s.MtgoTradersLink, value); }
         }
 
         public string MtgoTradersPrice
         {
             get { return _MtgoTradersPrice; }
-            set { ChangeProperty<SearchViewModel>(s => s.MtgoTradersPrice, value); }
+            set { ChangeProperty(s => s.MtgoTradersPrice, value); }
         }
 
         public string SearchTerm
@@ -185,12 +160,12 @@ namespace MtGBar.ViewModels
                 if (_SearchTerm != value) {
                     string searchTerm = value.Trim().ToLower();
                     UpdateResults(searchTerm);
-                    ChangeProperty<SearchViewModel>(vm => vm.SearchTerm, value);
+                    ChangeProperty(vm => vm.SearchTerm, value);
                 }
             }
         }
 
-        public Card SelectedCard
+        public ICard SelectedCard
         {
             get { return _SelectedCard; }
             set
@@ -220,19 +195,20 @@ namespace MtGBar.ViewModels
             }
         }
 
-        public CardPrinting SelectedPrinting
+        public IPrinting SelectedPrinting
         {
             get { return _SelectedPrinting; }
             set
             {
                 if (_SelectedPrinting != value) {
-                    ChangeProperty<SearchViewModel>(vm => vm.SelectedPrinting, value);
+                    ChangeProperty(vm => vm.SelectedPrinting, value);
                     if (value != null) {
                         QueryPriceData();
                         PrintingSelected(value);
 
-                        if (!string.IsNullOrEmpty(value.TransformsToMultiverseID)) {
-                            SelectedPrintingTransformsIntoCard = AppState.Instance.MelekDataStore.GetCardByMultiverseID(value.TransformsToMultiverseID);
+                        if(value.GetType().IsAssignableFrom(typeof(TransformPrinting))) {
+                            TransformPrinting printing = (value as TransformPrinting);
+                            SelectedPrintingTransformsIntoCard = AppState.Instance.MelekClient.GetCardByMultiverseId(printing.MultiverseId);
                             SelectedPrintingTransformsIntoPrinting = SelectedPrintingTransformsIntoCard.Printings.Where(p => p.MultiverseID == value.TransformsToMultiverseID).FirstOrDefault();
                         }
                     }
@@ -247,61 +223,61 @@ namespace MtGBar.ViewModels
         public BitmapImage SelectedPrintingImage
         {
             get { return _SelectedPrintingImage; }
-            private set { ChangeProperty<SearchViewModel>(vm => vm.SelectedPrintingImage, value); }
+            private set { ChangeProperty(vm => vm.SelectedPrintingImage, value); }
         }
 
-        public CardPrinting SelectedPrintingTransformsIntoPrinting
+        public IPrinting SelectedPrintingTransformsIntoPrinting
         {
             get { return _SelectedPrintingTransformsIntoPrinting; }
-            set { ChangeProperty<SearchViewModel>(vm => vm.SelectedPrintingTransformsIntoPrinting, value); }
+            set { ChangeProperty(vm => vm.SelectedPrintingTransformsIntoPrinting, value); }
         }
 
-        public Card SelectedPrintingTransformsIntoCard
+        public ICard SelectedPrintingTransformsIntoCard
         {
             get { return _SelectedPrintingTransformsIntoCard; }
-            set { ChangeProperty<SearchViewModel>(vm => vm.SelectedPrintingTransformsIntoCard, value); }
+            set { ChangeProperty(vm => vm.SelectedPrintingTransformsIntoCard, value); }
         }
 
         public bool ShowPricingData
         {
             get { return _ShowPricingData; }
-            set { ChangeProperty<SearchViewModel>(vm => vm.ShowPricingData, value); }
+            set { ChangeProperty(vm => vm.ShowPricingData, value); }
         }
 
         public string TCGPlayerLink
         {
             get { return _TCGPlayerLink; }
-            set { ChangeProperty<SearchViewModel>(vm => vm.TCGPlayerLink, value); }
+            set { ChangeProperty(vm => vm.TCGPlayerLink, value); }
         }
 
         public string TCGPlayerPrice
         {
             get { return _TCGPlayerPrice; }
-            set { ChangeProperty<SearchViewModel>(vm => vm.TCGPlayerPrice, value); }
+            set { ChangeProperty(vm => vm.TCGPlayerPrice, value); }
         }
 
         public string WatermarkText
         {
             get { return _WatermarkText; }
-            set { ChangeProperty<SearchViewModel>(vm => vm.WatermarkText, value); }
+            set { ChangeProperty(vm => vm.WatermarkText, value); }
         }
 
         public int WindowHeight
         {
             get { return _WindowHeight; }
-            set { ChangeProperty<SearchViewModel>(vm => vm.WindowHeight, value); }
+            set { ChangeProperty(vm => vm.WindowHeight, value); }
         }
 
         public int WindowLeft
         {
             get { return _WindowLeft; }
-            set { ChangeProperty<SearchViewModel>(vm => vm.WindowLeft, value); }
+            set { ChangeProperty(vm => vm.WindowLeft, value); }
         }
 
         public int WindowTop
         {
             get { return _WindowTop; }
-            set { ChangeProperty<SearchViewModel>(vm => vm.WindowTop, value); }
+            set { ChangeProperty(vm => vm.WindowTop, value); }
         }
         #endregion
 
@@ -331,8 +307,8 @@ namespace MtGBar.ViewModels
             ResetPriceData();
             if (_ShowPricingData && SelectedPrinting != null && SelectedCard != null) {
                 // snag references to these in case they're gone by the time the async functions come back
-                string multiverseID = SelectedPrinting.MultiverseID;
-                Card selectedCard = SelectedCard;
+                string multiverseID = SelectedPrinting.MultiverseId;
+                ICard selectedCard = SelectedCard;
                 Set set = SelectedPrinting.Set;
                 
                 // get the gatherer and magiccards.info links, because that's an easy chestnut
@@ -404,10 +380,16 @@ namespace MtGBar.ViewModels
             }
         }
 
-        private async void PrintingSelected(CardPrinting printing)
+        private async void PrintingSelected(IPrinting printing)
         {
+            // clear existing selection
             SelectedPrintingImage = null;
-            SelectedPrintingImage = await AppState.Instance.MelekDataStore.GetCardImage(printing);
+
+            // get a cool image uri
+            Uri imageUri = await AppState.Instance.MelekClient.GetCardImageUri(printing);
+
+            // select it
+            SelectedPrintingImage = await ImageFactory.FromUri(imageUri);
         }
 
         private void ReadSettings()
@@ -455,12 +437,12 @@ namespace MtGBar.ViewModels
 
         private async void UpdateResults(string searchTerm)
         {
-            Card[] results = await Task<Card[]>.Factory.StartNew(() => { 
-                return AppState.Instance.MelekDataStore.Search(searchTerm).Take(5).ToArray(); 
+            ICard[] results = await Task<ICard[]>.Factory.StartNew(() => { 
+                return AppState.Instance.MelekClient.Search(searchTerm).Take(5).ToArray(); 
             });
             List<CardViewModel> vms = new List<CardViewModel>();
 
-            foreach (Card card in results) {
+            foreach (ICard card in results) {
                 CardViewModel vm = new CardViewModel(card);
                 vms.Add(vm);
             }
@@ -477,7 +459,7 @@ namespace MtGBar.ViewModels
 
             // then set up pretty picchurs
             foreach (CardViewModel vm in CardMatches) {
-                vm.FullSize = await AppState.Instance.MelekDataStore.GetCardImage(vm.Card.Printings[0]);
+                vm.FullSize = await ImageFactory.FromUri(await AppState.Instance.MelekClient.GetCardImageUri(vm.Card.Printings[0]));
                 if (vm.FullSize != null) {
                     vm.Thumbnail = new CroppedBitmap(vm.FullSize, new Int32Rect(65, 50, 96, 96));
                 }

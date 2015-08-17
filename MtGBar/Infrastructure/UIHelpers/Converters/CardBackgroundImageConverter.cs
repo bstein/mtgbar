@@ -5,7 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Windows.Data;
 using System.Windows.Media.Imaging;
-using Melek.Models;
+using Melek.Domain;
 using MtGBar.Infrastructure.Utilities;
 
 namespace MtGBar.Infrastructure.UIHelpers.Converters
@@ -18,12 +18,12 @@ namespace MtGBar.Infrastructure.UIHelpers.Converters
         {
             Uri uri = null;
 
-            if (value != null && !string.IsNullOrEmpty((value as Card).Watermark)) {
-                uri = new Uri("pack://application:,,,/Assets/backgrounds/" + (value as Card).Watermark.ToLower() + ".jpg", UriKind.Absolute);
+            if (value != null && !string.IsNullOrEmpty((value as ICard).Watermark)) {
+                uri = new Uri("pack://application:,,,/Assets/backgrounds/" + (value as ICard).Watermark.ToLower() + ".jpg", UriKind.Absolute);
             }
             else {
                 if (string.IsNullOrEmpty(RESOLVED_BACKGROUND)) {
-                    List<Package> packages = new List<Package>(AppState.Instance.MelekDataStore.GetPackages().OrderByDescending(p => p.DataUpdated));
+                    List<Package> packages = new List<Package>(AppState.Instance.MelekClient.GetPackages().OrderByDescending(p => p.DataUpdated));
                     string localPath = string.Empty;
 
                     foreach (Package package in packages) {

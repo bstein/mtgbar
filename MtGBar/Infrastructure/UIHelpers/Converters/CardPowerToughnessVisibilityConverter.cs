@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Globalization;
 using System.Windows.Data;
-using Melek.Models;
+using Melek.Domain;
 
 namespace MtGBar.Infrastructure.UIHelpers.Converters
 {
@@ -9,10 +9,10 @@ namespace MtGBar.Infrastructure.UIHelpers.Converters
     {
         public Object Convert(Object value, Type targetType, Object parameter, CultureInfo culture)
         {
-            Card typedValue = (value as Card);
-            if(typedValue.CardTypes != null) {
-                foreach(CardType type in typedValue.CardTypes) {
-                    if(type == CardType.CREATURE) {
+            ICard typedValue = (value as ICard);
+            if(typedValue.AllTypes != null) {
+                foreach(CardType type in typedValue.AllTypes) {
+                    if(type == CardType.Creature) {
                         return true;
                     }
                 }

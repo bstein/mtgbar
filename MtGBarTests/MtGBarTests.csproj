@@ -36,10 +36,19 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Bazam">
-      <HintPath>..\MtGBar\Project\Libs\Bazam.dll</HintPath>
+      <HintPath>..\MtGBar\lib\Bazam.dll</HintPath>
     </Reference>
-    <Reference Include="Melek">
-      <HintPath>..\MtGBar\Project\Libs\Melek.dll</HintPath>
+    <Reference Include="Bazam.Http">
+      <HintPath>..\MtGBar\lib\Bazam.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="Bazam.SharpZipLibHelpers">
+      <HintPath>..\MtGBar\lib\Bazam.SharpZipLibHelpers.dll</HintPath>
+    </Reference>
+    <Reference Include="Melek.Client">
+      <HintPath>..\MtGBar\lib\Melek.Client.dll</HintPath>
+    </Reference>
+    <Reference Include="Melek.Domain">
+      <HintPath>..\MtGBar\lib\Melek.Domain.dll</HintPath>
     </Reference>
     <Reference Include="System" />
   </ItemGroup>
@@ -66,7 +75,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <WCFMetadata Include="Service References\" />
+    <None Include="app.config" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

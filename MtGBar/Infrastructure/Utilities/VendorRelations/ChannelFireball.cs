@@ -2,7 +2,7 @@
 using System.Net;
 using System.Text.RegularExpressions;
 using System.Web;
-using Melek.Models;
+using Melek.Domain;
 
 namespace MtGBar.Infrastructure.Utilities.VendorRelations
 {

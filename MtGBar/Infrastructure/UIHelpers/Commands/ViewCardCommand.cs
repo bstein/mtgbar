@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Windows.Input;
-using Melek.Models;
+using Melek.Domain;
 using MtGBar.ViewModels;
 using MtGBar.Views;
 
@@ -8,10 +8,10 @@ namespace MtGBar.Infrastructure.UIHelpers.Commands
 {
     public class ViewCardCommand : ICommand
     {
-        private Card Card { get; set; }
+        private ICard Card { get; set; }
 
         public ViewCardCommand() {}
-        public ViewCardCommand(Card card)
+        public ViewCardCommand(ICard card)
         {
             this.Card = card;
         }
