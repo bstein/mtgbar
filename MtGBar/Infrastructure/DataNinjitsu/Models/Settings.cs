@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Xml.Linq;
 using Bazam.KeyAdept.Infrastructure;
-using Bazam.Modules;
+using Bazam.Xml;
 using Melek.Domain;
 using Microsoft.Win32;
 using MtGBar.Infrastructure.Utilities;
@@ -25,9 +25,8 @@ namespace MtGBar.Infrastructure.DataNinjitsu.Models
         #region Properties
         public bool DismissOnFocusLoss { get; set; }
         public int? DisplayIndex { get; set; }
-        public DateTime LastImageCheck { get; set; }
+        public DateTime? LastImageCheck { get; set; }
         public HotkeyDescription Hotkey { get; set; }
-        public string MelekDevAuthkey { get; private set; }
         public bool SaveCardImageData { get; set; }
         public bool ShowPricingData { get; set; }
         public bool ShowWelcomeScreen { get; set; }
@@ -48,15 +47,14 @@ namespace MtGBar.Infrastructure.DataNinjitsu.Models
             settingsData = GetSettingsData();
 
             if (settingsData != null) {
-                DismissOnFocusLoss = (settingsData.Attribute("dismissOnFocusLoss") != null ? XmlPal.GetBool(settingsData.Attribute("dismissOnFocusLoss")) : true);
-                DisplayIndex = (settingsData.Attribute("displayIndex") != null ? (int?)XmlPal.GetInt(settingsData.Attribute("displayIndex")) : null);
+                DismissOnFocusLoss = (settingsData.Attribute("dismissOnFocusLoss") != null ? XmlPal.GetBool(settingsData.Attribute("dismissOnFocusLoss")).Value : true);
+                DisplayIndex = XmlPal.GetInt(settingsData.Attribute("displayIndex"));
                 Hotkey = (settingsData.Attribute("hotkey") != null ? new HotkeyDescription(XmlPal.GetString(settingsData.Attribute("hotkey"))) : null);
                 LastImageCheck = XmlPal.GetDate(settingsData.Attribute("lastImageCheck"));
-                MelekDevAuthkey = (settingsData.Attribute("melekDevAuthKey") != null ? XmlPal.GetString(settingsData.Attribute("melekDevAuthKey")) : null);
-                SaveCardImageData = XmlPal.GetBool(settingsData.Attribute("saveCardImageData"));
-                ShowPricingData = XmlPal.GetBool(settingsData.Attribute("showPricingData"));
-                ShowWelcomeScreen = (settingsData.Attribute("showWelcomeScreen") != null ? XmlPal.GetBool(settingsData.Attribute("showWelcomeScreen")) : true);
-                StartOnSignIn = XmlPal.GetBool(settingsData.Attribute("startOnSignIn"));
+                SaveCardImageData = XmlPal.GetBool(settingsData.Attribute("saveCardImageData")).GetValueOrDefault();
+                ShowPricingData = XmlPal.GetBool(settingsData.Attribute("showPricingData")).GetValueOrDefault();
+                ShowWelcomeScreen = XmlPal.GetBool(settingsData.Attribute("showWelcomeScreen")).GetValueOrDefault();
+                StartOnSignIn = XmlPal.GetBool(settingsData.Attribute("startOnSignIn")).GetValueOrDefault();
             }
             else {
                 firstRun = true;
@@ -87,7 +85,6 @@ namespace MtGBar.Infrastructure.DataNinjitsu.Models
                     (DisplayIndex != null ? new XAttribute("displayIndex", DisplayIndex.Value) : null),
                     (Hotkey != null ? new XAttribute("hotkey", Hotkey.ToString().Replace(" ", "")) : null),
                     new XAttribute("lastImageCheck", LastImageCheck.ToString()),
-                    (MelekDevAuthkey != null ? new XAttribute("melekDevAuthKey", MelekDevAuthkey) : null),
                     new XAttribute("saveCardImageData", SaveCardImageData.ToString()),
                     new XAttribute("showPricingData", ShowPricingData.ToString()),
                     new XAttribute("showWelcomeScreen", ShowWelcomeScreen.ToString()),
@@ -143,7 +140,7 @@ namespace MtGBar.Infrastructure.DataNinjitsu.Models
             }
         }
 
-        public void LogRecentCard(Card card)
+        public void LogRecentCard(ICard card)
         {
             if (_RecentCards.Contains(card)) {
                 _RecentCards.Remove(card);

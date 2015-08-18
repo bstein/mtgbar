@@ -1,15 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
+# Visual Studio 14
+VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MtGBar", "MtGBar\MtGBar.csproj", "{7C23F660-5617-4E84-B405-1C4DFF9DD4B5}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MtGBarControls", "MtGBarControls\MtGBarControls.csproj", "{54FDD866-E6E0-4DFF-8C29-4187BBDCE1DF}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MtGBarRepairbot", "MtGBarRestarter\MtGBarRepairbot.csproj", "{3529F0D9-BF3E-40C1-A3B3-D01FAAE8C54D}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MtGBarTests", "MtGBarTests\MtGBarTests.csproj", "{BF0DFEE6-D60B-4C01-9355-2012869A3077}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,10 +27,6 @@ Global
 		{3529F0D9-BF3E-40C1-A3B3-D01FAAE8C54D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3529F0D9-BF3E-40C1-A3B3-D01FAAE8C54D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3529F0D9-BF3E-40C1-A3B3-D01FAAE8C54D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{BF0DFEE6-D60B-4C01-9355-2012869A3077}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{BF0DFEE6-D60B-4C01-9355-2012869A3077}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{BF0DFEE6-D60B-4C01-9355-2012869A3077}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{BF0DFEE6-D60B-4C01-9355-2012869A3077}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

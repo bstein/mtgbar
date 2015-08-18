@@ -102,7 +102,9 @@ namespace MtGBar.Views
 
         private void SetTaskbarVisibility()
         {
-            ShowInTaskbar = !AppState.Instance.Settings.DismissOnFocusLoss;
+            Dispatcher.BeginInvoke(new Action(() => {
+                ShowInTaskbar = !AppState.Instance.Settings.DismissOnFocusLoss;
+            }));
         }
 
         private void this_Activated(object sender, EventArgs e)

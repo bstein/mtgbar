@@ -2,7 +2,6 @@
 using System.Text.RegularExpressions;
 using Melek.Domain;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using MtGBar.Infrastructure.Utilities.VendorRelations;
 
 namespace MtGBarTests
 {

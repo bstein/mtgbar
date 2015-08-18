@@ -9,10 +9,10 @@ using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using Bazam.Wpf.UIHelpers;
 using Bazam.Wpf.ViewModels;
+using Melek.Client.Vendors;
 using Melek.Domain;
 using MtGBar.Infrastructure;
 using MtGBar.Infrastructure.Utilities;
-using MtGBar.Infrastructure.Utilities.VendorRelations;
 
 namespace MtGBar.ViewModels
 {
@@ -57,7 +57,7 @@ namespace MtGBar.ViewModels
         #region Constructor
         public SearchViewModel()
         {
-            _DefaultBackground = Path.Combine(FileSystemManager.PackageArtDirectory, "default.jpg");
+            _DefaultBackground = Path.Combine(FileSystemManager.SetArtDirectory, "default.jpg");
             ReadSettings();
             ShuffleWatermarkText();
 
@@ -209,7 +209,7 @@ namespace MtGBar.ViewModels
                         if(value.GetType().IsAssignableFrom(typeof(TransformPrinting))) {
                             TransformPrinting printing = (value as TransformPrinting);
                             SelectedPrintingTransformsIntoCard = AppState.Instance.MelekClient.GetCardByMultiverseId(printing.MultiverseId);
-                            SelectedPrintingTransformsIntoPrinting = SelectedPrintingTransformsIntoCard.Printings.Where(p => p.MultiverseID == value.TransformsToMultiverseID).FirstOrDefault();
+                            SelectedPrintingTransformsIntoPrinting = SelectedPrintingTransformsIntoCard.Printings.Where(p => p.MultiverseId == printing.TransformedMultiverseId).FirstOrDefault();
                         }
                     }
                     else {
@@ -302,7 +302,7 @@ namespace MtGBar.ViewModels
             return _PriceCache.ContainsKey(multiverseID) && _PriceCache[multiverseID].ContainsKey(vendor);
         }
 
-        private void QueryPriceData()
+        private async void QueryPriceData()
         {
             ResetPriceData();
             if (_ShowPricingData && SelectedPrinting != null && SelectedCard != null) {
@@ -311,72 +311,65 @@ namespace MtGBar.ViewModels
                 ICard selectedCard = SelectedCard;
                 Set set = SelectedPrinting.Set;
                 
-                // get the gatherer and magiccards.info links, because that's an easy chestnut
-                GathererLink = VendorRelationsUtilities.GetGathererLink(SelectedPrinting.MultiverseID);
-                MagicCardsInfoLink = VendorRelationsUtilities.GetMagicCardsInfoLink(selectedCard.Name);
+                // get the gatherer and magiccards.info links, because that's a dreadfully easy chestnut
+                GathererLink = await new GathererClient().GetLink(selectedCard, set);
+                MagicCardsInfoLink = await new MagicCardsInfoClient().GetLink(selectedCard, set);
 
-                BackgroundBuddy.RunAsync(() => {
-                    AmazonLink = VendorRelationsUtilities.GetAmazonLink(selectedCard, set);
+                // amazon
+                AmazonClient amazonClient = new AmazonClient();
+                AmazonLink = await amazonClient.GetLink(selectedCard, set);
+                string amazonPrice = null;
+                if (IsPriceCached(multiverseID, "amazon")) {
+                    amazonPrice = _PriceCache[multiverseID]["amazon"];
+                }
+                else {
+                    amazonPrice = await amazonClient.GetPrice(selectedCard, set);
+                    CachePrice(multiverseID, "amazon", amazonPrice);
+                }
+                AmazonPrice = ApplyPriceDefault(amazonPrice);
 
-                    string amazonPrice = string.Empty;
-                    if (IsPriceCached(multiverseID, "amazon")) {
-                        amazonPrice = _PriceCache[multiverseID]["amazon"];
-                    }
-                    else {
-                        amazonPrice = VendorRelationsUtilities.GetAmazonPrice(selectedCard, set);
-                        CachePrice(multiverseID, "amazon", amazonPrice);
-                    }
-                    AmazonPrice = ApplyPriceDefault(amazonPrice);
-                });
+                // channel fireball
+                ChannelFireballClient cfbClient = new ChannelFireballClient();
+                CFLink = await cfbClient.GetLink(selectedCard, set);
 
-                BackgroundBuddy.RunAsync(() => {
-                    CFLink = VendorRelationsUtilities.GetCFLink(selectedCard.Name, set);
+                string cfPrice = string.Empty;
+                if (IsPriceCached(multiverseID, "cf")) {
+                    cfPrice = _PriceCache[multiverseID]["cf"];
+                }
+                else {
+                    cfPrice = await cfbClient.GetPrice(selectedCard, set);
+                    CachePrice(multiverseID, "cf", cfPrice);
+                }
+                CFPrice = ApplyPriceDefault(cfPrice);
 
-                    string cfPrice = string.Empty;
-                    if (IsPriceCached(multiverseID, "cf")) {
-                        cfPrice = _PriceCache[multiverseID]["cf"];
-                    }
-                    else {
-                        cfPrice = VendorRelationsUtilities.GetCFPrice(selectedCard.Name, set);
-                        CachePrice(multiverseID, "cf", cfPrice);
-                    }
-                    CFPrice = ApplyPriceDefault(cfPrice);
-                });
+                // mtgotraders.com
+                MtgoTradersClient mtgoTradersClient = new MtgoTradersClient();
+                MtgoTradersLink = await mtgoTradersClient.GetLink(selectedCard, set);
 
-                BackgroundBuddy.RunAsync(() => {
-                    MtgoTraders mtgoTradersClient = new MtgoTraders();
-                    MtgoTradersLink = mtgoTradersClient.GetLink(selectedCard, set);
-                    string mtgoTradersPrice = string.Empty;
+                string mtgoTradersPrice = string.Empty;
+                if (IsPriceCached(multiverseID, "mtgotraders")) {
+                    mtgoTradersPrice = _PriceCache[multiverseID]["mtgotraders"];
+                }
+                else {
+                    mtgoTradersPrice = await mtgoTradersClient.GetPrice(selectedCard, set);
+                    CachePrice(multiverseID, "mtgotradrers", mtgoTradersPrice);
+                }
+                MtgoTradersPrice = ApplyPriceDefault(mtgoTradersPrice);
 
-                    if (IsPriceCached(multiverseID, "mtgotraders")) {
-                        mtgoTradersPrice = _PriceCache[multiverseID]["mtgotraders"];
-                    }
-                    else {
-                        mtgoTradersPrice = mtgoTradersClient.GetPrice(selectedCard, set);
-                        CachePrice(multiverseID, "mtgotradrers", mtgoTradersPrice);
-                    }
-                    MtgoTradersPrice = ApplyPriceDefault(mtgoTradersPrice);
-                });
-
-                BackgroundBuddy.RunAsync(() => {
-                    // set the default tcgplayer link in case the API takes a bit
-                    TCGPlayerLink = VendorRelationsUtilities.GetTCGPlayerLinkDefault(selectedCard.Name, set);
-                    string tcgPlayerAPIData = VendorRelationsUtilities.GetTCGPlayerAPIData(selectedCard.Name, set);
-                    string apiLink = VendorRelationsUtilities.GetTCGPlayerLink(tcgPlayerAPIData);
-                    if (!string.IsNullOrEmpty(apiLink)) {
-                        TCGPlayerLink = VendorRelationsUtilities.GetTCGPlayerLink(tcgPlayerAPIData);
-                    }
-
-                    string tcgPlayerPrice = string.Empty;
-                    if (IsPriceCached(multiverseID, "tcgPlayer")) {
-                        tcgPlayerPrice = _PriceCache[multiverseID]["tcgPlayer"];
-                    }
-                    else {
-                        tcgPlayerPrice = VendorRelationsUtilities.GetTCGPlayerPrice(tcgPlayerAPIData);
-                        CachePrice(multiverseID, "tcgPlayer", tcgPlayerPrice);
-                    }
-                    TCGPlayerPrice = ApplyPriceDefault(tcgPlayerPrice);
-                });
+                // tcgplayer
+                // set the default tcgplayer link in case the API takes a bit
+                TcgPlayerClient tcgClient = new TcgPlayerClient();
+                TCGPlayerLink = await tcgClient.GetLink(selectedCard, set);
+                
+                string tcgPlayerPrice = string.Empty;
+                if (IsPriceCached(multiverseID, "tcgPlayer")) {
+                    tcgPlayerPrice = _PriceCache[multiverseID]["tcgPlayer"];
+                }
+                else {
+                    tcgPlayerPrice = await tcgClient.GetPrice(selectedCard, set);
+                    CachePrice(multiverseID, "tcgPlayer", tcgPlayerPrice);
+                }
+                TCGPlayerPrice = ApplyPriceDefault(tcgPlayerPrice);
             }
         }
 
@@ -432,7 +425,7 @@ namespace MtGBar.ViewModels
 
         private void ShuffleWatermarkText()
         {
-            WatermarkText = "try \"" + AppState.Instance.MelekDataStore.GetRandomCardName() + "\"";
+            WatermarkText = "try \"" + AppState.Instance.MelekClient.GetRandomCardName() + "\"";
         }
 
         private async void UpdateResults(string searchTerm)

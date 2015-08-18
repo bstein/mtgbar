@@ -7,9 +7,11 @@ namespace MtGBar.Infrastructure.UIHelpers.Converters
 {
     public class CardTypeStringConverter : IValueConverter
     {
-        public Object Convert(Object value, Type targetType, Object parameter, CultureInfo culture)
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             string retVal = string.Empty;
+            bool typedParameter = (parameter == null ? false : bool.Parse(parameter.ToString()));
+
             if (value != null) {
                 ICard typedValue = (value as ICard);
                 foreach (CardType type in typedValue.AllTypes) {
@@ -17,10 +19,12 @@ namespace MtGBar.Infrastructure.UIHelpers.Converters
                 }
             }
 
+            if (typedParameter) retVal = retVal.ToUpper();
+
             return retVal.Trim();
         }
 
-        public object ConvertBack(Object value, Type targetType, Object parameter, CultureInfo culture)
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
             throw new NotImplementedException();
         }

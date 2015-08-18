@@ -11,7 +11,7 @@ namespace MtGBar.ViewModels
         public bool IsLoading
         {
             get { return _IsLoading; }
-            set { ChangeProperty(vm => vm.IsLoading, value); }
+            set { ChangeProperty<WelcomeViewModel>(vm => vm.IsLoading, value); }
         }
         
         private bool _ShowWelcomeScreen = true;
@@ -20,7 +20,7 @@ namespace MtGBar.ViewModels
             get { return _ShowWelcomeScreen; }
             set 
             { 
-                ChangeProperty(vm => vm.ShowWelcomeScreen, value);
+                ChangeProperty<WelcomeViewModel>(vm => vm.ShowWelcomeScreen, value);
                 AppState.Instance.Settings.ShowWelcomeScreen = value;
                 AppState.Instance.Settings.Save();
 

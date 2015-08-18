@@ -127,7 +127,7 @@
                 Stretch="UniformToFill">
                 <ImageBrush.ImageSource>
                     <PriorityBinding>
-                        <Binding Converter="{StaticResource CardBackgroundImageConverter}" IsAsync="True" Path="SelectedCard" />
+                        <Binding Converter="{StaticResource CardBackgroundImageConverter}" IsAsync="True" Path="SelectedPrinting" />
                         <Binding Path="DefaultBackground" />
                     </PriorityBinding>
                 </ImageBrush.ImageSource>
@@ -237,7 +237,7 @@
                                     <TextBlock
                                         Foreground="{StaticResource SubtleBrush}"
                                         Style="{StaticResource ResultSubtitleLightStyle}" 
-                                        Text="{Binding Card, Converter={StaticResource CardTypeStringConverter}}" />
+                                        Text="{Binding Card, Converter={StaticResource CardTypeStringConverter}, ConverterParameter=true}" />
                                 </StackPanel>
                                 <StackPanel 
                                     Margin="-8,0,0,0"
@@ -351,7 +351,7 @@
                     <TextBlock
                         Foreground="{StaticResource SubtleBrush}"
                         Style="{StaticResource CardSubtitleStyle}"
-                        Text="{Binding SelectedCard, Converter={StaticResource CardTypeStringConverter}}" />
+                        Text="{Binding SelectedCard, Converter={StaticResource CardTypeStringConverter}, ConverterParameter=true}" />
                 </StackPanel>
                 <TextBlock
                     Grid.Row="0"
