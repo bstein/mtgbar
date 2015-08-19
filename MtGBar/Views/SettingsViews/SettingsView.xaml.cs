@@ -21,7 +21,7 @@ namespace MtGBar.Views.SettingsViews
 
         private void Window_Activated(object sender, RoutedEventArgs e)
         {
-            (DataContext as AboutViewModel).QueryCardCacheSize();
+            (DataContext as AboutViewModel).LoadCardCacheSize();
         }
 
         private void HotBox_KeyDown(object sender, KeyEventArgs e)

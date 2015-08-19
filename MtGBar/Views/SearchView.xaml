@@ -54,6 +54,7 @@
             <convert:CardTextConverter x:Key="CardTextConverter" />
             <convert:CardTextParseConverter x:Key="CardTextParseConverter" />
             <convert:CardTextVisibilityConverter x:Key="CardTextVisibilityConverter" />
+            <convert:CardTribesStringConverter x:Key="CardTribesStringConverter" />
             <convert:CardTypeStringConverter x:Key="CardTypeStringConverter" />
             <convert:CardViewVisibilityConverter x:Key="CardViewVisibilityConverter" />
             <convert:CardWatermarkConverter x:Key="CardWatermarkConverter" />
@@ -424,7 +425,7 @@
                         Grid.Row="1"
                         Grid.Column="0"
                         Style="{StaticResource CardAttributeLabelStyle}"
-                        Visibility="{Binding SelectedCard.Tribe, Converter={StaticResource StringVisibilityConverter}}">
+                        Visibility="{Binding SelectedCard.AllTribes, Converter={StaticResource StringVisibilityConverter}}">
                         Type
                     </TextBlock>
 
@@ -432,7 +433,7 @@
                         Grid.Row="1"
                         Grid.Column="1"
                         Style="{StaticResource CardAttributeValueStyle}"
-                        Text="{Binding SelectedCard.Tribe}"
+                        Text="{Binding SelectedCard.AllTribes, Converter={StaticResource CardTribesStringConverter}}"
                         Visibility="{Binding SelectedCard.Tribe, Converter={StaticResource StringVisibilityConverter}}" />
 
                     <TextBlock 

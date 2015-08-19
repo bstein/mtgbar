@@ -1,0 +1,47 @@
+﻿<UserControl 
+    x:Class="MtGBar.Views.SettingsViews.SetsView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+    xmlns:convert="clr-namespace:MtGBar.Infrastructure.UIHelpers.Converters">
+    
+    <Grid>
+        <Grid.Resources>
+            <convert:DateTimeStringConverter x:Key="DateTimeStringConverter" />
+        </Grid.Resources>
+
+        <ScrollViewer>
+            <ItemsControl ItemsSource="{Binding Sets}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition />
+                                <ColumnDefinition Width="80" />
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock 
+                                Grid.Column="0"
+                                FontSize="14"
+                                Foreground="{StaticResource ForegroundBrush}"
+                                Style="{StaticResource TextBlockFontStyle}"
+                                Text="{Binding Name}"
+                                VerticalAlignment="Center" />
+
+                            <TextBlock
+                                Grid.Column="1"
+                                FontSize="14"
+                                Foreground="{StaticResource SubtleBrush}"
+                                HorizontalAlignment="Right"
+                                Margin="6,0,10,0"
+                                Style="{StaticResource TextBlockFontStyle}"
+                                Text="{Binding Date, Converter={StaticResource DateTimeStringConverter}}" 
+                                VerticalAlignment="Center" />
+                        </Grid>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
+    </Grid>
+</UserControl>

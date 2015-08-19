@@ -2,18 +2,18 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Input;
-using Bazam.Wpf.ViewModels;
 using Bazam.KeyAdept;
 using Bazam.Modules;
+using Bazam.Twitter;
+using Bazam.Wpf.ViewModels;
 using Melek.Domain;
 using MtGBar.Infrastructure;
 using MtGBar.Infrastructure.DataNinjitsu.Models;
 using MtGBar.Infrastructure.UIHelpers.Commands;
 using MtGBar.Infrastructure.Utilities;
-using System.Threading.Tasks;
-using Bazam.Twitter;
 
 namespace MtGBar.ViewModels
 {
@@ -26,22 +26,22 @@ namespace MtGBar.ViewModels
         private HotkeyDescription _Hotkey { get; set; }
         private string _HotkeyString { get; set; }
         private DisplayViewModel _SelectedDisplay = null;
+        private IReadOnlyList<Set> _Sets = new List<Set>();
         public IEnumerable<TweetViewModel> _Tweets = new List<TweetViewModel>();
 
         public AboutViewModel()
         {
             // set hotkey
             _Hotkey = AppState.Instance.Settings.Hotkey;
-            
-            // find out about the card cache size
-            QueryCardCacheSize().GetAwaiter();
 
             // set version
             Version version = Assembly.GetExecutingAssembly().GetName().Version;
             try {
                 version = System.Deployment.Application.ApplicationDeployment.CurrentDeployment.CurrentVersion;
             }
-            catch (Exception) { }
+            catch (Exception) {
+                // this bombs if the application isn't deployed (i.e. in debug)
+            }
             VersionString = "v " + version.Major.ToString() + "." + version.Minor.ToString() + "." + version.Revision.ToString();
             
             // query displays
@@ -60,9 +60,6 @@ namespace MtGBar.ViewModels
             }
             _DisplayViewModels = displayVMs.ToArray();
             if (SelectedDisplay == null) SelectedDisplay = displayVMs[0];
-
-            // get tweets
-            GetTweets();
         }
 
         public string CardsDirectorySize
@@ -158,6 +155,12 @@ namespace MtGBar.ViewModels
             }
         }
 
+        public IReadOnlyList<Set> Sets
+        {
+            get { return _Sets; }
+            set { ChangeProperty(vm => vm.Sets, value); }
+        }
+
         public bool ShowWelcomeScreen
         {
             get { return AppState.Instance.Settings.ShowWelcomeScreen; }
@@ -229,7 +232,7 @@ namespace MtGBar.ViewModels
 
         public string VersionString { get; set; }
         
-        private async Task GetTweets()
+        private async Task LoadTweets()
         {
             TwitterGitter gitter = new TwitterGitter("HgM9fPG8L1ffEtzrVnSgtKLOp", "z5RViBlJahCTaNRAnz8Gy1vrTn420CZ80hReakMXceMJzvSnsz");
             Dictionary<long, TweetViewModel> tweets = new Dictionary<long, TweetViewModel>();
@@ -247,10 +250,17 @@ namespace MtGBar.ViewModels
             Tweets = tweets.Values.OrderByDescending(t => t.Date);
         }
 
-        public async Task QueryCardCacheSize()
+        public async Task LoadCardCacheSize()
         {
             CardsDirectorySize = await AppState.Instance.MelekClient.GetCardImageCacheSize(true);
             CardsDirectorySize = await AppState.Instance.MelekClient.GetCardImageCacheSize();
+        }
+
+        public async Task Load()
+        {
+            await LoadCardCacheSize();
+            await LoadTweets();
+            Sets = AppState.Instance.MelekClient.GetSets().OrderByDescending(s => s.Date).ToList();
         }
     }
 }

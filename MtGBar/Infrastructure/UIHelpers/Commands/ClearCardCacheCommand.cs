@@ -18,7 +18,7 @@ namespace MtGBar.Infrastructure.UIHelpers.Commands
             await AppState.Instance.MelekClient.ClearCardImageCache();
 
             if (parameter != null && parameter.GetType() == typeof(AboutViewModel)) {
-                await (parameter as AboutViewModel).QueryCardCacheSize();
+                await (parameter as AboutViewModel).LoadCardCacheSize();
             };
         }
     }

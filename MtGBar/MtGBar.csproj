@@ -9,12 +9,13 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>MtGBar</RootNamespace>
     <AssemblyName>MtGBar</AssemblyName>
-    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
     <IsWebBootstrapper>true</IsWebBootstrapper>
-    <PublishUrl>E:\Dev\MtGBar\MtGBar\Project\Live\</PublishUrl>
+    <TargetFrameworkProfile />
+    <PublishUrl>C:\Users\bstein\Desktop\mtgbar\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Web</InstallFrom>
     <UpdateEnabled>true</UpdateEnabled>
@@ -24,7 +25,7 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
-    <InstallUrl>http://software.jammerware.com/mtgbar/</InstallUrl>
+    <InstallUrl>http://jammerware.blob.core.windows.net/mtgbar/</InstallUrl>
     <UpdateUrl>http://software.jammerware.com/mtgbar/</UpdateUrl>
     <TargetCulture>en-US</TargetCulture>
     <ProductName>MtGBar</ProductName>
@@ -32,12 +33,11 @@
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
     <OpenBrowserOnPublish>false</OpenBrowserOnPublish>
-    <ApplicationRevision>35</ApplicationRevision>
+    <ApplicationRevision>43</ApplicationRevision>
     <ApplicationVersion>1.1.0.%2a</ApplicationVersion>
     <UseApplicationTrust>true</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
     <BootstrapperEnabled>true</BootstrapperEnabled>
-    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -185,6 +185,7 @@
     <Compile Include="Infrastructure\UIHelpers\Converters\CardTextConverter.cs" />
     <Compile Include="Infrastructure\UIHelpers\Converters\CardTextParseConverter.cs" />
     <Compile Include="Infrastructure\UIHelpers\Converters\CardTextVisibilityConverter.cs" />
+    <Compile Include="Infrastructure\UIHelpers\Converters\CardTribesStringConverter.cs" />
     <Compile Include="Infrastructure\UIHelpers\Converters\CardTypeStringConverter.cs" />
     <Compile Include="Infrastructure\UIHelpers\Converters\CardViewVisibilityConverter.cs" />
     <Compile Include="Infrastructure\UIHelpers\Converters\CardWatermarkConverter.cs" />
@@ -232,8 +233,8 @@
     <Compile Include="Views\SettingsViews\MoreInfoView.xaml.cs">
       <DependentUpon>MoreInfoView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\SettingsViews\PackagesView.xaml.cs">
-      <DependentUpon>PackagesView.xaml</DependentUpon>
+    <Compile Include="Views\SettingsViews\SetsView.xaml.cs">
+      <DependentUpon>SetsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SettingsViews\SettingsView.xaml.cs">
       <DependentUpon>SettingsView.xaml</DependentUpon>
@@ -275,7 +276,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\SettingsViews\PackagesView.xaml">
+    <Page Include="Views\SettingsViews\SetsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
