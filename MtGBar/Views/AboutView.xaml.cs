@@ -1,4 +1,6 @@
-﻿using FirstFloor.ModernUI.Windows.Controls;
+﻿using System.Windows;
+using FirstFloor.ModernUI.Windows.Controls;
+using MtGBar.ViewModels;
 
 namespace MtGBar.Views
 {
@@ -7,6 +9,11 @@ namespace MtGBar.Views
         public AboutView()
         {
             InitializeComponent();
+        }
+
+        private async void this_Loaded(object sender, RoutedEventArgs e)
+        {
+            await (DataContext as AboutViewModel).Load();
         }
     }
 }

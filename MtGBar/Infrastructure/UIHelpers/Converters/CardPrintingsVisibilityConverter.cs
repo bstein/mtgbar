@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Windows;
 using System.Windows.Data;
-using Melek.Models;
+using Melek.Domain;
 
 namespace MtGBar.Infrastructure.UIHelpers.Converters
 {
@@ -11,7 +11,7 @@ namespace MtGBar.Infrastructure.UIHelpers.Converters
     {
         public Object Convert(Object value, Type targetType, Object parameter, CultureInfo culture)
         {
-            List<CardPrinting> printings = value as List<CardPrinting>;
+            List<IPrinting> printings = value as List<IPrinting>;
             return printings.Count > 1 ? Visibility.Visible : Visibility.Collapsed;
         }
 

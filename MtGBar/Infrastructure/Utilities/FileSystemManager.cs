@@ -8,7 +8,7 @@ namespace MtGBar.Infrastructure.Utilities
         public static string AppDataDirectory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Jammerware.MtGBar");
         public static string LogFileName = Path.Combine(AppDataDirectory, "errors.log");
         public static string MelekDataDirectory = AppDataDirectory;
-        public static string PackageArtDirectory = Path.Combine(AppDataDirectory, "packageArt");
+        public static string SetArtDirectory = Path.Combine(AppDataDirectory, "setArt");
         public static string SetSymbolsDirectory = Path.Combine(AppDataDirectory, "setSymbols");
 
         public static void Init()
@@ -17,8 +17,8 @@ namespace MtGBar.Infrastructure.Utilities
                 Directory.CreateDirectory(AppDataDirectory);
             }
 
-            if (!Directory.Exists(PackageArtDirectory)) {
-                Directory.CreateDirectory(PackageArtDirectory);
+            if (!Directory.Exists(SetArtDirectory)) {
+                Directory.CreateDirectory(SetArtDirectory);
             }
 
             if (!Directory.Exists(SetSymbolsDirectory)) {

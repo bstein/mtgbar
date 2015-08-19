@@ -1,26 +1,23 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Windows.Data;
-using Melek.Domain;
 
 namespace MtGBar.Infrastructure.UIHelpers.Converters
 {
-    public class CardTypeStringConverter : IValueConverter
+    public class CardTribesStringConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             string retVal = string.Empty;
-            bool typedParameter = (parameter == null ? false : bool.Parse(parameter.ToString()));
-
+            
             if (value != null) {
-                ICard typedValue = (value as ICard);
-                foreach (CardType type in typedValue.AllTypes) {
-                    retVal += type.ToString() + " ";
+                IReadOnlyList<string> typedValue = (value as IReadOnlyList<string>);
+                foreach (string tribe in typedValue) {
+                    retVal += tribe.ToString() + " ";
                 }
             }
-
-            if (typedParameter) retVal = retVal.ToUpper();
-
+            
             return retVal.Trim();
         }
 

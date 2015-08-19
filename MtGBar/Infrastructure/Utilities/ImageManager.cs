@@ -1,24 +1,33 @@
 ﻿using System;
 using System.IO;
 using System.Net;
-using Bazam.Modules;
-using Melek.Models;
+using System.Threading.Tasks;
+using Melek.Domain;
 
 namespace MtGBar.Infrastructure.Utilities
 {
     public static class ImageManager
     {
-        private static void DownloadImage(string url, string localPath)
+        private static async Task DownloadImage(string url, string localPath)
         {
-            Uri webUri = new Uri(url);
-            BackgroundBuddy.RunAsync(() => {
-                try {
-                    new WebClient().DownloadFile(webUri.AbsoluteUri, localPath);
+            // check if the file is even a real thing
+            HttpWebRequest request = HttpWebRequest.CreateHttp(url);
+            request.Method = "HEAD";
+
+            try {
+                using (HttpWebResponse response = (await request.GetResponseAsync() as HttpWebResponse)) {
+                    if (response.StatusCode == HttpStatusCode.OK) {
+                        await Task.Factory.StartNew(() => {
+                            Uri webUri = new Uri(url);
+                            WebClient client = new WebClient();
+                            client.DownloadFileAsync(webUri, localPath);
+                        });
+                    }
                 }
-                catch (WebException) {
-                    // idc
-                }
-            });
+            }
+            catch (WebException) {
+                // this is cool, sometimes we don't have images. we'll make it.
+            }
         }
 
         private static string GetSetSymbolFileName(Set set, CardRarity rarity)
@@ -26,13 +35,13 @@ namespace MtGBar.Infrastructure.Utilities
             return set.Code.ToLower() + "-" + rarity.ToString().ToCharArray()[0].ToString().ToLower() + ".png";
         }
 
-        public static void DownloadSetSymbol(Set set, CardRarity rarity)
+        public static async Task DownloadSetSymbol(Set set, CardRarity rarity)
         {
             string setSymbolFileName = GetSetSymbolFileName(set, rarity);
             Uri localUri = new Uri(Path.Combine(FileSystemManager.SetSymbolsDirectory, setSymbolFileName));
 
             if (!File.Exists(localUri.ToString())) {
-                BackgroundBuddy.RunAsync(() => { DownloadImage(AppConstants.SETSYMBOL_URL_BASE + setSymbolFileName, localUri.LocalPath); });
+                await DownloadImage(AppConstants.SETSYMBOL_URL_BASE + setSymbolFileName, localUri.LocalPath);
             }
         }
 
@@ -46,39 +55,34 @@ namespace MtGBar.Infrastructure.Utilities
             return AppConstants.SETSYMBOL_URL_BASE + GetSetSymbolFileName(set, rarity);
         }
 
-        public static void DownloadImageData()
+        public static async void DownloadImageData()
         {
             if (DateTime.Now - AppState.Instance.Settings.LastImageCheck >= TimeSpan.FromHours(24)) {
-                BackgroundBuddy.RunAsync(() => {
-                    if (AppState.Instance.MelekDataStore != null) {
-                   
-                        // maybe package arts?
-                        // we need to know which package has the most recent date so we can know what hip background to make the default
-                        DateTime maxDate = DateTime.MinValue;
-                        string localPathToUse = null;
+                // maybe special per-set arts?
+                // we need to know which set has the most recent date so we can know what hip background to make the default
+                DateTime maxDate = DateTime.MinValue;
+                string localPathToUse = null;
 
-                        foreach (Package package in AppState.Instance.MelekDataStore.GetPackages()) {
-                            string fileName = package.ID + ".jpg";
-                            string localPath = Path.Combine(FileSystemManager.PackageArtDirectory, fileName);
+                foreach (Set set in AppState.Instance.MelekClient.GetSets()) {
+                    string fileName = set.Code.ToLower() + ".jpg";
+                    string localPath = Path.Combine(FileSystemManager.SetArtDirectory, fileName);
 
-                            if (!File.Exists(localPath)) {
-                                DownloadImage(AppConstants.PACKAGEBACKGROUND_URL_BASE + fileName, localPath);
-                            }
-
-                            if (package.CardsReleased > maxDate && File.Exists(localPath)) {
-                                maxDate = package.DataUpdated;
-                                localPathToUse = localPath;
-                            }
-                        }
-
-                        if (!string.IsNullOrEmpty(localPathToUse)) {
-                            File.Copy(localPathToUse, Path.Combine(FileSystemManager.PackageArtDirectory, "default.jpg"), true);
-                        }
-
-                        AppState.Instance.Settings.LastImageCheck = DateTime.Now;
-                        AppState.Instance.Settings.Save();
+                    if (!File.Exists(localPath)) {
+                        await DownloadImage(AppConstants.SET_BACKGROUND_URL_BASE + fileName, localPath);
                     }
-                });
+
+                    if (set.Date != null && set.Date > maxDate && File.Exists(localPath)) {
+                        maxDate = set.Date.Value;
+                        localPathToUse = localPath;
+                    }
+                }
+
+                if (!string.IsNullOrEmpty(localPathToUse)) {
+                    File.Copy(localPathToUse, Path.Combine(FileSystemManager.SetArtDirectory, "default.jpg"), true);
+                }
+
+                AppState.Instance.Settings.LastImageCheck = DateTime.Now;
+                AppState.Instance.Settings.Save();
             }
         }
     }

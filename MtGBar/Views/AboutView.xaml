@@ -7,6 +7,7 @@
     ContentSource="/Views/SettingsViews/SettingsView.xaml"
     Height="570" Width="500"
     Icon="/MtGBar;component/icon.ico"
+    Loaded="this_Loaded"
     ResizeMode="NoResize"
     Title="About MtGBar" 
     WindowStartupLocation="CenterScreen">
@@ -23,7 +24,7 @@
             <mui:LinkGroup.Links>
                 <mui:Link DisplayName="settings" Source="/Views/SettingsViews/SettingsView.xaml" />
                 <!--<mui:Link DisplayName="vendors" Source="/Views/SettingsViews/VendorsView.xaml" />-->
-                <mui:Link DisplayName="packages" Source="/Views/SettingsViews/PackagesView.xaml" />
+                <mui:Link DisplayName="sets" Source="/Views/SettingsViews/SetsView.xaml" />
                 <mui:Link DisplayName="twitter" Source="/Views/SettingsViews/TweetsView.xaml" />
                 <mui:Link DisplayName="about" Source="/Views/SettingsViews/MoreInfoView.xaml"  />
             </mui:LinkGroup.Links>

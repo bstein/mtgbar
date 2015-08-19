@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Input;
-using Bazam.APIs;
 using Bazam.KeyAdept;
 using Bazam.Modules;
-using BazamWPF.ViewModels;
-using Melek.Models;
+using Bazam.Twitter;
+using Bazam.Wpf.ViewModels;
+using Melek.Domain;
 using MtGBar.Infrastructure;
 using MtGBar.Infrastructure.DataNinjitsu.Models;
 using MtGBar.Infrastructure.UIHelpers.Commands;
@@ -16,18 +17,16 @@ using MtGBar.Infrastructure.Utilities;
 
 namespace MtGBar.ViewModels
 {
-    public class AboutViewModel : ViewModelBase
+    public class AboutViewModel : ViewModelBase<AboutViewModel>
     {
-        [RelatedProperty("CardsDirectorySize")]
         private string _CardsDirectorySize = string.Empty;
         private ICommand _ClearAppDataCacheCommand = new ClearAppDataCacheCommand();
         private ICommand _ClearCardCacheCommand = new ClearCardCacheCommand();
         private DisplayViewModel[] _DisplayViewModels;
         private HotkeyDescription _Hotkey { get; set; }
         private string _HotkeyString { get; set; }
-        [RelatedProperty("Packages")]
-        private IEnumerable<Package> _Packages;
         private DisplayViewModel _SelectedDisplay = null;
+        private IReadOnlyList<Set> _Sets = new List<Set>();
         public IEnumerable<TweetViewModel> _Tweets = new List<TweetViewModel>();
 
         public AboutViewModel()
@@ -35,25 +34,16 @@ namespace MtGBar.ViewModels
             // set hotkey
             _Hotkey = AppState.Instance.Settings.Hotkey;
 
-            // get packages
-            GetPackages();
-
-            // find out about the card cache size
-            QueryCardCacheSize();
-
             // set version
             Version version = Assembly.GetExecutingAssembly().GetName().Version;
             try {
                 version = System.Deployment.Application.ApplicationDeployment.CurrentDeployment.CurrentVersion;
             }
-            catch (Exception) { }
+            catch (Exception) {
+                // this bombs if the application isn't deployed (i.e. in debug)
+            }
             VersionString = "v " + version.Major.ToString() + "." + version.Minor.ToString() + "." + version.Revision.ToString();
-
-            // listen in case the packages get updated so we can requery things
-            AppState.Instance.MelekDataStore.PackagesUpdated += (newPackages) => {
-                GetPackages();
-            };
-
+            
             // query displays
             List<DisplayViewModel> displayVMs = new List<DisplayViewModel>();
             displayVMs.Add(new DisplayViewModel(null));
@@ -70,15 +60,12 @@ namespace MtGBar.ViewModels
             }
             _DisplayViewModels = displayVMs.ToArray();
             if (SelectedDisplay == null) SelectedDisplay = displayVMs[0];
-
-            // get tweets
-            GetTweets();
         }
 
         public string CardsDirectorySize
         {
             get { return _CardsDirectorySize; }
-            set { ChangeProperty<AboutViewModel>(vm => vm.CardsDirectorySize, value); }
+            set { ChangeProperty(vm => vm.CardsDirectorySize, value); }
         }
 
         public ICommand ClearAppDatacacheCommand
@@ -112,12 +99,6 @@ namespace MtGBar.ViewModels
         public string DonateUrl
         {
             get { return AppConstants.PAYPAL_DONATE_URL; }
-        }
-
-        public IEnumerable<Package> Packages
-        {
-            get { return _Packages; }
-            set { ChangeProperty<AboutViewModel>(vm => vm.Packages, value); }
         }
 
         public HotkeyDescription Hotkey
@@ -172,6 +153,12 @@ namespace MtGBar.ViewModels
                     RaisePropertyChanged("SaveCardImageData");
                 }
             }
+        }
+
+        public IReadOnlyList<Set> Sets
+        {
+            get { return _Sets; }
+            set { ChangeProperty(vm => vm.Sets, value); }
         }
 
         public bool ShowWelcomeScreen
@@ -244,38 +231,36 @@ namespace MtGBar.ViewModels
         }
 
         public string VersionString { get; set; }
-
-        private void GetPackages()
+        
+        private async Task LoadTweets()
         {
-            this.Packages = AppState.Instance.MelekDataStore.GetPackages().OrderBy(p => p.Name).OrderBy(p => p.CardsReleased);
-        }
+            TwitterGitter gitter = new TwitterGitter("HgM9fPG8L1ffEtzrVnSgtKLOp", "z5RViBlJahCTaNRAnz8Gy1vrTn420CZ80hReakMXceMJzvSnsz");
+            Dictionary<long, TweetViewModel> tweets = new Dictionary<long, TweetViewModel>();
 
-        private void GetTweets()
-        {
-            BackgroundBuddy.RunAsync(() => {
-                TwitterGitter gitter = new TwitterGitter("HgM9fPG8L1ffEtzrVnSgtKLOp", "z5RViBlJahCTaNRAnz8Gy1vrTn420CZ80hReakMXceMJzvSnsz");
-                Dictionary<long, TweetViewModel> tweets = new Dictionary<long, TweetViewModel>();
+            foreach (TweetViewModel tweet in TweetViewModel.FromTimelineJson(await gitter.GetUserTimeline("jammerware"))) {
+                tweets.Add(tweet.TweetID, tweet);
+            }
 
-                foreach (TweetViewModel tweet in TweetViewModel.FromTimelineJson(gitter.GetUserTimeline("jammerware"))) {
+            foreach (TweetViewModel tweet in TweetViewModel.FromJson(await gitter.Search("@jammerware"))) {
+                if (!tweets.Keys.Contains(tweet.TweetID)) {
                     tweets.Add(tweet.TweetID, tweet);
                 }
+            }
 
-                foreach (TweetViewModel tweet in TweetViewModel.FromJson(gitter.Search("@jammerware"))) {
-                    if (!tweets.Keys.Contains(tweet.TweetID)) {
-                        tweets.Add(tweet.TweetID, tweet);
-                    }
-                }
-
-                Tweets = tweets.Values.OrderByDescending(t => t.Date);
-            });
+            Tweets = tweets.Values.OrderByDescending(t => t.Date);
         }
 
-        public void QueryCardCacheSize()
+        public async Task LoadCardCacheSize()
         {
-            BackgroundBuddy.RunAsync(() => {
-                CardsDirectorySize = AppState.Instance.MelekDataStore.GetCardImageCacheSize(true);
-                CardsDirectorySize = AppState.Instance.MelekDataStore.GetCardImageCacheSize();
-            });
+            CardsDirectorySize = await AppState.Instance.MelekClient.GetCardImageCacheSize(true);
+            CardsDirectorySize = await AppState.Instance.MelekClient.GetCardImageCacheSize();
+        }
+
+        public async Task Load()
+        {
+            await LoadCardCacheSize();
+            await LoadTweets();
+            Sets = AppState.Instance.MelekClient.GetSets().OrderByDescending(s => s.Date).ToList();
         }
     }
 }

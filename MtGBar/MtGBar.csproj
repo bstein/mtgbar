@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -24,7 +24,7 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
-    <InstallUrl>http://software.jammerware.com/mtgbar/</InstallUrl>
+    <InstallUrl>http://jammerware.blob.core.windows.net/mtgbar/</InstallUrl>
     <UpdateUrl>http://software.jammerware.com/mtgbar/</UpdateUrl>
     <TargetCulture>en-US</TargetCulture>
     <ProductName>MtGBar</ProductName>
@@ -32,7 +32,7 @@
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
     <OpenBrowserOnPublish>false</OpenBrowserOnPublish>
-    <ApplicationRevision>46</ApplicationRevision>
+    <ApplicationRevision>48</ApplicationRevision>
     <ApplicationVersion>1.1.0.%2a</ApplicationVersion>
     <UseApplicationTrust>true</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -83,29 +83,51 @@
     <NoWin32Manifest>true</NoWin32Manifest>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Bazam, Version=2.5.4.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>Project\Libs\Bazam.dll</HintPath>
+    <Reference Include="Bazam">
+      <HintPath>lib\Bazam.dll</HintPath>
     </Reference>
-    <Reference Include="BazamWPF, Version=2.0.2.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>Project\Libs\BazamWPF.dll</HintPath>
+    <Reference Include="Bazam.Http">
+      <HintPath>lib\Bazam.Http.dll</HintPath>
     </Reference>
-    <Reference Include="FirstFloor.ModernUI">
-      <HintPath>Project\Libs\FirstFloor.ModernUI.dll</HintPath>
+    <Reference Include="Bazam.KeyAdept">
+      <HintPath>lib\Bazam.KeyAdept.dll</HintPath>
+    </Reference>
+    <Reference Include="Bazam.SharpZipLibHelpers">
+      <HintPath>lib\Bazam.SharpZipLibHelpers.dll</HintPath>
+    </Reference>
+    <Reference Include="Bazam.Twitter">
+      <HintPath>lib\Bazam.Twitter.dll</HintPath>
+    </Reference>
+    <Reference Include="Bazam.WindowsForms">
+      <HintPath>lib\Bazam.WindowsForms.dll</HintPath>
+    </Reference>
+    <Reference Include="Bazam.Wpf">
+      <HintPath>lib\Bazam.Wpf.dll</HintPath>
+    </Reference>
+    <Reference Include="Bazam.Xml">
+      <HintPath>lib\Bazam.Xml.dll</HintPath>
+    </Reference>
+    <Reference Include="FirstFloor.ModernUI, Version=1.0.6.0, Culture=neutral, PublicKeyToken=2d21ec3cd074c59a, processorArchitecture=MSIL">
+      <HintPath>..\packages\ModernUI.WPF.1.0.6\lib\net45\FirstFloor.ModernUI.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Hardcodet.Wpf.TaskbarNotification">
-      <HintPath>Project\Libs\Hardcodet.Wpf.TaskbarNotification.dll</HintPath>
+      <HintPath>lib\Hardcodet.Wpf.TaskbarNotification.dll</HintPath>
     </Reference>
-    <Reference Include="ICSharpCode.SharpZipLib">
-      <HintPath>Project\Libs\ICSharpCode.SharpZipLib.dll</HintPath>
+    <Reference Include="ICSharpCode.SharpZipLib, Version=0.86.0.518, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpZipLib.0.86.0\lib\20\ICSharpCode.SharpZipLib.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="Melek">
-      <HintPath>Project\Libs\Melek.dll</HintPath>
+    <Reference Include="Melek.Client">
+      <HintPath>lib\Melek.Client.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+    <Reference Include="Melek.Domain, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <HintPath>lib\Melek.Domain.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=7.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.7.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -114,8 +136,8 @@
     <Reference Include="System.Web" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>Project\Libs\System.Windows.Interactivity.dll</HintPath>
+      <HintPath>..\packages\Expression.Blend.Sdk.1.0.2\lib\net45\System.Windows.Interactivity.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
@@ -162,6 +184,7 @@
     <Compile Include="Infrastructure\UIHelpers\Converters\CardTextConverter.cs" />
     <Compile Include="Infrastructure\UIHelpers\Converters\CardTextParseConverter.cs" />
     <Compile Include="Infrastructure\UIHelpers\Converters\CardTextVisibilityConverter.cs" />
+    <Compile Include="Infrastructure\UIHelpers\Converters\CardTribesStringConverter.cs" />
     <Compile Include="Infrastructure\UIHelpers\Converters\CardTypeStringConverter.cs" />
     <Compile Include="Infrastructure\UIHelpers\Converters\CardViewVisibilityConverter.cs" />
     <Compile Include="Infrastructure\UIHelpers\Converters\CardWatermarkConverter.cs" />
@@ -183,14 +206,10 @@
     <Compile Include="Infrastructure\UIHelpers\DataTemplateSelectors\TweetWordDataTemplateSelector.cs" />
     <Compile Include="Infrastructure\Utilities\FileSystemManager.cs" />
     <Compile Include="Infrastructure\Utilities\ImageManager.cs" />
+    <Compile Include="Infrastructure\Utilities\LoggingNinja.cs" />
     <Compile Include="Infrastructure\Utilities\TalkAtcha.cs" />
     <Compile Include="Infrastructure\Utilities\Updates\UpdateFoundEventHandler.cs" />
     <Compile Include="Infrastructure\Utilities\Updates\Updater.cs" />
-    <Compile Include="Infrastructure\Utilities\VendorRelations\ChannelFireball.cs" />
-    <Compile Include="Infrastructure\Utilities\VendorRelations\TcgPlayer.cs" />
-    <Compile Include="Infrastructure\Utilities\VendorRelations\VendorRelations.cs" />
-    <Compile Include="Infrastructure\Utilities\VendorRelations\MtgoTraders.cs" />
-    <Compile Include="Infrastructure\Utilities\VendorRelations\Vendor.cs" />
     <Compile Include="ViewModels\AboutViewModel.cs" />
     <Compile Include="ViewModels\CardViewModel.cs" />
     <Compile Include="ViewModels\DisplayViewModel.cs" />
@@ -213,8 +232,8 @@
     <Compile Include="Views\SettingsViews\MoreInfoView.xaml.cs">
       <DependentUpon>MoreInfoView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\SettingsViews\PackagesView.xaml.cs">
-      <DependentUpon>PackagesView.xaml</DependentUpon>
+    <Compile Include="Views\SettingsViews\SetsView.xaml.cs">
+      <DependentUpon>SetsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SettingsViews\SettingsView.xaml.cs">
       <DependentUpon>SettingsView.xaml</DependentUpon>
@@ -256,7 +275,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\SettingsViews\PackagesView.xaml">
+    <Page Include="Views\SettingsViews\SetsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

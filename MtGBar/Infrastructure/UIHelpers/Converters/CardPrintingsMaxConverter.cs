@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Windows.Data;
-using Melek.Models;
+using Melek.Domain;
 
 namespace MtGBar.Infrastructure.UIHelpers.Converters
 {
@@ -11,7 +11,7 @@ namespace MtGBar.Infrastructure.UIHelpers.Converters
     {
         public Object Convert(Object value, Type targetType, Object parameter, CultureInfo culture)
         {
-            return (value as List<CardPrinting>).OrderByDescending(a => a.Set.Date).Take(5).ToArray();
+            return (value as IList<IPrinting>).OrderByDescending(a => a.Set.Date).Take(5).ToArray();
         }
 
         public object ConvertBack(Object value, Type targetType, Object parameter, System.Globalization.CultureInfo culture)

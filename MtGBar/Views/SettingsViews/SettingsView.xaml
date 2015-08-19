@@ -4,7 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-    xmlns:bazamConvert="clr-namespace:BazamWPF.ValueConverters;assembly=BazamWPF"
+    xmlns:bazamConvert="clr-namespace:Bazam.Wpf.ValueConverters;assembly=Bazam.Wpf"
     xmlns:controls="clr-namespace:MtGBarControls;assembly=MtGBarControls"
     xmlns:convert="clr-namespace:MtGBar.Infrastructure.UIHelpers.Converters"
     mc:Ignorable="d" 

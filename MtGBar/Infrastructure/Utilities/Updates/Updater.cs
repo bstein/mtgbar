@@ -48,9 +48,6 @@ namespace MtGBar.Infrastructure.Utilities.Updates
             // check for actual application update
             CheckForApplicationUpdate();
 
-            // check for package updates
-            AppState.Instance.MelekDataStore.CheckForPackageUpdates();
-
             // check for image data updates
             ImageManager.DownloadImageData();
         }

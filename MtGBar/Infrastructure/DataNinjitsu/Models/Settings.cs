@@ -4,9 +4,8 @@ using System.IO;
 using System.Linq;
 using System.Xml.Linq;
 using Bazam.KeyAdept.Infrastructure;
-using Bazam.Modules;
-using Melek.DataStore;
-using Melek.Models;
+using Bazam.Xml;
+using Melek.Domain;
 using Microsoft.Win32;
 using MtGBar.Infrastructure.Utilities;
 
@@ -19,22 +18,21 @@ namespace MtGBar.Infrastructure.DataNinjitsu.Models
         #endregion
 
         #region Fields
-        private List<Card> _RecentCards = new List<Card>();
+        private List<ICard> _RecentCards = new List<ICard>();
         private string _SettingsFile = Path.Combine(FileSystemManager.AppDataDirectory, "settings.xml");
         #endregion
 
         #region Properties
         public bool DismissOnFocusLoss { get; set; }
         public int? DisplayIndex { get; set; }
-        public DateTime LastImageCheck { get; set; }
+        public DateTime? LastImageCheck { get; set; }
         public HotkeyDescription Hotkey { get; set; }
-        public string MelekDevAuthkey { get; private set; }
         public bool SaveCardImageData { get; set; }
         public bool ShowPricingData { get; set; }
         public bool ShowWelcomeScreen { get; set; }
         public bool StartOnSignIn { get; set; }
 
-        public Card[] RecentCards 
+        public ICard[] RecentCards 
         {
             get { return _RecentCards.ToArray(); }
         }
@@ -43,21 +41,20 @@ namespace MtGBar.Infrastructure.DataNinjitsu.Models
         public Settings()
         {
             XElement settingsData = null;
-            _RecentCards = new List<Card>();
+            _RecentCards = new List<ICard>();
 
             bool firstRun = false;
             settingsData = GetSettingsData();
 
             if (settingsData != null) {
-                DismissOnFocusLoss = (settingsData.Attribute("dismissOnFocusLoss") != null ? XMLPal.GetBool(settingsData.Attribute("dismissOnFocusLoss")) : true);
-                DisplayIndex = (settingsData.Attribute("displayIndex") != null ? (int?)XMLPal.GetInt(settingsData.Attribute("displayIndex")) : null);
-                Hotkey = (settingsData.Attribute("hotkey") != null ? new HotkeyDescription(XMLPal.GetString(settingsData.Attribute("hotkey"))) : null);
-                LastImageCheck = XMLPal.GetDate(settingsData.Attribute("lastImageCheck"));
-                MelekDevAuthkey = (settingsData.Attribute("melekDevAuthKey") != null ? XMLPal.GetString(settingsData.Attribute("melekDevAuthKey")) : null);
-                SaveCardImageData = XMLPal.GetBool(settingsData.Attribute("saveCardImageData"));
-                ShowPricingData = XMLPal.GetBool(settingsData.Attribute("showPricingData"));
-                ShowWelcomeScreen = (settingsData.Attribute("showWelcomeScreen") != null ? XMLPal.GetBool(settingsData.Attribute("showWelcomeScreen")) : true);
-                StartOnSignIn = XMLPal.GetBool(settingsData.Attribute("startOnSignIn"));
+                DismissOnFocusLoss = (settingsData.Attribute("dismissOnFocusLoss") != null ? XmlPal.GetBool(settingsData.Attribute("dismissOnFocusLoss")).Value : true);
+                DisplayIndex = XmlPal.GetInt(settingsData.Attribute("displayIndex"));
+                Hotkey = (settingsData.Attribute("hotkey") != null ? new HotkeyDescription(XmlPal.GetString(settingsData.Attribute("hotkey"))) : null);
+                LastImageCheck = XmlPal.GetDate(settingsData.Attribute("lastImageCheck"));
+                SaveCardImageData = XmlPal.GetBool(settingsData.Attribute("saveCardImageData")).GetValueOrDefault();
+                ShowPricingData = XmlPal.GetBool(settingsData.Attribute("showPricingData")).GetValueOrDefault();
+                ShowWelcomeScreen = XmlPal.GetBool(settingsData.Attribute("showWelcomeScreen")).GetValueOrDefault();
+                StartOnSignIn = XmlPal.GetBool(settingsData.Attribute("startOnSignIn")).GetValueOrDefault();
             }
             else {
                 firstRun = true;
@@ -79,7 +76,7 @@ namespace MtGBar.Infrastructure.DataNinjitsu.Models
         {
             XElement recentCards = new XElement("recentCards");
             foreach (Card card in RecentCards) {
-                recentCards.Add(new XElement("card", new XAttribute("multiverseID", card.Printings[0].MultiverseID)));
+                recentCards.Add(new XElement("card", new XAttribute("multiverseID", card.Printings[0].MultiverseId)));
             }
 
             XDocument doc = new XDocument(
@@ -88,7 +85,6 @@ namespace MtGBar.Infrastructure.DataNinjitsu.Models
                     (DisplayIndex != null ? new XAttribute("displayIndex", DisplayIndex.Value) : null),
                     (Hotkey != null ? new XAttribute("hotkey", Hotkey.ToString().Replace(" ", "")) : null),
                     new XAttribute("lastImageCheck", LastImageCheck.ToString()),
-                    (MelekDevAuthkey != null ? new XAttribute("melekDevAuthKey", MelekDevAuthkey) : null),
                     new XAttribute("saveCardImageData", SaveCardImageData.ToString()),
                     new XAttribute("showPricingData", ShowPricingData.ToString()),
                     new XAttribute("showWelcomeScreen", ShowWelcomeScreen.ToString()),
@@ -118,12 +114,12 @@ namespace MtGBar.Infrastructure.DataNinjitsu.Models
         public void LoadRecentCards()
         {
             XElement settingsData = GetSettingsData();
-            IEnumerable<Card> recentCards = null;
+            IEnumerable<ICard> recentCards = null;
 
             if (settingsData.Element("recentCards") != null) {
                 recentCards = (
                     from recentCard in settingsData.Element("recentCards").Elements("card")
-                    select AppState.Instance.MelekDataStore.GetCardByMultiverseID(recentCard.Attribute("multiverseID").Value)
+                    select AppState.Instance.MelekClient.GetCardByMultiverseId(recentCard.Attribute("multiverseID").Value)
                 );
             }
 
@@ -144,7 +140,7 @@ namespace MtGBar.Infrastructure.DataNinjitsu.Models
             }
         }
 
-        public void LogRecentCard(Card card)
+        public void LogRecentCard(ICard card)
         {
             if (_RecentCards.Contains(card)) {
                 _RecentCards.Remove(card);

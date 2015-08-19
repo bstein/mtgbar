@@ -2,9 +2,9 @@
     x:Class="MtGBar.Views.SearchView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:bazamBehavior="clr-namespace:BazamWPF.Behaviors;assembly=BazamWPF"
-    xmlns:bazamConvert="clr-namespace:BazamWPF.ValueConverters;assembly=BazamWPF"
-    xmlns:bazamUI="clr-namespace:BazamWPF.UIHelpers;assembly=BazamWPF"
+    xmlns:bazamBehavior="clr-namespace:Bazam.Wpf.Behaviors;assembly=Bazam.Wpf"
+    xmlns:bazamConvert="clr-namespace:Bazam.Wpf.ValueConverters;assembly=Bazam.Wpf"
+    xmlns:bazamUI="clr-namespace:Bazam.Wpf.UIHelpers;assembly=Bazam.Wpf"
     xmlns:behaviors="clr-namespace:MtGBar.Infrastructure.UIHelpers.Behaviors"
     xmlns:controls="clr-namespace:MtGBarControls;assembly=MtGBarControls"
     xmlns:convert="clr-namespace:MtGBar.Infrastructure.UIHelpers.Converters"
@@ -54,6 +54,7 @@
             <convert:CardTextConverter x:Key="CardTextConverter" />
             <convert:CardTextParseConverter x:Key="CardTextParseConverter" />
             <convert:CardTextVisibilityConverter x:Key="CardTextVisibilityConverter" />
+            <convert:CardTribesStringConverter x:Key="CardTribesStringConverter" />
             <convert:CardTypeStringConverter x:Key="CardTypeStringConverter" />
             <convert:CardViewVisibilityConverter x:Key="CardViewVisibilityConverter" />
             <convert:CardWatermarkConverter x:Key="CardWatermarkConverter" />
@@ -127,7 +128,7 @@
                 Stretch="UniformToFill">
                 <ImageBrush.ImageSource>
                     <PriorityBinding>
-                        <Binding Converter="{StaticResource CardBackgroundImageConverter}" IsAsync="True" Path="SelectedCard" />
+                        <Binding Converter="{StaticResource CardBackgroundImageConverter}" IsAsync="True" Path="SelectedPrinting" />
                         <Binding Path="DefaultBackground" />
                     </PriorityBinding>
                 </ImageBrush.ImageSource>
@@ -237,7 +238,7 @@
                                     <TextBlock
                                         Foreground="{StaticResource SubtleBrush}"
                                         Style="{StaticResource ResultSubtitleLightStyle}" 
-                                        Text="{Binding Card, Converter={StaticResource CardTypeStringConverter}}" />
+                                        Text="{Binding Card, Converter={StaticResource CardTypeStringConverter}, ConverterParameter=true}" />
                                 </StackPanel>
                                 <StackPanel 
                                     Margin="-8,0,0,0"
@@ -351,7 +352,7 @@
                     <TextBlock
                         Foreground="{StaticResource SubtleBrush}"
                         Style="{StaticResource CardSubtitleStyle}"
-                        Text="{Binding SelectedCard, Converter={StaticResource CardTypeStringConverter}}" />
+                        Text="{Binding SelectedCard, Converter={StaticResource CardTypeStringConverter}, ConverterParameter=true}" />
                 </StackPanel>
                 <TextBlock
                     Grid.Row="0"
@@ -424,7 +425,7 @@
                         Grid.Row="1"
                         Grid.Column="0"
                         Style="{StaticResource CardAttributeLabelStyle}"
-                        Visibility="{Binding SelectedCard.Tribe, Converter={StaticResource StringVisibilityConverter}}">
+                        Visibility="{Binding SelectedCard.AllTribes, Converter={StaticResource StringVisibilityConverter}}">
                         Type
                     </TextBlock>
 
@@ -432,7 +433,7 @@
                         Grid.Row="1"
                         Grid.Column="1"
                         Style="{StaticResource CardAttributeValueStyle}"
-                        Text="{Binding SelectedCard.Tribe}"
+                        Text="{Binding SelectedCard.AllTribes, Converter={StaticResource CardTribesStringConverter}}"
                         Visibility="{Binding SelectedCard.Tribe, Converter={StaticResource StringVisibilityConverter}}" />
 
                     <TextBlock 

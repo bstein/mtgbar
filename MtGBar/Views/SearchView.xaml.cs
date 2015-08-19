@@ -2,7 +2,7 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using BazamWPF.Modules;
+using Bazam.Wpf.Modules;
 using Jammerware.Utilities;
 using MtGBar.Infrastructure;
 using MtGBar.ViewModels;
@@ -102,7 +102,9 @@ namespace MtGBar.Views
 
         private void SetTaskbarVisibility()
         {
-            ShowInTaskbar = !AppState.Instance.Settings.DismissOnFocusLoss;
+            Dispatcher.BeginInvoke(new Action(() => {
+                ShowInTaskbar = !AppState.Instance.Settings.DismissOnFocusLoss;
+            }));
         }
 
         private void this_Activated(object sender, EventArgs e)

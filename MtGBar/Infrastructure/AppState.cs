@@ -5,9 +5,8 @@ using System.Windows.Threading;
 using Bazam.KeyAdept;
 using Bazam.KeyAdept.Infrastructure;
 using Hardcodet.Wpf.TaskbarNotification;
-using Melek.DataStore;
-using Melek.Models;
-using Melek.Utilities;
+using Melek.Client.DataStore;
+using Melek.Domain;
 using MtGBar.Infrastructure.DataNinjitsu.Models;
 using MtGBar.Infrastructure.UIHelpers.Commands;
 using MtGBar.Infrastructure.Utilities;
@@ -28,7 +27,7 @@ namespace MtGBar.Infrastructure
         #region Properties
         public HotkeyRegistrar HotkeyRegistrar { get; private set; }
         public LoggingNinja LoggingNinja { get; private set; }
-        public MelekDataStore MelekDataStore { get; private set; }
+        public MelekClient MelekClient { get; private set; }
         public Settings Settings { get; private set; }
         public TaskbarIcon TaskbarIcon { get; private set; }
 
@@ -57,12 +56,10 @@ namespace MtGBar.Infrastructure
             Settings = new Settings();
             HotkeyRegistrar = new HotkeyRegistrar();
 
-            if (string.IsNullOrEmpty(Settings.MelekDevAuthkey)) {
-                MelekDataStore = new MelekDataStore(FileSystemManager.MelekDataDirectory, true, LoggingNinja);
-            }
-            else {
-                MelekDataStore = new MelekDataStore(FileSystemManager.MelekDataDirectory, true, LoggingNinja, false, Settings.MelekDevAuthkey);
-            }
+            MelekClient = new MelekClient() {
+                StoreCardImagesLocally = true,
+                UpdateCheckInterval = TimeSpan.FromMinutes(10)
+            };
 
             // This is ugly.
             // 
@@ -72,13 +69,16 @@ namespace MtGBar.Infrastructure
             // file and call it when the data store is ready.
             //
             // But I'm not happy about it, okay?
-            MelekDataStore.DataLoaded += (omg, theDataIsReadyGurl) => { 
+            MelekClient.DataLoaded += () => {
                 Settings.LoadRecentCards();
                 BuildContextMenu(this.TaskbarIcon);
             };
-            
+
+            // the client is configured. load it up!
+            MelekClient.LoadFromDirectory(FileSystemManager.MelekDataDirectory);
+
             Settings.Updated += (theSettings, omgChanged) => {
-                MelekDataStore.StoreCardImagesLocally = Settings.SaveCardImageData;
+                MelekClient.StoreCardImagesLocally = Settings.SaveCardImageData;
                 BuildContextMenu(this.TaskbarIcon);
             };
 
@@ -122,7 +122,7 @@ namespace MtGBar.Infrastructure
                         IsEnabled = false
                     });
 
-                    foreach (Card card in Settings.RecentCards) {
+                    foreach (ICard card in Settings.RecentCards) {
                         menu.Items.Add(new MenuItem() {
                             Command = new ViewCardCommand(card),
                             Header = card.Name

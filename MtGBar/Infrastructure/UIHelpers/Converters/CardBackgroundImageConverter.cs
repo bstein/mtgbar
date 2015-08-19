@@ -5,31 +5,32 @@ using System.IO;
 using System.Linq;
 using System.Windows.Data;
 using System.Windows.Media.Imaging;
-using Melek.Models;
+using Melek.Domain;
 using MtGBar.Infrastructure.Utilities;
 
 namespace MtGBar.Infrastructure.UIHelpers.Converters
 {
     public class CardBackgroundImageConverter : IValueConverter
     {
-        private static string RESOLVED_BACKGROUND = string.Empty;
+        private static string RESOLVED_BACKGROUND = null;
 
         public Object Convert(Object value, Type targetType, Object parameter, CultureInfo culture)
         {
             Uri uri = null;
+            IPrinting typedValue = value as IPrinting;
 
-            if (value != null && !string.IsNullOrEmpty((value as Card).Watermark)) {
-                uri = new Uri("pack://application:,,,/Assets/backgrounds/" + (value as Card).Watermark.ToLower() + ".jpg", UriKind.Absolute);
+            if (value != null && !string.IsNullOrEmpty((value as IPrinting).Watermark)) {
+                uri = new Uri("pack://application:,,,/Assets/backgrounds/" + typedValue.Watermark.ToLower() + ".jpg", UriKind.Absolute);
             }
             else {
                 if (string.IsNullOrEmpty(RESOLVED_BACKGROUND)) {
-                    List<Package> packages = new List<Package>(AppState.Instance.MelekDataStore.GetPackages().OrderByDescending(p => p.DataUpdated));
+                    IList<Set> sets = AppState.Instance.MelekClient.GetSets().OrderByDescending(s => s.Date).ToList();
                     string localPath = string.Empty;
 
-                    foreach (Package package in packages) {
-                        string packageArtPath = Path.Combine(FileSystemManager.PackageArtDirectory, package.ID + ".jpg");
-                        if (File.Exists(packageArtPath)) {
-                            RESOLVED_BACKGROUND = packageArtPath;
+                    foreach (Set set in sets) {
+                        string setArtPath = Path.Combine(FileSystemManager.SetArtDirectory, set.Code + ".jpg");
+                        if (File.Exists(setArtPath)) {
+                            RESOLVED_BACKGROUND = setArtPath;
                             break;
                         }
                     }
