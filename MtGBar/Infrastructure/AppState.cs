@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
@@ -55,7 +56,6 @@ namespace MtGBar.Infrastructure
             LoggingNinja = new LoggingNinja(FileSystemManager.LogFileName);
             Settings = new Settings();
             HotkeyRegistrar = new HotkeyRegistrar();
-
             MelekClient = new MelekClient() {
                 StoreCardImagesLocally = true,
                 UpdateCheckInterval = TimeSpan.FromMinutes(10)
@@ -65,17 +65,19 @@ namespace MtGBar.Infrastructure
             // 
             // Basically, right now the Settings object and the MelekDataStore object have a circular dependency. Settings needs MelekDataStore to make
             // sense of the multiverseIDs it stores as the most recent cards viewed, and MelekDataStore needs to know whether or not it should cache card
-            // images locally, a fact that Settings keeps track of. The solution for now is to expose the method that loads recent cards from the settings
+            // images locally, a fact that Settings keeps track of. The solution FOR NOW is to expose the method that loads recent cards from the settings
             // file and call it when the data store is ready.
             //
             // But I'm not happy about it, okay?
             MelekClient.DataLoaded += () => {
                 Settings.LoadRecentCards();
-                BuildContextMenu(this.TaskbarIcon);
             };
+        }
 
-            // the client is configured. load it up!
-            MelekClient.LoadFromDirectory(FileSystemManager.MelekDataDirectory);
+        public async Task Initialize()
+        {
+            // load up the client
+            await MelekClient.LoadFromDirectory(FileSystemManager.MelekDataDirectory);
 
             Settings.Updated += (theSettings, omgChanged) => {
                 MelekClient.StoreCardImagesLocally = Settings.SaveCardImageData;
@@ -95,7 +97,7 @@ namespace MtGBar.Infrastructure
             BuildContextMenu(icon);
             this.TaskbarIcon = icon;
         }
-
+        
         public void RegisterHotkey(HotkeyDescription hkd)
         {
             Hotkey hotkey = hkd.ToHotkey();

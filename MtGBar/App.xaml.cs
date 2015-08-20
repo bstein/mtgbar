@@ -37,7 +37,7 @@ namespace MtGBar
             };
         }
 
-        private void this_Startup(object sender, StartupEventArgs e)
+        private async void this_Startup(object sender, StartupEventArgs e)
         {
             // first of all, omg, make sure there's only one instance running. it gets weird fast otherwise.
             Process thisProc = Process.GetCurrentProcess();
@@ -50,38 +50,15 @@ namespace MtGBar
             // make sure our user app data stuff is there
             FileSystemManager.Init();
 
-            // as soon as a melekdatastore instance is referenced, it'll start loading, so know that shit and register a listener that will do stuff when it's done
-            AppState.Instance.MelekClient.DataLoaded += MelekClient_Loaded;
-
-            // TODO: need MelekClient to raise an event when new data is downloaded?
-            // also say my name say my name when the thing has new packages
-            //AppState.Instance.MelekDataStore.PackagesUpdated += (newPackages) => {
-            //    // set the lastimagecheck to a low value so that next time the clock comes around, new image data is downloaded (for the new packages)
-            //    AppState.Instance.Settings.LastImageCheck = DateTime.MinValue;
-            //    AppState.Instance.Settings.Save();
-
-            //    if (newPackages.Length == 1) {
-            //        TalkAtcha.TalkAtEm("New data: " + newPackages[0].Name, AppConstants.APPNAME + " has downloaded new data about " + newPackages[0].Name + ". Search for your favorite spoiler now!");
-            //    }
-            //    else if (newPackages.Length > 1) {
-            //        TalkAtcha.TalkAtEm("New data!", AppConstants.APPNAME + " just downloaded a bunch of new data. Search for your favorite new card now!");
-            //    }
-            //};
+            // set up MUI theme
+            Color myAccentColor = (Color)App.Current.FindResource("MyAccentColor");
+            AppearanceManager.Current.AccentColor = myAccentColor;
 
             // HEY! LISTEN!
             // ... to the hotkey registrar so we can tell the user if they try to do something that will screw stuff up
             AppState.Instance.HotkeyRegistrar.UnavailableHotkeyRegistered += (HotkeyEventArgs args) => {
                 TalkAtcha.TalkAtEm("Oops.", AppConstants.APPNAME + " tried to register its hotkey but couldn't. This is usually because it's trying to use a hotkey that some other software is using. Try visiting settings and changing the hotkey. Sorry :(");
             };
-
-            // pretty sure here's where we should hook up the hotkey
-            if (AppState.Instance.Settings.Hotkey != null) {
-                AppState.Instance.RegisterHotkey(AppState.Instance.Settings.Hotkey);
-            }
-
-            // set up MUI theme
-            Color myAccentColor = (Color)App.Current.FindResource("MyAccentColor");
-            AppearanceManager.Current.AccentColor = myAccentColor;
 
             // we're ready - tell them what's going on
             if (AppState.Instance.Settings.ShowWelcomeScreen) {
@@ -90,6 +67,23 @@ namespace MtGBar
                     welcomeView.DataContext = new WelcomeViewModel();
                     welcomeView.Show();
                 });
+            }
+
+            // initialize the appstate, including the MelekClient
+            await AppState.Instance.Initialize();
+            AppState.Instance.MelekClient.DataLoaded += MelekClient_Loaded;
+            AppState.Instance.MelekClient.NewDataLoaded += () => {
+                // also say my name say my name when the thing has new packages
+                // set the lastimagecheck to null so that next time the clock comes around, new image data is downloaded (for the new packages)
+                AppState.Instance.Settings.LastImageCheck = null;
+                AppState.Instance.Settings.Save();
+
+                TalkAtcha.TalkAtEm("New data!", AppConstants.APPNAME + " just downloaded a bunch of new data. Search for your favorite new card now!");
+            };
+
+            // pretty sure here's where we should hook up the hotkey
+            if (AppState.Instance.Settings.Hotkey != null) {
+                AppState.Instance.RegisterHotkey(AppState.Instance.Settings.Hotkey);
             }
         }
     }
