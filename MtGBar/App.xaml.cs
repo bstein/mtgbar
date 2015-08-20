@@ -37,7 +37,7 @@ namespace MtGBar
             };
         }
 
-        private void Application_Startup(object sender, StartupEventArgs e)
+        private void this_Startup(object sender, StartupEventArgs e)
         {
             // first of all, omg, make sure there's only one instance running. it gets weird fast otherwise.
             Process thisProc = Process.GetCurrentProcess();
