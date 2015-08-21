@@ -57,7 +57,7 @@ namespace MtGBar.Infrastructure.Utilities
 
         public static async void DownloadImageData()
         {
-            if (DateTime.Now - AppState.Instance.Settings.LastImageCheck >= TimeSpan.FromHours(24)) {
+            if (AppState.Instance.Settings.LastImageCheck == null || DateTime.Now - AppState.Instance.Settings.LastImageCheck >= TimeSpan.FromHours(24)) {
                 // maybe special per-set arts?
                 // we need to know which set has the most recent date so we can know what hip background to make the default
                 DateTime maxDate = DateTime.MinValue;

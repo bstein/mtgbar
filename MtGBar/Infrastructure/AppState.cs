@@ -61,6 +61,18 @@ namespace MtGBar.Infrastructure
                 UpdateCheckInterval = TimeSpan.FromMinutes(10)
             };
 
+            // construct the taskbar icon
+            this.TaskbarIcon = null;
+            ViewCardCommand command = new ViewCardCommand();
+
+            TaskbarIcon icon = new TaskbarIcon();
+            icon.ContextMenu = new ContextMenu();
+            icon.IconSource = new BitmapImage(new Uri("pack://application:,,,/Assets/taskbar-icon.ico"));
+            icon.LeftClickCommand = command;
+            icon.ToolTipText = AppConstants.APPNAME + " | loading...";
+
+            this.TaskbarIcon = icon;
+
             // This is ugly.
             // 
             // Basically, right now the Settings object and the MelekDataStore object have a circular dependency. Settings needs MelekDataStore to make
@@ -83,19 +95,8 @@ namespace MtGBar.Infrastructure
                 MelekClient.StoreCardImagesLocally = Settings.SaveCardImageData;
                 BuildContextMenu(this.TaskbarIcon);
             };
-
-            // construct the taskbar icon
-            this.TaskbarIcon = null;
-            ViewCardCommand command = new ViewCardCommand();
-
-            TaskbarIcon icon = new TaskbarIcon();
-            icon.ContextMenu = new ContextMenu();
-            icon.IconSource = new BitmapImage(new Uri("pack://application:,,,/Assets/taskbar-icon.ico"));
-            icon.LeftClickCommand = command;
-            icon.ToolTipText = AppConstants.APPNAME + " | loading...";
-
-            BuildContextMenu(icon);
-            this.TaskbarIcon = icon;
+            
+            BuildContextMenu(this.TaskbarIcon);
         }
         
         public void RegisterHotkey(HotkeyDescription hkd)

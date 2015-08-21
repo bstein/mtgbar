@@ -32,7 +32,7 @@
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
     <OpenBrowserOnPublish>false</OpenBrowserOnPublish>
-    <ApplicationRevision>51</ApplicationRevision>
+    <ApplicationRevision>52</ApplicationRevision>
     <ApplicationVersion>1.1.0.%2a</ApplicationVersion>
     <UseApplicationTrust>true</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -185,6 +185,7 @@
     <Compile Include="Infrastructure\UIHelpers\Converters\CardTextParseConverter.cs" />
     <Compile Include="Infrastructure\UIHelpers\Converters\CardTextVisibilityConverter.cs" />
     <Compile Include="Infrastructure\UIHelpers\Converters\CardTribesStringConverter.cs" />
+    <Compile Include="Infrastructure\UIHelpers\Converters\CardTribesVisibilityConverter.cs" />
     <Compile Include="Infrastructure\UIHelpers\Converters\CardTypeStringConverter.cs" />
     <Compile Include="Infrastructure\UIHelpers\Converters\CardViewVisibilityConverter.cs" />
     <Compile Include="Infrastructure\UIHelpers\Converters\CardWatermarkConverter.cs" />

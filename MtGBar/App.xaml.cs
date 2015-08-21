@@ -70,7 +70,6 @@ namespace MtGBar
             }
 
             // initialize the appstate, including the MelekClient
-            await AppState.Instance.Initialize();
             AppState.Instance.MelekClient.DataLoaded += MelekClient_Loaded;
             AppState.Instance.MelekClient.NewDataLoaded += () => {
                 // also say my name say my name when the thing has new packages
@@ -80,6 +79,7 @@ namespace MtGBar
 
                 TalkAtcha.TalkAtEm("New data!", AppConstants.APPNAME + " just downloaded a bunch of new data. Search for your favorite new card now!");
             };
+            await AppState.Instance.Initialize();
 
             // pretty sure here's where we should hook up the hotkey
             if (AppState.Instance.Settings.Hotkey != null) {
