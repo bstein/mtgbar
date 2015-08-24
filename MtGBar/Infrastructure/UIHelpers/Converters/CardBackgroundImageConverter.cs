@@ -12,6 +12,7 @@ namespace MtGBar.Infrastructure.UIHelpers.Converters
 {
     public class CardBackgroundImageConverter : IValueConverter
     {
+        private static readonly Uri DEFAULT_BACKGROUND = new Uri("pack://application:,,,/Assets/backgrounds/default.jpg");
         private static string RESOLVED_BACKGROUND = null;
 
         public Object Convert(Object value, Type targetType, Object parameter, CultureInfo culture)
@@ -42,11 +43,18 @@ namespace MtGBar.Infrastructure.UIHelpers.Converters
             }
 
             if (uri == null) {
-                uri = new Uri("pack://application:,,,/Assets/backgrounds/default.jpg");
+                uri = DEFAULT_BACKGROUND;
             }
 
-            BitmapImage bmp = new BitmapImage(uri);
-            return new BitmapImage(uri);
+            try {
+                BitmapImage bmp = new BitmapImage(uri);
+                return new BitmapImage(uri);
+            }
+            catch(Exception) {
+                // this can happen if the file's locked up by something or someone else. ignore for now
+            }
+
+            return new BitmapImage(DEFAULT_BACKGROUND);
         }
 
         public object ConvertBack(Object value, Type targetType, Object parameter, CultureInfo culture)
