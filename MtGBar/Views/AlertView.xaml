@@ -7,6 +7,7 @@
     DataContextChanged="this_DataContextChanged"
     Icon="/MtGBar;component/icon.ico"
     ResizeMode="NoResize"
+    Style="{StaticResource NoBackButtonStyle}"
     Title="{Binding WindowTitle}" 
     Width="500" Height="260"
     WindowStartupLocation="CenterScreen">

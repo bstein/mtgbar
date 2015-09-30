@@ -11,7 +11,7 @@ namespace MtGBar.Infrastructure.UIHelpers.Converters
         public Object Convert(Object value, Type targetType, Object parameter, CultureInfo culture)
         {
             if (value != null) {
-                switch ((value as Card).Printings[0].Rarity) {
+                switch ((value as ICard).Printings[0].Rarity) {
                     case CardRarity.Common:
                         return App.Current.FindResource("CommonBrush");
                     case CardRarity.Uncommon:

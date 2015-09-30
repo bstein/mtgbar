@@ -75,7 +75,7 @@ namespace MtGBar.Infrastructure.DataNinjitsu.Models
         private XDocument CreateDoc()
         {
             XElement recentCards = new XElement("recentCards");
-            foreach (Card card in RecentCards) {
+            foreach (ICard card in RecentCards) {
                 recentCards.Add(new XElement("card", new XAttribute("multiverseID", card.Printings[0].MultiverseId)));
             }
 

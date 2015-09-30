@@ -9,6 +9,7 @@
     Icon="/MtGBar;component/icon.ico"
     Loaded="this_Loaded"
     ResizeMode="NoResize"
+    Style="{StaticResource NoBackButtonStyle}"
     Title="About MtGBar" 
     WindowStartupLocation="CenterScreen">
     <Window.DataContext>
