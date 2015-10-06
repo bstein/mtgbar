@@ -5,6 +5,6 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
     xmlns:local="clr-namespace:MtGBar.Views.CardViews">
     <Grid>
-        
+        <TextBlock Foreground="{StaticResource ForegroundBrush}">Transform card view.</TextBlock>
     </Grid>
 </UserControl>

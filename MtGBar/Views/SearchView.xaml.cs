@@ -66,7 +66,7 @@ namespace MtGBar.Views
                     NextListItem(lstPrintings, false);
                     break;
                 case Key.Return:
-                    ViewModel.SelectedCard = (lstResults.SelectedItem as CardViewModel).Card;
+                    ViewModel.SelectedCard = (lstResults.SelectedItem as SearchResultViewModel).Card;
                     break;
             }
         }

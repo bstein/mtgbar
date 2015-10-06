@@ -212,9 +212,15 @@
     <Compile Include="Infrastructure\Utilities\Updates\UpdateFoundEventHandler.cs" />
     <Compile Include="Infrastructure\Utilities\Updates\Updater.cs" />
     <Compile Include="ViewModels\AboutViewModel.cs" />
-    <Compile Include="ViewModels\CardViewModel.cs" />
+    <Compile Include="ViewModels\CardViewModels\CardViewModel.cs" />
+    <Compile Include="ViewModels\CardViewModels\CardViewModelFactory.cs" />
+    <Compile Include="ViewModels\CardViewModels\FlipCardViewModel.cs" />
+    <Compile Include="ViewModels\CardViewModels\ICardViewModel.cs" />
+    <Compile Include="ViewModels\CardViewModels\SplitCardViewModel.cs" />
+    <Compile Include="ViewModels\CardViewModels\TransformCardViewModel.cs" />
     <Compile Include="ViewModels\DisplayViewModel.cs" />
     <Compile Include="ViewModels\AlertViewModel.cs" />
+    <Compile Include="ViewModels\SearchResultViewModel.cs" />
     <Compile Include="ViewModels\SearchViewModel.cs" />
     <Compile Include="ViewModels\TweetViewModel.cs" />
     <Compile Include="ViewModels\WelcomeViewModel.cs" />
@@ -226,6 +232,12 @@
     </Compile>
     <Compile Include="Views\AlertViews\WelcomeView.xaml.cs">
       <DependentUpon>WelcomeView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\CardViews\CardView.xaml.cs">
+      <DependentUpon>CardView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\CardViews\SplitCardView.xaml.cs">
+      <DependentUpon>SplitCardView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\CardViews\TransformCardView.xaml.cs">
       <DependentUpon>TransformCardView.xaml</DependentUpon>
@@ -268,6 +280,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\AlertViews\WelcomeView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\CardViews\CardView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\CardViews\SplitCardView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -518,7 +538,9 @@
   <ItemGroup>
     <Resource Include="Assets\backgrounds\ojutai.jpg" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Views\Search\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!--<Target Name="AfterCompile">
     <Exec Command="&quot;C:\Program Files (x86)\Microsoft SDKs\Windows\v7.1A\Bin\signtool.exe&quot; sign /f &quot;$(ProjectDir)certificate.pfx&quot; /p whatth3fr@k /v &quot;$(ProjectDir)obj\$(ConfigurationName)\$(TargetFileName)&quot;" />

@@ -4,12 +4,17 @@ using Melek.Domain;
 
 namespace MtGBar.ViewModels
 {
-    public class CardViewModel : ViewModelBase<CardViewModel>
+    public class SearchResultViewModel : ViewModelBase<SearchResultViewModel>
     {
+        private ICard _Card;
         private BitmapImage _FullSize;
         private CroppedBitmap _Thumbnail;
 
-        public ICard Card { get; private set; }
+        public ICard Card
+        {
+            get { return _Card; }
+            set { ChangeProperty(c => c.Card, value); }
+        }
 
         public BitmapImage FullSize
         {
@@ -17,17 +22,10 @@ namespace MtGBar.ViewModels
             set { ChangeProperty(c => c.FullSize, value); }
         }
 
-        public CroppedBitmap Thumbnail 
+        public CroppedBitmap Thumbnail
         {
             get { return _Thumbnail; }
             set { ChangeProperty(c => c.Thumbnail, value); }
-        }
-
-        public CardViewModel(ICard card)
-        {
-            Card = card;
-            FullSize = new BitmapImage();
-            Thumbnail = new CroppedBitmap();
         }
     }
 }

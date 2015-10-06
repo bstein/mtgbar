@@ -335,9 +335,7 @@
     </Style>
 
     <Style x:Key="PrintingsListStyle" TargetType="{x:Type ListBox}">
-        <Setter Property="HorizontalAlignment" Value="Center" />
         <Setter Property="ItemContainerStyle" Value="{StaticResource PrintingsListItemStyle}" />
-        <Setter Property="Margin" Value="0,8,0,0" />
         <Setter Property="OverridesDefaultStyle" Value="true" />
         <Setter Property="SnapsToDevicePixels" Value="true" />
         <Setter Property="Template">
@@ -349,7 +347,7 @@
 						BorderBrush="Transparent"
 						BorderThickness="1" 
 						CornerRadius="2">
-                        <StackPanel Orientation="Horizontal" Margin="2" IsItemsHost="True" />
+                        <StackPanel IsItemsHost="True" />
                     </Border>
                 </ControlTemplate>
             </Setter.Value>

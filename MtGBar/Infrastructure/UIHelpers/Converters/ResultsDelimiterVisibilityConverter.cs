@@ -14,8 +14,8 @@ namespace MtGBar.Infrastructure.UIHelpers.Converters
         public Object Convert(Object[] value, Type targetType, Object parameter, CultureInfo culture)
         {
             if(value != null && value[0] != null) {
-                IEnumerable<CardViewModel> cardMatches = value[0] as IEnumerable<CardViewModel>;
-                Card selectedCard = value[1] as Card;
+                IReadOnlyList<SearchResultViewModel> cardMatches = value[0] as IReadOnlyList<SearchResultViewModel>;
+                ICard selectedCard = value[1] as ICard;
 
                 return cardMatches.Count() > 0 && selectedCard == null ? Visibility.Visible : Visibility.Collapsed;
             }

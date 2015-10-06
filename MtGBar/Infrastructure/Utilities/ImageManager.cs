@@ -78,11 +78,17 @@ namespace MtGBar.Infrastructure.Utilities
                 }
 
                 if (!string.IsNullOrEmpty(localPathToUse)) {
-                    File.Copy(localPathToUse, Path.Combine(FileSystemManager.SetArtDirectory, "default.jpg"), true);
-                }
+                    try {
+                        File.Copy(localPathToUse, Path.Combine(FileSystemManager.SetArtDirectory, "default.jpg"), true);
 
-                AppState.Instance.Settings.LastImageCheck = DateTime.Now;
-                AppState.Instance.Settings.Save();
+                        AppState.Instance.Settings.LastImageCheck = DateTime.Now;
+                        AppState.Instance.Settings.Save();
+                    }
+                    catch(IOException) {
+                        // TODO: be nonterrible
+                        // couldn't write the new set art over the default. try again later?
+                    }
+                }
             }
         }
     }

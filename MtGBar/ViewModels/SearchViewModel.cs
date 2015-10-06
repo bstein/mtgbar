@@ -26,7 +26,7 @@ namespace MtGBar.ViewModels
         #region Fields
         private string _AmazonLink;
         private string _AmazonPrice = PRICE_DEFAULT;
-        private CardViewModel[] _CardMatches;
+        private ICardViewModel _CardViewModel;
         private string _CFLink;
         private string _CFPrice = PRICE_DEFAULT;
         private string _DefaultBackground;
@@ -35,6 +35,8 @@ namespace MtGBar.ViewModels
         private string _MtgoTradersLink;
         private string _MtgoTradersPrice;
         private Dictionary<string, Dictionary<string, string>> _PriceCache = new Dictionary<string, Dictionary<string, string>>();
+        private IReadOnlyList<IPrinting> _Printings;
+        private IReadOnlyList<SearchResultViewModel> _SearchResults;
         private string _SearchTerm;
         private ICard _SelectedCard;
         private IPrinting _SelectedPrinting;
@@ -80,10 +82,16 @@ namespace MtGBar.ViewModels
             set { ChangeProperty(vm => vm.AmazonPrice, value); }
         }
 
-        public CardViewModel[] CardMatches
+        public IReadOnlyList<SearchResultViewModel> SearchResults
         {
-            get { return _CardMatches; }
-            set { ChangeProperty(vm => vm.CardMatches, value); }
+            get { return _SearchResults; }
+            set { ChangeProperty(vm => vm.SearchResults, value); }
+        }
+
+        public ICardViewModel CardViewModel
+        {
+            get { return _CardViewModel; }
+            set { ChangeProperty(vm => vm.CardViewModel, value); }
         }
 
         public string CFLink
@@ -148,6 +156,12 @@ namespace MtGBar.ViewModels
             set { ChangeProperty(s => s.MtgoTradersPrice, value); }
         }
 
+        public IReadOnlyList<IPrinting> Printings
+        {
+            get { return _Printings; }
+            set { ChangeProperty<SearchViewModel>(vm => vm.Printings, value); }
+        }
+
         public string SearchTerm
         {
             get { return _SearchTerm; }
@@ -172,16 +186,21 @@ namespace MtGBar.ViewModels
             {
                 if (SelectedCard != value) {
                     _SelectedCard = value;
+
                     // clear the price cache
                     ResetPriceData();
                     _PriceCache.Clear();
 
                     // changing the selected printing automatically requeries price data
                     if (value == null) {
+                        CardViewModel = null;
+                        Printings = null;
                         SelectedPrinting = null;
                     }
                     else {
-                        SelectedPrinting = value.Printings.OrderByDescending(a => a.Set.Date).First();
+                        Printings = value.Printings.OrderByDescending(p => p.Set.Date).Take(5).ToList();
+                        SelectedPrinting = Printings.First();
+                        CardViewModel = CardViewModelFactory.GetCardViewModel(value, SelectedPrinting);
 
                         // log the fact that this card was selected
                         AppState.Instance.Settings.LogRecentCard(value);
@@ -378,11 +397,17 @@ namespace MtGBar.ViewModels
             // clear existing selection
             SelectedPrintingImage = null;
 
-            // get a cool image uri
-            Uri imageUri = await AppState.Instance.MelekClient.GetCardImageUri(printing);
+            try {
+                // get a cool image uri
+                Uri imageUri = await AppState.Instance.MelekClient.GetCardImageUri(printing);
 
-            // select it
-            SelectedPrintingImage = await ImageFactory.FromUri(imageUri);
+                // select it
+                SelectedPrintingImage = await ImageFactory.FromUri(imageUri);
+            }
+            catch(Exception) {
+                //TODO: check melek to make sure the right kind of exception is getting thrown
+                SelectedPrintingImage = null;
+            }
         }
 
         private void ReadSettings()
@@ -433,26 +458,28 @@ namespace MtGBar.ViewModels
             ICard[] results = await Task<ICard[]>.Factory.StartNew(() => { 
                 return AppState.Instance.MelekClient.Search(searchTerm).Take(5).ToArray(); 
             });
-            List<CardViewModel> vms = new List<CardViewModel>();
+            List<SearchResultViewModel> vms = new List<SearchResultViewModel>();
 
             foreach (ICard card in results) {
-                CardViewModel vm = new CardViewModel(card);
+                SearchResultViewModel vm = new SearchResultViewModel() {
+                    Card = card
+                };
                 vms.Add(vm);
             }
 
             // set the CardMatches property so the results get bound asap
-            CardMatches = vms.ToArray();
-            if (CardMatches.Count() != 1 || CardMatches[0].Card != SelectedCard) {
+            SearchResults = vms;
+            if (SearchResults.Count() != 1 || SearchResults[0].Card != SelectedCard) {
                 SelectedCard = null;
             }
             
-            if (CardMatches.Count() == 1) {
-                SelectedCard = CardMatches[0].Card;
+            if (SearchResults.Count() == 1) {
+                SelectedCard = SearchResults[0].Card;
             }
 
             // then set up pretty picchurs
-            foreach (CardViewModel vm in CardMatches) {
-                vm.FullSize = await ImageFactory.FromUri(await AppState.Instance.MelekClient.GetCardImageUri(vm.Card.Printings[0]));
+            foreach (SearchResultViewModel vm in SearchResults) {
+                vm.FullSize = await ImageFactory.FromUri(await AppState.Instance.MelekClient.GetCardImageUri(vm.Card.GetLastPrinting()));
                 if (vm.FullSize != null) {
                     vm.Thumbnail = new CroppedBitmap(vm.FullSize, new Int32Rect(65, 50, 96, 96));
                 }
