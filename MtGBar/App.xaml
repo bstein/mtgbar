@@ -13,7 +13,8 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/FirstFloor.ModernUI;component/Assets/ModernUI.xaml" />
                 <ResourceDictionary Source="/FirstFloor.ModernUI;component/Assets/ModernUI.Dark.xaml"/>
-                <ResourceDictionary Source="Styles/AppStyles.xaml" />
+                <ResourceDictionary Source="Resources/GlobalConverters.xaml" />
+                <ResourceDictionary Source="Resources/AppStyles.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
             <!--Views-->

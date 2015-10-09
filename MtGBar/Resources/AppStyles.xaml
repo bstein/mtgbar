@@ -3,7 +3,8 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mui="http://firstfloorsoftware.com/ModernUI"
     xmlns:muiRef="clr-namespace:FirstFloor.ModernUI;assembly=FirstFloor.ModernUI"
-    xmlns:controls="clr-namespace:MtGBarControls;assembly=MtGBarControls" xmlns:UIHelpers="clr-namespace:MtGBarControls.UIHelpers;assembly=MtGBarControls">
+    xmlns:controls="clr-namespace:MtGBarControls;assembly=MtGBarControls" 
+    xmlns:UIHelpers="clr-namespace:MtGBarControls.UIHelpers;assembly=MtGBarControls">
 
     <!--Colors-->
     <!--Note that what would ordinarily be "AccentColor" is "MyAccentColor" here to avoid collision with MUI.-->
@@ -34,7 +35,8 @@
         <Setter Property="FontFamily" Value="pack://application:,,,/Assets/fonts/#Segoe UI" />
     </Style>
     
-    <!--Margins-->
+    <!--Margins & Padding-->
+    <Thickness x:Key="CardViewModelPadding">16</Thickness>
     <Thickness x:Key="VerticalControlMargin" Left="0" Top="6" Right="0" Bottom="0" />
     <Thickness x:Key="HorizontalControlMargin" Left="6" Top="0" Right="0" Bottom="0" />
     <Thickness x:Key="HorizontalAndVerticalControlMargin" Left="6" Top="0" Right="0" Bottom="0" />

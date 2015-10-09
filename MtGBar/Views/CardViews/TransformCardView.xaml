@@ -3,8 +3,29 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-    xmlns:local="clr-namespace:MtGBar.Views.CardViews">
+    xmlns:convert="clr-namespace:MtGBar.Infrastructure.UIHelpers.Converters"
+    Margin="{StaticResource CardViewModelPadding}">
     <Grid>
-        <TextBlock Foreground="{StaticResource ForegroundBrush}">Transform card view.</TextBlock>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        
+        <TextBlock
+            Grid.Row="0"
+            Grid.Column="1"
+            Style="{StaticResource CardTitleStyle}" 
+            Text="{Binding Card.Name}" />
+
+        <TextBlock
+            Grid.Row="1"
+            Grid.Column="1"
+            Style="{StaticResource CardTitleStyle}" 
+            Text="{Binding}" />
     </Grid>
 </UserControl>

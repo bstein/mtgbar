@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Globalization;
 using System.IO;
+using System.Threading.Tasks;
 using System.Windows.Data;
 using System.Windows.Media.Imaging;
 using Melek.Domain;
@@ -26,7 +27,7 @@ namespace MtGBar.Infrastructure.UIHelpers.Converters
                     else {
                         uri = new Uri(ImageManager.GetSetSymbolUrl(printing.Set, printing.Rarity));
                         // download it for next time
-                        ImageManager.DownloadSetSymbol(printing.Set, printing.Rarity);
+                        Task t = ImageManager.DownloadSetSymbol(printing.Set, printing.Rarity);
                     }
                     return new BitmapImage(uri);
                 }

@@ -191,9 +191,11 @@
     <Compile Include="Infrastructure\UIHelpers\Converters\CardWatermarkConverter.cs" />
     <Compile Include="Infrastructure\UIHelpers\Converters\ClearCardCacheButtonTextConverter.cs" />
     <Compile Include="Infrastructure\UIHelpers\Converters\DateTimeStringConverter.cs" />
+    <Compile Include="Infrastructure\UIHelpers\Converters\DebugConverter.cs" />
     <Compile Include="Infrastructure\UIHelpers\Converters\LoyaltyCostIconConverter.cs" />
     <Compile Include="Infrastructure\UIHelpers\Converters\LoyaltyCostMarginConverter.cs" />
     <Compile Include="Infrastructure\UIHelpers\Converters\LoyaltyCostTextConverter.cs" />
+    <Compile Include="Infrastructure\UIHelpers\Converters\PrintingImageConverter.cs" />
     <Compile Include="Infrastructure\UIHelpers\Converters\RarityBrushConverter.cs" />
     <Compile Include="Infrastructure\UIHelpers\Converters\ResultsDelimiterVisibilityConverter.cs" />
     <Compile Include="Infrastructure\UIHelpers\Converters\ResultsViewVisibilityConverter.cs" />
@@ -242,6 +244,9 @@
     <Compile Include="Views\CardViews\TransformCardView.xaml.cs">
       <DependentUpon>TransformCardView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Controls\CardTextView.xaml.cs">
+      <DependentUpon>CardTextView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\SearchView.xaml.cs">
       <DependentUpon>SearchView.xaml</DependentUpon>
     </Compile>
@@ -263,7 +268,11 @@
     <Compile Include="Views\AlertView.xaml.cs">
       <DependentUpon>AlertView.xaml</DependentUpon>
     </Compile>
-    <Page Include="Styles\AppStyles.xaml">
+    <Page Include="Resources\AppStyles.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Resources\GlobalConverters.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -292,6 +301,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\CardViews\TransformCardView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Controls\CardTextView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

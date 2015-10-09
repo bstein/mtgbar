@@ -10,7 +10,6 @@
     xmlns:controls="clr-namespace:MtGBarControls;assembly=MtGBarControls"
     xmlns:convert="clr-namespace:MtGBar.Infrastructure.UIHelpers.Converters"
     xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
-    xmlns:templateSelectors="clr-namespace:MtGBar.Infrastructure.UIHelpers.DataTemplateSelectors"
     xmlns:view="clr-namespace:MtGBar.Views"
     xmlns:vm="clr-namespace:MtGBar.ViewModels"
     Title="MtGBar" 
@@ -40,10 +39,6 @@
         BorderThickness="2"
         CornerRadius="6">
         <Border.Resources>
-            <bazamConvert:BooleanVisibilityConverter x:Key="BooleanVisibilityConverter" />
-            <bazamConvert:CapitalizationConverter x:Key="CapitalizationConverter" />
-            <bazamConvert:ObjectVisibilityConverter x:Key="ObjectVisibilityConverter" />
-            <bazamConvert:StringVisibilityConverter x:Key="StringVisibilityConverter" />
             <convert:CardBackgroundImageConverter x:Key="CardBackgroundImageConverter" />
             <convert:CardCostCollectionVisibilityConverter x:Key="CardCostCollectionVisibilityConverter" />
             <convert:CardCostConverter x:Key="CardCostConverter" />
@@ -66,63 +61,6 @@
             <convert:RarityBrushConverter x:Key="RarityBrushConverter" />
             <convert:ResultsDelimiterVisibilityConverter x:Key="ResultsDelimiterVisibilityConverter" />
             <convert:ResultsViewVisibilityConverter x:Key="ResultsViewVisibilityConverter" />
-            <templateSelectors:CardTextDataTemplateSelector x:Key="CardTextDataTemplateSelector">
-                <templateSelectors:CardTextDataTemplateSelector.LoyaltyCostTemplate>
-                    <DataTemplate>
-                        <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition />
-                            </Grid.RowDefinitions>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
-
-                            <Image 
-                                Grid.Row="0"
-                                Grid.Column="0"
-                                Height="25"
-                                Width="30"
-                                Source="{Binding Converter={StaticResource LoyaltyCostIconConverter}}" />
-                            <TextBlock
-                                Grid.Row="0"
-                                Grid.Column="0"
-                                FontFamily="pack://application:,,,/Assets/fonts/#MPlantin"
-                                FontSize="10"
-                                HorizontalAlignment="Center"
-                                Margin="{Binding Converter={StaticResource LoyaltyCostMarginConverter}}"
-                                Style="{StaticResource CardAttributeValueStyle}"
-                                Text="{Binding Converter={StaticResource LoyaltyCostTextConverter}}"
-                                VerticalAlignment="Center" />
-                            <TextBlock
-                                Grid.Row="0"
-                                Grid.Column="1"
-                                Margin="2,0,4,0"
-                                Style="{StaticResource CardAttributeValueStyle}"
-                                Text=":" />
-                        </Grid>
-                    </DataTemplate>
-                </templateSelectors:CardTextDataTemplateSelector.LoyaltyCostTemplate>
-                <templateSelectors:CardTextDataTemplateSelector.ManaCostTemplate>
-                    <DataTemplate>
-                        <Image 
-                            Height="18"
-                            Width="18"
-                            HorizontalAlignment="Left"
-                            Margin="0,3,3,0"
-                            Source="{Binding Converter={StaticResource CardCostConverter}}"
-                            VerticalAlignment="Top" />
-                    </DataTemplate>
-                </templateSelectors:CardTextDataTemplateSelector.ManaCostTemplate>
-                <templateSelectors:CardTextDataTemplateSelector.TextTemplate>
-                    <DataTemplate>
-                        <TextBlock
-                            Margin="0"
-                            Style="{StaticResource CardAttributeValueStyle}"
-                            Text="{Binding}" />
-                    </DataTemplate>
-                </templateSelectors:CardTextDataTemplateSelector.TextTemplate>
-            </templateSelectors:CardTextDataTemplateSelector>
         </Border.Resources>
         <Border.Background>
             <ImageBrush 
@@ -167,6 +105,7 @@
                 Style="{StaticResource SearchBoxStyle}"
                 Text="{Binding SearchTerm, Delay=200, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                 WatermarkText="{Binding WatermarkText}"/>
+            
             <!--
                 Wanted to make this a user control to reduce complexity per view thingy, but I couldn't figure out how to pass data from the parent 
                 (SearchView) to a child control like ResultsView or something. Manipulating the DataContext property of the child view does work,
@@ -277,8 +216,14 @@
                     <bazamBehavior:FadeInBehavior />
                 </i:Interaction.Behaviors>
                 <Grid.Resources>
+                    <DataTemplate DataType="{x:Type vm:CardViewModel}">
+                        <cardViews:CardView DataContext="{Binding}" />
+                    </DataTemplate>
+                    <DataTemplate DataType="{x:Type vm:SplitCardViewModel}">
+                        <cardViews:SplitCardView DataContext="{Binding}" />
+                    </DataTemplate>
                     <DataTemplate DataType="{x:Type vm:TransformCardViewModel}">
-                        <cardViews:TransformCardView />
+                        <cardViews:TransformCardView DataContext="{Binding}" />
                     </DataTemplate>
                 </Grid.Resources>
                 <Grid.RowDefinitions>
