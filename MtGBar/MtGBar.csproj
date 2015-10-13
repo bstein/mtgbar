@@ -184,14 +184,11 @@
     <Compile Include="Infrastructure\UIHelpers\Converters\CardTextConverter.cs" />
     <Compile Include="Infrastructure\UIHelpers\Converters\CardTextParseConverter.cs" />
     <Compile Include="Infrastructure\UIHelpers\Converters\CardTextVisibilityConverter.cs" />
-    <Compile Include="Infrastructure\UIHelpers\Converters\CardTribesStringConverter.cs" />
     <Compile Include="Infrastructure\UIHelpers\Converters\CardTribesVisibilityConverter.cs" />
-    <Compile Include="Infrastructure\UIHelpers\Converters\CardTypeStringConverter.cs" />
     <Compile Include="Infrastructure\UIHelpers\Converters\CardViewVisibilityConverter.cs" />
     <Compile Include="Infrastructure\UIHelpers\Converters\CardWatermarkConverter.cs" />
     <Compile Include="Infrastructure\UIHelpers\Converters\ClearCardCacheButtonTextConverter.cs" />
     <Compile Include="Infrastructure\UIHelpers\Converters\DateTimeStringConverter.cs" />
-    <Compile Include="Infrastructure\UIHelpers\Converters\DebugConverter.cs" />
     <Compile Include="Infrastructure\UIHelpers\Converters\LoyaltyCostIconConverter.cs" />
     <Compile Include="Infrastructure\UIHelpers\Converters\LoyaltyCostMarginConverter.cs" />
     <Compile Include="Infrastructure\UIHelpers\Converters\LoyaltyCostTextConverter.cs" />
@@ -200,6 +197,7 @@
     <Compile Include="Infrastructure\UIHelpers\Converters\ResultsDelimiterVisibilityConverter.cs" />
     <Compile Include="Infrastructure\UIHelpers\Converters\ResultsViewVisibilityConverter.cs" />
     <Compile Include="Infrastructure\UIHelpers\Converters\CardSetImageConverter.cs" />
+    <Compile Include="Infrastructure\UIHelpers\Converters\EnumerableStringConverter.cs" />
     <Compile Include="Infrastructure\UIHelpers\Converters\StringToUpperConverter.cs" />
     <Compile Include="Infrastructure\UIHelpers\Converters\TweetViewModelAuthorUrlConverter.cs" />
     <Compile Include="Infrastructure\UIHelpers\Converters\TweetViewModelUrlConverter.cs" />

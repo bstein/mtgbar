@@ -1,21 +1,22 @@
 ﻿using System;
+using System.Collections;
 using System.Globalization;
 using System.Windows.Data;
-using Melek.Domain;
 
 namespace MtGBar.Infrastructure.UIHelpers.Converters
 {
-    public class CardTypeStringConverter : IValueConverter
+    public class EnumerableStringConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             string retVal = string.Empty;
+
+            IEnumerable typedValue = (IEnumerable)value;
             bool typedParameter = (parameter == null ? false : bool.Parse(parameter.ToString()));
 
-            if (value != null) {
-                ICard typedValue = (value as ICard);
-                foreach (CardType type in typedValue.AllTypes) {
-                    retVal += type.ToString() + " ";
+            if (typedValue != null) {
+                foreach (object item in typedValue) {
+                    retVal += item.ToString() + " ";
                 }
             }
 

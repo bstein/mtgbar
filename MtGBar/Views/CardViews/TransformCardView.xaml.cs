@@ -1,28 +1,41 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using Melek.Domain;
 
 namespace MtGBar.Views.CardViews
 {
-    /// <summary>
-    /// Interaction logic for TransformCardView.xaml
-    /// </summary>
     public partial class TransformCardView : UserControl
     {
         public TransformCardView()
         {
             InitializeComponent();
+            LayoutRoot.DataContext = this;
         }
+        
+        public TransformCard Card
+        {
+            get { return (TransformCard)GetValue(CardProperty); }
+            set { SetValue(CardProperty, value); }
+        }
+        
+        public static readonly DependencyProperty CardProperty = DependencyProperty.Register(
+            "Card", 
+            typeof(TransformCard), 
+            typeof(TransformCardView), 
+            new PropertyMetadata(null)
+        );
+        
+        public TransformPrinting Printing
+        {
+            get { return (TransformPrinting)GetValue(PrintingProperty); }
+            set { SetValue(PrintingProperty, value); }
+        }
+        
+        public static readonly DependencyProperty PrintingProperty = DependencyProperty.Register(
+            "Printing", 
+            typeof(TransformPrinting), 
+            typeof(TransformCardView), 
+            new PropertyMetadata(null)
+        );
     }
 }

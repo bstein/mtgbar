@@ -72,8 +72,9 @@
         </templateSelectors:CardTextDataTemplateSelector>
     </UserControl.Resources>
     <ItemsControl    
-        ItemsSource="{Binding Card.Text, Converter={StaticResource CardTextConverter}}"                        
-        Visibility="{Binding Card.Text, Converter={StaticResource StringVisibilityConverter}}">
+        x:Name="LayoutRoot"
+        ItemsSource="{Binding Text, Converter={StaticResource CardTextConverter}}"                        
+        Visibility="{Binding Text, Converter={StaticResource StringVisibilityConverter}}">
         <ItemsControl.ItemTemplate>
             <DataTemplate>
                 <ItemsControl 

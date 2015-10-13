@@ -18,13 +18,13 @@
     Background="Transparent"
     Icon="/MtGBar;component/icon.ico"
     KeyUp="this_KeyUp"
-    Left="{Binding WindowLeft, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+    Left="{Binding WindowLeft, UpdateSourceTrigger=PropertyChanged}"
     Opacity="0"
     PreviewKeyDown="this_PreviewKeyDown"
     ResizeMode="NoResize" 
     ShowInTaskbar="False"
     SizeToContent="Height"
-    Top="{Binding WindowTop, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+    Top="{Binding WindowTop, UpdateSourceTrigger=PropertyChanged}"
     WindowStartupLocation="Manual"
     WindowStyle="None"
     Width="800">
@@ -50,11 +50,10 @@
             <convert:CardTextConverter x:Key="CardTextConverter" />
             <convert:CardTextParseConverter x:Key="CardTextParseConverter" />
             <convert:CardTextVisibilityConverter x:Key="CardTextVisibilityConverter" />
-            <convert:CardTribesStringConverter x:Key="CardTribesStringConverter" />
-            <convert:CardTribesVisibilityConverter x:Key="CardTribesVisibilityConverter" />
-            <convert:CardTypeStringConverter x:Key="CardTypeStringConverter" />
+            <convert:CardTribesVisibilityConverter x:Key="CardTribesVisibilityConverter" />            
             <convert:CardViewVisibilityConverter x:Key="CardViewVisibilityConverter" />
             <convert:CardWatermarkConverter x:Key="CardWatermarkConverter" />
+            <convert:EnumerableStringConverter x:Key="EnumerableStringConverter" />
             <convert:LoyaltyCostIconConverter x:Key="LoyaltyCostIconConverter" />
             <convert:LoyaltyCostMarginConverter x:Key="LoyaltyCostMarginConverter" />
             <convert:LoyaltyCostTextConverter x:Key="LoyaltyCostTextConverter" />
@@ -181,7 +180,7 @@
                                     <TextBlock
                                         Foreground="{StaticResource SubtleBrush}"
                                         Style="{StaticResource ResultSubtitleLightStyle}" 
-                                        Text="{Binding Card, Converter={StaticResource CardTypeStringConverter}, ConverterParameter=true}" />
+                                        Text="{Binding Card.AllTypes, Converter={StaticResource EnumerableStringConverter}, ConverterParameter=true}" />
                                 </StackPanel>
                                 <StackPanel 
                                     Margin="-8,0,0,0"
@@ -217,13 +216,17 @@
                 </i:Interaction.Behaviors>
                 <Grid.Resources>
                     <DataTemplate DataType="{x:Type vm:CardViewModel}">
-                        <cardViews:CardView DataContext="{Binding}" />
+                        <cardViews:CardView 
+                            Card="{Binding Card}" 
+                            Printing="{Binding Printing}" />
                     </DataTemplate>
                     <DataTemplate DataType="{x:Type vm:SplitCardViewModel}">
                         <cardViews:SplitCardView DataContext="{Binding}" />
                     </DataTemplate>
                     <DataTemplate DataType="{x:Type vm:TransformCardViewModel}">
-                        <cardViews:TransformCardView DataContext="{Binding}" />
+                        <cardViews:TransformCardView 
+                            Card="{Binding Card}"
+                            Printing="{Binding Printing}" />
                     </DataTemplate>
                 </Grid.Resources>
                 <Grid.RowDefinitions>
