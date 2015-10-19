@@ -81,6 +81,7 @@ namespace MtGBar.Infrastructure
             // file and call it when the data store is ready.
             //
             // But I'm not happy about it, okay?
+            // TODO: STOP SUCKING
             MelekClient.DataLoaded += () => {
                 Settings.LoadRecentCards();
             };

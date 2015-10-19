@@ -50,11 +50,16 @@ namespace MtGBar.Infrastructure.DataNinjitsu.Models
                 DismissOnFocusLoss = (settingsData.Attribute("dismissOnFocusLoss") != null ? XmlPal.GetBool(settingsData.Attribute("dismissOnFocusLoss")).Value : true);
                 DisplayIndex = XmlPal.GetInt(settingsData.Attribute("displayIndex"));
                 Hotkey = (settingsData.Attribute("hotkey") != null ? new HotkeyDescription(XmlPal.GetString(settingsData.Attribute("hotkey"))) : null);
-                LastImageCheck = XmlPal.GetDate(settingsData.Attribute("lastImageCheck"));
+                LastImageCheck = null;
                 SaveCardImageData = XmlPal.GetBool(settingsData.Attribute("saveCardImageData")).GetValueOrDefault();
                 ShowPricingData = XmlPal.GetBool(settingsData.Attribute("showPricingData")).GetValueOrDefault();
                 ShowWelcomeScreen = XmlPal.GetBool(settingsData.Attribute("showWelcomeScreen")).GetValueOrDefault();
                 StartOnSignIn = XmlPal.GetBool(settingsData.Attribute("startOnSignIn")).GetValueOrDefault();
+
+                // TODO: figure out why "lastImageCheck" got set to empty string on a dev machine
+                if (!string.IsNullOrEmpty(XmlPal.GetString(settingsData.Attribute("lastImageCheck")))) {
+                    LastImageCheck = XmlPal.GetDate(settingsData.Attribute("lastImageCheck"));
+                }
             }
             else {
                 firstRun = true;

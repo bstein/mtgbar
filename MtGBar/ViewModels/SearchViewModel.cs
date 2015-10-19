@@ -5,7 +5,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Forms;
-using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using Bazam.Wpf.UIHelpers;
 using Bazam.Wpf.ViewModels;
@@ -116,22 +115,6 @@ namespace MtGBar.ViewModels
             get { return new BitmapImage(new Uri("pack://application:,,,/Assets/card-back.png")); }
         }
 
-        public ICommand FlipCardCommand
-        {
-            get 
-            { 
-                return new RelayCommand(
-                    () => {
-                        // have to retain a reference to the printing to select after we select the card (because selecting the
-                        // card manipulates the SelectedPrintingTransformsIntoPrinting property.
-                        IPrinting printingToSelect = SelectedPrintingTransformsIntoPrinting;
-                        SelectedCard = SelectedPrintingTransformsIntoCard;
-                        SelectedPrinting = printingToSelect;
-                    }
-                ); 
-            }
-        }
-
         public string GathererLink
         {
             get { return _GathererLink; }
@@ -200,7 +183,7 @@ namespace MtGBar.ViewModels
                     else {
                         Printings = value.Printings.OrderByDescending(p => p.Set.Date).Take(5).ToList();
                         SelectedPrinting = Printings.First();
-                        CardViewModel = CardViewModelFactory.GetCardViewModel(value, SelectedPrinting);
+                        Task t = UpdateSelectedCardViewModel();
 
                         // log the fact that this card was selected
                         AppState.Instance.Settings.LogRecentCard(value);
@@ -223,38 +206,10 @@ namespace MtGBar.ViewModels
                     ChangeProperty(vm => vm.SelectedPrinting, value);
                     if (value != null) {
                         QueryPriceData();
-                        PrintingSelected(value);
-
-                        if(value.GetType().IsAssignableFrom(typeof(TransformPrinting))) {
-                            TransformPrinting printing = (value as TransformPrinting);
-                            SelectedPrintingTransformsIntoCard = AppState.Instance.MelekClient.GetCardByMultiverseId(printing.MultiverseId);
-                            SelectedPrintingTransformsIntoPrinting = SelectedPrintingTransformsIntoCard.Printings.Where(p => p.MultiverseId == printing.TransformedMultiverseId).FirstOrDefault();
-                        }
-                    }
-                    else {
-                        SelectedPrintingTransformsIntoCard = null;
-                        SelectedPrintingTransformsIntoPrinting = null;
+                        Task t = UpdateSelectedCardViewModel();
                     }
                 }
             }
-        }
-
-        public BitmapImage SelectedPrintingImage
-        {
-            get { return _SelectedPrintingImage; }
-            private set { ChangeProperty(vm => vm.SelectedPrintingImage, value); }
-        }
-
-        public IPrinting SelectedPrintingTransformsIntoPrinting
-        {
-            get { return _SelectedPrintingTransformsIntoPrinting; }
-            set { ChangeProperty(vm => vm.SelectedPrintingTransformsIntoPrinting, value); }
-        }
-
-        public ICard SelectedPrintingTransformsIntoCard
-        {
-            get { return _SelectedPrintingTransformsIntoCard; }
-            set { ChangeProperty(vm => vm.SelectedPrintingTransformsIntoCard, value); }
         }
 
         public bool ShowPricingData
@@ -303,7 +258,7 @@ namespace MtGBar.ViewModels
         #region Private utility methods
         private string ApplyPriceDefault(string price)
         {
-            return price == string.Empty ? PRICE_DEFAULT : price;
+            return string.IsNullOrEmpty(price) ? PRICE_DEFAULT : price;
         }
 
         private void CachePrice(string multiverseID, string vendor, string price)
@@ -324,6 +279,7 @@ namespace MtGBar.ViewModels
         private async void QueryPriceData()
         {
             ResetPriceData();
+
             if (_ShowPricingData && SelectedPrinting != null && SelectedCard != null) {
                 // snag references to these in case they're gone by the time the async functions come back
                 string multiverseID = SelectedPrinting.MultiverseId;
@@ -389,24 +345,6 @@ namespace MtGBar.ViewModels
                     CachePrice(multiverseID, "tcgPlayer", tcgPlayerPrice);
                 }
                 TCGPlayerPrice = ApplyPriceDefault(tcgPlayerPrice);
-            }
-        }
-
-        private async void PrintingSelected(IPrinting printing)
-        {
-            // clear existing selection
-            SelectedPrintingImage = null;
-
-            try {
-                // get a cool image uri
-                Uri imageUri = await AppState.Instance.MelekClient.GetCardImageUri(printing);
-
-                // select it
-                SelectedPrintingImage = await ImageFactory.FromUri(imageUri);
-            }
-            catch(Exception) {
-                //TODO: check melek to make sure the right kind of exception is getting thrown
-                SelectedPrintingImage = null;
             }
         }
 
@@ -479,11 +417,18 @@ namespace MtGBar.ViewModels
 
             // then set up pretty picchurs
             foreach (SearchResultViewModel vm in SearchResults) {
-                vm.FullSize = await ImageFactory.FromUri(await AppState.Instance.MelekClient.GetCardImageUri(vm.Card.GetLastPrinting()));
+                vm.FullSize = await ImageFactory.FromUri(await AppState.Instance.MelekClient.GetImageUri(vm.Card.GetLastPrinting()));
                 if (vm.FullSize != null) {
                     vm.Thumbnail = new CroppedBitmap(vm.FullSize, new Int32Rect(65, 50, 96, 96));
                 }
             }
+        }
+
+        private async Task UpdateSelectedCardViewModel()
+        {
+            await Task.Factory.StartNew(async () => {
+                CardViewModel = await CardViewModelFactory.GetCardViewModel(SelectedCard, SelectedPrinting, AppState.Instance.MelekClient);
+            });
         }
         #endregion
     }

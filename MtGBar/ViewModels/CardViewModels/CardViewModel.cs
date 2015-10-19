@@ -1,10 +1,19 @@
-﻿using Melek.Domain;
+﻿using System.Windows.Media.Imaging;
+using Bazam.Wpf.ViewModels;
+using Melek.Domain;
 
 namespace MtGBar.ViewModels
 {
-    public class CardViewModel : ICardViewModel
+    public class CardViewModel : ViewModelBase<CardViewModel>, ICardViewModel
     {
         public Card Card { get; set; }
         public Printing Printing { get; set; }
+
+        private BitmapImage _CardImage = null;
+        public BitmapImage CardImage
+        {
+            get { return _CardImage; }
+            set { ChangeProperty(vm => vm.CardImage, value); }
+        }
     }
 }

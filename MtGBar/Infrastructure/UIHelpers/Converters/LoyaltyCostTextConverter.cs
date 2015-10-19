@@ -9,7 +9,7 @@ namespace MtGBar.Infrastructure.UIHelpers.Converters
         public Object Convert(Object value, Type targetType, Object parameter, CultureInfo culture)
         {
             if (value != null) {
-                return value.ToString().Replace(":", string.Empty);
+                return value.ToString().Replace(":", string.Empty).Replace("−", "-");
             }
 
             return null;

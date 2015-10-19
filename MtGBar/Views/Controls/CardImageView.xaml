@@ -1,0 +1,32 @@
+﻿<UserControl 
+    x:Class="MtGBar.Views.Controls.CardImageView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Border x:Name="LayoutRoot" Style="{StaticResource CardImageBorderStyle}">
+        <Image
+            Stretch="Uniform"
+            Style="{StaticResource CardImageStyle}">
+            <Image.Source>
+                <Binding IsAsync="True" Path="CardImage">
+                    <Binding.FallbackValue>
+                        <BitmapImage UriSource="pack://application:,,,/Assets/card-back.png" />
+                    </Binding.FallbackValue>
+                </Binding>
+            </Image.Source>
+            <Image.Triggers>
+                <EventTrigger RoutedEvent="Binding.SourceUpdated">
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetProperty="Opacity" Duration="0:0:0" To="0" />
+                            <DoubleAnimation Storyboard.TargetProperty="Opacity" Duration="0:0:0.3" From="0" To="1">
+                                <DoubleAnimation.EasingFunction>
+                                    <QuadraticEase />
+                                </DoubleAnimation.EasingFunction>
+                            </DoubleAnimation>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+            </Image.Triggers>
+        </Image>
+    </Border>
+</UserControl>

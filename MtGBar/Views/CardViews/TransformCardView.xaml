@@ -23,7 +23,6 @@
             <convert:CardViewVisibilityConverter x:Key="CardViewVisibilityConverter" />
             <convert:CardWatermarkConverter x:Key="CardWatermarkConverter" />
             <convert:EnumerableStringConverter x:Key="EnumerableStringConverter" />
-            <convert:PrintingImageConverter x:Key="PrintingImageConverter" />
             <convert:RarityBrushConverter x:Key="RarityBrushConverter" />
             <convert:ResultsDelimiterVisibilityConverter x:Key="ResultsDelimiterVisibilityConverter" />
             <convert:ResultsViewVisibilityConverter x:Key="ResultsViewVisibilityConverter" />
@@ -45,40 +44,39 @@
         <StackPanel
             Grid.Row="0"
             Grid.Column="0"
-            Grid.RowSpan="3">
+            Grid.RowSpan="3"
+            Margin="0,24,16,0">
             <Border Style="{StaticResource CardImageBorderStyle}">
-                <StackPanel Style="{StaticResource CardImageContainerStyle}">
-                    <StackPanel.Background>
-                        <ImageBrush ImageSource="/Assets/card-back.png" />
-                    </StackPanel.Background>
-                    <Image
-                        x:Name="theCardImage"
-                        Stretch="Uniform"
-                        Style="{StaticResource CardImageStyle}">
-                        <Image.Source>
-                            <Binding Path="Printing" IsAsync="True" NotifyOnTargetUpdated="True" Converter="{StaticResource PrintingImageConverter}">
-                                <Binding.FallbackValue>
-                                    <BitmapImage UriSource="pack://application:,,,/Assets/card-back.png" />
-                                </Binding.FallbackValue>
-                            </Binding>
-                        </Image.Source>
-                        <Image.Triggers>
-                            <EventTrigger RoutedEvent="Binding.TargetUpdated">
-                                <BeginStoryboard>
-                                    <Storyboard>
-                                        <DoubleAnimation Storyboard.TargetProperty="Opacity" Duration="0:0:0" To="0" />
-                                        <DoubleAnimation Storyboard.TargetProperty="Opacity" Duration="0:0:0.3" From="0" To="1">
-                                            <DoubleAnimation.EasingFunction>
-                                                <QuadraticEase />
-                                            </DoubleAnimation.EasingFunction>
-                                        </DoubleAnimation>
-                                    </Storyboard>
-                                </BeginStoryboard>
-                            </EventTrigger>
-                        </Image.Triggers>
-                    </Image>
-                </StackPanel>
+                <Image
+                    x:Name="theCardImage"
+                    Stretch="Uniform"
+                    Style="{StaticResource CardImageStyle}">
+                    <Image.Source>
+                        <Binding IsAsync="True" Path="NormalImage">
+                            <Binding.FallbackValue>
+                                <BitmapImage UriSource="pack://application:,,,/Assets/card-back.png" />
+                            </Binding.FallbackValue>
+                        </Binding>
+                    </Image.Source>
+                    <Image.Triggers>
+                        <EventTrigger RoutedEvent="Binding.SourceUpdated">
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <DoubleAnimation Storyboard.TargetProperty="Opacity" Duration="0:0:0" To="0" />
+                                    <DoubleAnimation Storyboard.TargetProperty="Opacity" Duration="0:0:0.3" From="0" To="1">
+                                        <DoubleAnimation.EasingFunction>
+                                            <QuadraticEase />
+                                        </DoubleAnimation.EasingFunction>
+                                    </DoubleAnimation>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                    </Image.Triggers>
+                </Image>
             </Border>
+            <Button 
+                Content="transform"
+                Margin="0,8,0,0" />
         </StackPanel>
 
         <StackPanel

@@ -17,6 +17,7 @@ namespace MtGBar.Infrastructure.UIHelpers.Converters
 
                 string typedValue = value.ToString();
                 typedValue = typedValue.Replace(":", string.Empty);
+                typedValue = typedValue.Replace("−", "-");
                 Int32.TryParse(typedValue, out loyalty);
 
                 string fileName = "pack://application:,,,/Assets/loyalty/loyalty-";
