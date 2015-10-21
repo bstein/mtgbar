@@ -412,6 +412,11 @@
         <Setter Property="VerticalAlignment" Value="Top" />
     </Style>
 
+    <Style x:Key="CardAttributeButtonStyle" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource CardAttributeValueStyle}">
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="Foreground" Value="{StaticResource AccentBrush}" />
+    </Style>
+
     <Style x:Key="CardClassStyle" TargetType="{x:Type Border}">
         <Setter Property="CornerRadius" Value="3" />
         <Setter Property="Height" Value="24" />

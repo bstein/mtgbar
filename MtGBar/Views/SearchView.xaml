@@ -222,12 +222,14 @@
                             Printing="{Binding Printing}" />
                     </DataTemplate>
                     <DataTemplate DataType="{x:Type vm:SplitCardViewModel}">
-                        <cardViews:SplitCardView DataContext="{Binding}" />
+                        <cardViews:SplitCardView Card="{Binding Card}" Printing="{Binding Printing}" />
                     </DataTemplate>
                     <DataTemplate DataType="{x:Type vm:TransformCardViewModel}">
                         <cardViews:TransformCardView 
                             Card="{Binding Card}"
                             Printing="{Binding Printing}"
+                            FlipCommand="{Binding FlipCommand}"
+                            IsTransformed="{Binding IsTransformed}"
                             NormalImage="{Binding NormalImage}"
                             TransformedImage="{Binding TransformedImage}"/>
                     </DataTemplate>

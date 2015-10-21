@@ -1,28 +1,55 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using Melek.Domain;
 
 namespace MtGBar.Views.CardViews
 {
-    /// <summary>
-    /// Interaction logic for SplitCardView.xaml
-    /// </summary>
     public partial class SplitCardView : UserControl
     {
         public SplitCardView()
         {
             InitializeComponent();
+            LayoutRoot.DataContext = this;
         }
+        
+        public SplitCard Card
+        {
+            get { return (SplitCard)GetValue(CardProperty); }
+            set { SetValue(CardProperty, value); }
+        }
+        
+        public static readonly DependencyProperty CardProperty = DependencyProperty.Register(
+            "Card", 
+            typeof(SplitCard), 
+            typeof(SplitCardView), 
+            new PropertyMetadata(null)
+        );
+        
+        public BitmapImage CardImage
+        {
+            get { return (BitmapImage)GetValue(CardImageProperty); }
+            set { SetValue(CardImageProperty, value); }
+        }
+
+        public static readonly DependencyProperty CardImageProperty = DependencyProperty.Register(
+            "CardImageProperty", 
+            typeof(BitmapImage), 
+            typeof(SplitCardView), 
+            new PropertyMetadata(null)
+        );
+        
+        public SplitPrinting Printing
+        {
+            get { return (SplitPrinting)GetValue(PrintingProperty); }
+            set { SetValue(PrintingProperty, value); }
+        }
+        
+        public static readonly DependencyProperty PrintingProperty = DependencyProperty.Register(
+            "Printing", 
+            typeof(SplitPrinting), 
+            typeof(SplitCardView), 
+            new PropertyMetadata(null)
+        );
     }
 }

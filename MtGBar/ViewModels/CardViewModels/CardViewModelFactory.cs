@@ -18,6 +18,7 @@ namespace MtGBar.ViewModels
             else if(card.GetType() == typeof(SplitCard)) {
                 return new SplitCardViewModel() {
                     Card = card as SplitCard,
+                    CardImage = await ImageFactory.FromUri(await client.GetImageUri(printing)),
                     Printing = printing as SplitPrinting
                 };
             }

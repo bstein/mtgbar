@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using Melek.Domain;
 
@@ -37,6 +38,32 @@ namespace MtGBar.Views.CardViews
             typeof(TransformPrinting), 
             typeof(TransformCardView), 
             new PropertyMetadata(null)
+        );
+        
+        public ICommand FlipCommand
+        {
+            get { return (ICommand)GetValue(FlipCommandProperty); }
+            set { SetValue(FlipCommandProperty, value); }
+        }
+        
+        public static readonly DependencyProperty FlipCommandProperty = DependencyProperty.Register(
+            "FlipCommand", 
+            typeof(ICommand), 
+            typeof(TransformCardView), 
+            new PropertyMetadata(null)
+        );
+        
+        public bool IsTransformed
+        {
+            get { return (bool)GetValue(IsTransformedProperty); }
+            set { SetValue(IsTransformedProperty, value); }
+        }
+        
+        public static readonly DependencyProperty IsTransformedProperty = DependencyProperty.Register(
+            "IsTransformed", 
+            typeof(bool), 
+            typeof(TransformCardView), 
+            new PropertyMetadata(false)
         );
         
         public BitmapImage NormalImage

@@ -21,7 +21,7 @@ namespace MtGBar.Infrastructure.UIHelpers.Behaviors
 
         protected override void OnAttached()
         {
-            AssociatedObject.SizeChanged += (omg, soAwesome) => {
+            AssociatedObject.LayoutUpdated += (omg, soAwesome) => {
                 if (_DoShit && AssociatedObject.DesiredSize.Height > 0) {
                     _DoShit = false;
 

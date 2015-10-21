@@ -3,9 +3,6 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-    xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
-    xmlns:bazamBehavior="clr-namespace:Bazam.Wpf.Behaviors;assembly=Bazam.Wpf"
-    xmlns:bazamConvert="clr-namespace:Bazam.Wpf.ValueConverters;assembly=Bazam.Wpf"
     xmlns:controls="clr-namespace:MtGBar.Views.Controls"
     xmlns:convert="clr-namespace:MtGBar.Infrastructure.UIHelpers.Converters"
     Margin="{StaticResource CardViewModelPadding}">
@@ -24,9 +21,6 @@
             <convert:EnumerableStringConverter x:Key="EnumerableStringConverter" />
             <convert:RarityBrushConverter x:Key="RarityBrushConverter" />
         </Grid.Resources>
-        <i:Interaction.Behaviors>
-            <bazamBehavior:FadeInBehavior />
-        </i:Interaction.Behaviors>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
@@ -43,34 +37,7 @@
             Grid.Column="0"
             Grid.RowSpan="3"
             Margin="0,24,16,0">
-            <Border Style="{StaticResource CardImageBorderStyle}">
-                <Image
-                    x:Name="theCardImage"
-                    Stretch="Uniform"
-                    Style="{StaticResource CardImageStyle}">
-                    <Image.Source>
-                        <Binding IsAsync="True" Path="CardImage">
-                            <Binding.FallbackValue>
-                                <BitmapImage UriSource="pack://application:,,,/Assets/card-back.png" />
-                            </Binding.FallbackValue>
-                        </Binding>
-                    </Image.Source>
-                    <Image.Triggers>
-                        <EventTrigger RoutedEvent="Binding.SourceUpdated">
-                            <BeginStoryboard>
-                                <Storyboard>
-                                    <DoubleAnimation Storyboard.TargetProperty="Opacity" Duration="0:0:0" To="0" />
-                                    <DoubleAnimation Storyboard.TargetProperty="Opacity" Duration="0:0:0.3" From="0" To="1">
-                                        <DoubleAnimation.EasingFunction>
-                                            <QuadraticEase />
-                                        </DoubleAnimation.EasingFunction>
-                                    </DoubleAnimation>
-                                </Storyboard>
-                            </BeginStoryboard>
-                        </EventTrigger>
-                    </Image.Triggers>
-                </Image>
-            </Border>
+            <controls:CardImageView ImageSource="{Binding CardImage}" />
         </StackPanel>
 
         <StackPanel
@@ -133,25 +100,10 @@
                 Text="Cost" 
                 Visibility="{Binding Card.Cost, Converter={StaticResource CardCostCollectionVisibilityConverter}}"  />
             
-            <ItemsControl
+            <controls:ManaCostView
                 Grid.Row="0"
                 Grid.Column="1"
-                ItemsSource="{Binding Card.Cost}"
-                Visibility="{Binding Card.Cost, Converter={StaticResource CardCostCollectionVisibilityConverter}}">
-                <ItemsControl.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <StackPanel Orientation="Horizontal" />
-                    </ItemsPanelTemplate>
-                </ItemsControl.ItemsPanel>
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <Image 
-                            Height="18" 
-                            Source="{Binding Converter={StaticResource CardCostConverter}}"
-                            Stretch="Uniform" />
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
+                Cost="{Binding Card.Cost}" />
 
             <TextBlock 
                 Grid.Row="1"

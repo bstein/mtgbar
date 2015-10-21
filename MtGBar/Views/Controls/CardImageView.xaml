@@ -7,14 +7,14 @@
             Stretch="Uniform"
             Style="{StaticResource CardImageStyle}">
             <Image.Source>
-                <Binding IsAsync="True" Path="CardImage">
+                <Binding IsAsync="True" Path="ImageSource">
                     <Binding.FallbackValue>
                         <BitmapImage UriSource="pack://application:,,,/Assets/card-back.png" />
                     </Binding.FallbackValue>
                 </Binding>
             </Image.Source>
             <Image.Triggers>
-                <EventTrigger RoutedEvent="Binding.SourceUpdated">
+                <EventTrigger RoutedEvent="Binding.TargetUpdated">
                     <BeginStoryboard>
                         <Storyboard>
                             <DoubleAnimation Storyboard.TargetProperty="Opacity" Duration="0:0:0" To="0" />

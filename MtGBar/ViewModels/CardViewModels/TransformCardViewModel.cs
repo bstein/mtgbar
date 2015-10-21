@@ -1,4 +1,6 @@
-﻿using System.Windows.Media.Imaging;
+﻿using System.Windows.Input;
+using System.Windows.Media.Imaging;
+using Bazam.Wpf.UIHelpers;
 using Bazam.Wpf.ViewModels;
 using Melek.Domain;
 
@@ -8,6 +10,18 @@ namespace MtGBar.ViewModels
     {
         public TransformCard Card { get; set; }
         public TransformPrinting Printing { get; set; }
+
+        public ICommand FlipCommand
+        {
+            get { return new RelayCommand(() => { this.IsTransformed = !this.IsTransformed; }); }
+        }
+
+        private bool _IsTransformed = false;
+        public bool IsTransformed
+        {
+            get { return _IsTransformed; }
+            set { ChangeProperty(vm => vm.IsTransformed, value); }
+        }
 
         private BitmapImage _NormalImage;
         public BitmapImage NormalImage
@@ -21,6 +35,6 @@ namespace MtGBar.ViewModels
         {
             get { return _TransformedImage; }
             set { ChangeProperty(vm => vm.TransformedImage, value); }
-        }
+        }   
     }
 }
