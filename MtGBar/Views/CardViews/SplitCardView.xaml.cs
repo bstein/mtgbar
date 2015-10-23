@@ -33,12 +33,25 @@ namespace MtGBar.Views.CardViews
         }
 
         public static readonly DependencyProperty CardImageProperty = DependencyProperty.Register(
-            "CardImageProperty", 
+            "CardImage", 
             typeof(BitmapImage), 
             typeof(SplitCardView), 
             new PropertyMetadata(null)
         );
         
+        public bool HasFuse
+        {
+            get { return (bool)GetValue(HasFuseProperty); }
+            set { SetValue(HasFuseProperty, value); }
+        }
+        
+        public static readonly DependencyProperty HasFuseProperty = DependencyProperty.Register(
+            "HasFuse", 
+            typeof(bool), 
+            typeof(SplitCardView), 
+            new PropertyMetadata(false)
+        );
+
         public SplitPrinting Printing
         {
             get { return (SplitPrinting)GetValue(PrintingProperty); }

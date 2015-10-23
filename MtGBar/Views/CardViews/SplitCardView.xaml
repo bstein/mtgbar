@@ -12,29 +12,65 @@
             <convert:CardWatermarkConverter x:Key="CardWatermarkConverter" />
             <convert:EnumerableStringConverter x:Key="EnumerableStringConverter" />
             <convert:RarityBrushConverter x:Key="RarityBrushConverter" />
+            <convert:StringToUpperConverter x:Key="StringToUpperConverter" />
         </Grid.Resources>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" /> <!-- card image -->
+            <RowDefinition Height="Auto" /> <!-- half-names -->
+            <RowDefinition Height="Auto" /> <!-- rarity & types -->
+            <RowDefinition Height="*" /> <!-- grid of card properties -->
+            <RowDefinition Height="Auto" /> <!-- fuse line -->
         </Grid.RowDefinitions>
 
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" /> <!-- left half -->
+            <ColumnDefinition Width="20" /> <!-- spacer -->
+            <ColumnDefinition Width="*" /> <!-- right half -->
         </Grid.ColumnDefinitions>
+
+        <!--Watermark-->
+        <Image 
+            Grid.Row="0"
+            Grid.Column="0"
+            Grid.RowSpan="4"
+            Grid.ColumnSpan="3"
+            HorizontalAlignment="Center"
+            Margin="0,14,0,0"
+            MaxHeight="200"
+            Opacity="0.5"
+            Source="{Binding Printing.Watermark, Converter={StaticResource CardWatermarkConverter}}"
+            Stretch="Uniform"
+            VerticalAlignment="Top" />
 
         <StackPanel
             Grid.Row="0"
             Grid.Column="0"
-            Grid.RowSpan="3"
-            Margin="0,24,16,0">
-            <!--<controls:CardImageView ImageSource="{Binding CardImage}" />-->
+            Grid.ColumnSpan="3">
+            <controls:CardImageView 
+                HorizontalAlignment="Center" 
+                ImageSource="{Binding CardImage}"
+                Margin="0,0,60,0">
+                <controls:CardImageView.LayoutTransform>
+                    <RotateTransform Angle="90" />
+                </controls:CardImageView.LayoutTransform>
+            </controls:CardImageView>
         </StackPanel>
 
-        <StackPanel
+        <TextBlock
             Grid.Row="1"
-            Grid.Column="1"
+            Grid.Column="0"
+            Style="{StaticResource CardTitleStyle}" 
+            Text="{Binding Card.LeftName}" />
+
+        <TextBlock
+            Grid.Row="1"
+            Grid.Column="2"
+            Style="{StaticResource CardTitleStyle}" 
+            Text="{Binding Card.RightName}" />
+
+        <StackPanel
+            Grid.Row="2"
+            Grid.Column="0"
             Orientation="Horizontal">
             <TextBlock
                 Foreground="{Binding Card, Converter={StaticResource RarityBrushConverter}}"
@@ -43,45 +79,40 @@
             <TextBlock
                 Foreground="{StaticResource SubtleBrush}"
                 Style="{StaticResource CardSubtitleStyle}"
-                Text="{Binding Card.AllTypes, Converter={StaticResource EnumerableStringConverter}, ConverterParameter=true}" />
+                Text="{Binding Card.Type, Converter={StaticResource StringToUpperConverter}}" />
         </StackPanel>
 
-        <TextBlock
-            Grid.Row="0"
-            Grid.Column="1"
-            Style="{StaticResource CardTitleStyle}" 
-            Text="{Binding Card.Name}" />
+        <StackPanel
+            Grid.Row="2"
+            Grid.Column="2"
+            Orientation="Horizontal">
+            <TextBlock
+                Foreground="{Binding Card, Converter={StaticResource RarityBrushConverter}}"
+                Style="{StaticResource CardSubtitleStyle}"
+                Text="{Binding Card, Converter={StaticResource CardRarityStringConverter}}" />
+            <TextBlock
+                Foreground="{StaticResource SubtleBrush}"
+                Style="{StaticResource CardSubtitleStyle}"
+                Text="{Binding Card.Type, Converter={StaticResource StringToUpperConverter}}" />
+        </StackPanel>
 
         <Grid
-            Grid.Row="2"
-            Grid.Column="1"
+            Grid.Row="3"
+            Grid.Column="0"
+            IsSharedSizeScope="True"
             Margin="0,12,0,0"
             VerticalAlignment="Top">
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" SharedSizeGroup="A" />
+                <RowDefinition Height="Auto" SharedSizeGroup="B" />
+                <RowDefinition Height="Auto" SharedSizeGroup="C" />
+                <RowDefinition Height="*" SharedSizeGroup="D" />
             </Grid.RowDefinitions>
 
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-
-            <!--Watermark-->
-            <Image 
-                Grid.Row="0"
-                Grid.Column="0"
-                Grid.RowSpan="8"
-                Grid.ColumnSpan="2"
-                HorizontalAlignment="Center"
-                Margin="0,14,0,0"
-                MaxHeight="200"
-                Opacity="0.5"
-                Source="{Binding Printing.Watermark, Converter={StaticResource CardWatermarkConverter}}"
-                Stretch="Uniform"
-                VerticalAlignment="Top" />
 
             <TextBlock
                 Grid.Row="0"
@@ -94,8 +125,6 @@
                 Grid.Column="1"
                 Orientation="Horizontal">
                 <controls:ManaCostView Cost="{Binding Card.LeftCost}" />
-                <TextBlock Style="{StaticResource CardAttributeValueStyle}" Text="//" />
-                <controls:ManaCostView Cost="{Binding Card.RightCost}" />
             </StackPanel>
 
             <TextBlock 
@@ -141,5 +170,91 @@
                 Text="{Binding Printing.LeftArtist}" 
                 Visibility="{Binding Printing.LeftArtist, Converter={StaticResource StringVisibilityConverter}}" />
         </Grid>
+
+        <Grid
+            Grid.Row="3"
+            Grid.Column="2"
+            Margin="0,12,0,0"
+            IsSharedSizeScope="True"
+            VerticalAlignment="Top">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" SharedSizeGroup="A" />
+                <RowDefinition Height="Auto" SharedSizeGroup="B" />
+                <RowDefinition Height="Auto" SharedSizeGroup="C" />
+                <RowDefinition Height="*" SharedSizeGroup="D" />
+            </Grid.RowDefinitions>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <TextBlock
+                Grid.Row="0"
+                Grid.Column="0"
+                Style="{StaticResource CardAttributeLabelStyle}"
+                Text="Cost" />
+
+            <StackPanel
+                Grid.Row="0"
+                Grid.Column="1"
+                Orientation="Horizontal">
+                <controls:ManaCostView Cost="{Binding Card.RightCost}" />
+            </StackPanel>
+
+            <TextBlock 
+                Grid.Row="1"
+                Grid.Column="0"
+                Style="{StaticResource CardAttributeLabelStyle}"
+                Text="Text" />
+
+            <controls:CardTextView
+                Grid.Row="1"
+                Grid.Column="1"
+                Text="{Binding Card.RightText}" />
+
+            <TextBlock
+                Grid.Row="2"
+                Grid.Column="0"
+                Style="{StaticResource CardAttributeLabelStyle}"
+                Text="Set" />
+
+            <StackPanel
+                Grid.Row="2"
+                Grid.Column="1"
+                Orientation="Horizontal">
+                <Image 
+                    Margin="0,0,4,0"
+                    Source="{Binding Printing, Converter={StaticResource CardSetImageConverter}}" 
+                    Style="{StaticResource CardSetSymbolStyle}" />
+                <TextBlock
+                    Style="{StaticResource CardAttributeValueStyle}"
+                    Text="{Binding Printing.Set.Name}" />
+            </StackPanel>
+
+            <TextBlock 
+                Grid.Row="3"
+                Grid.Column="0"
+                Style="{StaticResource CardAttributeLabelStyle}"
+                Text="Artist" />
+
+            <TextBlock 
+                Grid.Row="3"
+                Grid.Column="1"
+                Style="{StaticResource CardAttributeValueStyle}"
+                Text="{Binding Printing.RightArtist}" 
+                Visibility="{Binding Printing.RightArtist, Converter={StaticResource StringVisibilityConverter}}" />
+        </Grid>
+
+        <StackPanel
+            Grid.Row="4"
+            Grid.ColumnSpan="3"
+            Margin="0,16,0,0"
+            Visibility="{Binding HasFuse, Converter={StaticResource BooleanVisibilityConverter}}">
+            <TextBlock Style="{StaticResource CardAttributeValueStyle}">
+                <Run>Fuse </Run>
+                <Run FontStyle="Italic">(You may cast one or both halves of this card from your hand.)</Run>
+            </TextBlock>
+        </StackPanel>
     </Grid>
 </UserControl>

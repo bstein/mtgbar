@@ -235,6 +235,9 @@
     <Compile Include="Views\CardViews\CardView.xaml.cs">
       <DependentUpon>CardView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\CardViews\FlipCardView.xaml.cs">
+      <DependentUpon>FlipCardView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\CardViews\SplitCardView.xaml.cs">
       <DependentUpon>SplitCardView.xaml</DependentUpon>
     </Compile>
@@ -296,6 +299,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\CardViews\CardView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\CardViews\FlipCardView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

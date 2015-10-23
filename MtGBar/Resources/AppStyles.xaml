@@ -381,7 +381,7 @@
         <Setter Property="Width" Value="{StaticResource CardWidth}" />
         <Setter Property="Height" Value="{StaticResource CardHeight}" />
     </Style>
-
+    
     <Style x:Key="CardTitleStyle" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource TextBlockFontStyle}">
         <Setter Property="FontSize" Value="56" />
         <Setter Property="Foreground" Value="{StaticResource ForegroundBrush}" />

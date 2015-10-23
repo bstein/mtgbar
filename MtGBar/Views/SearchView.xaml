@@ -222,7 +222,11 @@
                             Printing="{Binding Printing}" />
                     </DataTemplate>
                     <DataTemplate DataType="{x:Type vm:SplitCardViewModel}">
-                        <cardViews:SplitCardView Card="{Binding Card}" Printing="{Binding Printing}" />
+                        <cardViews:SplitCardView 
+                            Card="{Binding Card}" 
+                            CardImage="{Binding CardImage}"
+                            HasFuse="{Binding Card.HasFuse}"
+                            Printing="{Binding Printing}" />
                     </DataTemplate>
                     <DataTemplate DataType="{x:Type vm:TransformCardViewModel}">
                         <cardViews:TransformCardView 

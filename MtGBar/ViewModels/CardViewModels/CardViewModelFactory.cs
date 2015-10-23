@@ -12,6 +12,7 @@ namespace MtGBar.ViewModels
             if (card.GetType() == typeof(FlipCard)) {
                 return new FlipCardViewModel() {
                     Card = card as FlipCard,
+                    CardImage = await ImageFactory.FromUri(await client.GetImageUri(printing)),
                     Printing = printing as FlipPrinting
                 };
             }
