@@ -173,6 +173,7 @@
     <Compile Include="Infrastructure\UIHelpers\Commands\CloseWindowCommand.cs" />
     <Compile Include="Infrastructure\UIHelpers\Commands\ViewCardCommand.cs" />
     <Compile Include="Infrastructure\UIHelpers\Commands\ViewUrlCommand.cs" />
+    <Compile Include="Infrastructure\UIHelpers\Converters\BooleanValuesConverter.cs" />
     <Compile Include="Infrastructure\UIHelpers\Converters\CardPrintingsMaxConverter.cs" />
     <Compile Include="Infrastructure\UIHelpers\Converters\CardPrintingsVisibilityConverter.cs" />
     <Compile Include="Infrastructure\UIHelpers\Converters\CardBackgroundImageConverter.cs" />

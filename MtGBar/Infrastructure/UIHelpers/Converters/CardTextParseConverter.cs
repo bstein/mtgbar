@@ -14,12 +14,12 @@ namespace MtGBar.Infrastructure.UIHelpers.Converters
             List<object> pieces = new List<object>();
             string sValue = value.ToString();
             if (value != null) {
-                foreach (string piece in Regex.Split(sValue, "(\\{\\S+?\\})|(\\s)|(\\.)")) {
-                    Match match = Regex.Match(piece, "\\{(\\S+?)\\}");
+                foreach (string piece in Regex.Split(sValue, @"(\{\S+?\})|(\s)")) {
+                    Match match = Regex.Match(piece, @"\{(\S+?)\}");
                     if (match != null && match.Groups[1].Value != string.Empty) {
                         pieces.Add(new CardCost(match.Groups[1].Value));
                     }
-                    else {
+                    else if (!string.IsNullOrEmpty(piece)) {
                         pieces.Add(piece);
                     }
                 }

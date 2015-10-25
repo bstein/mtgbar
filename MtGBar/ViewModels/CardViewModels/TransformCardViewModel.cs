@@ -11,11 +11,6 @@ namespace MtGBar.ViewModels
         public TransformCard Card { get; set; }
         public TransformPrinting Printing { get; set; }
 
-        public ICommand FlipCommand
-        {
-            get { return new RelayCommand(() => { this.IsTransformed = !this.IsTransformed; }); }
-        }
-
         private bool _IsTransformed = false;
         public bool IsTransformed
         {
@@ -28,6 +23,11 @@ namespace MtGBar.ViewModels
         {
             get { return _NormalImage; }
             set { ChangeProperty(vm => vm.NormalImage, value); }
+        }
+
+        public ICommand TransformCommand
+        {
+            get { return new RelayCommand(() => { this.IsTransformed = !this.IsTransformed; }); }
         }
 
         private BitmapImage _TransformedImage;

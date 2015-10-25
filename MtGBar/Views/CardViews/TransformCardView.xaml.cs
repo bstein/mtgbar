@@ -1,7 +1,10 @@
-﻿using System.Windows;
+﻿using System;
+using System.Collections.Generic;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
+using Bazam.Extensions;
 using Melek.Domain;
 
 namespace MtGBar.Views.CardViews
@@ -40,19 +43,6 @@ namespace MtGBar.Views.CardViews
             new PropertyMetadata(null)
         );
         
-        public ICommand FlipCommand
-        {
-            get { return (ICommand)GetValue(FlipCommandProperty); }
-            set { SetValue(FlipCommandProperty, value); }
-        }
-        
-        public static readonly DependencyProperty FlipCommandProperty = DependencyProperty.Register(
-            "FlipCommand", 
-            typeof(ICommand), 
-            typeof(TransformCardView), 
-            new PropertyMetadata(null)
-        );
-        
         public bool IsTransformed
         {
             get { return (bool)GetValue(IsTransformedProperty); }
@@ -79,6 +69,19 @@ namespace MtGBar.Views.CardViews
             new PropertyMetadata(null)
         );
 
+        public ICommand TransformCommand
+        {
+            get { return (ICommand)GetValue(TransformCommandProperty); }
+            set { SetValue(TransformCommandProperty, value); }
+        }
+
+        public static readonly DependencyProperty TransformCommandProperty = DependencyProperty.Register(
+            "TransformCommand",
+            typeof(ICommand),
+            typeof(TransformCardView),
+            new PropertyMetadata(null)
+        );
+
         public BitmapImage TransformedImage
         {
             get { return (BitmapImage)GetValue(TransformedImageProperty); }
@@ -91,5 +94,32 @@ namespace MtGBar.Views.CardViews
             typeof(TransformCardView), 
             new PropertyMetadata(null)
         );
+
+        // TODO: should I refactor this into a converter to share between here and FlipCardView.xaml?
+        public Func<object, object> TransformIEnumerableToString
+        {
+            get
+            {
+                return (object arg) => {
+                    IEnumerable<string> typedArg = (arg as IEnumerable<string>);
+                    if (typedArg != null) return typedArg.Concatenate<string>(" ");
+
+                    return string.Empty;
+                };
+            }
+        }
+
+        public Func<object, object> TransformIEnumerableToCardTypes
+        {
+            get
+            {
+                return (object arg) => {
+                    IEnumerable<CardType> typedArg = (arg as IEnumerable<CardType>);
+                    if (typedArg != null) return typedArg.Concatenate<CardType>(" ").ToUpper();
+
+                    return string.Empty;
+                };
+            }
+        }
     }
 }

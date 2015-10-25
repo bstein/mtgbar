@@ -8,22 +8,17 @@
     Margin="{StaticResource CardViewModelPadding}">
     <Grid x:Name="LayoutRoot">
         <Grid.Resources>
+            <convert:BooleanValuesConverter x:Key="BooleanValuesConverter" />
             <convert:CardCostCollectionVisibilityConverter x:Key="CardCostCollectionVisibilityConverter" />
             <convert:CardCostConverter x:Key="CardCostConverter" />
             <convert:CardPowerToughnessVisibilityConverter x:Key="CardPowerToughnessVisibilityConverter" />
-            <convert:CardPrintingsMaxConverter x:Key="CardPrintingsMaxConverter" />
             <convert:CardPrintingsVisibilityConverter x:Key="CardPrintingsVisibilityConverter" />
             <convert:CardRarityStringConverter x:Key="CardRarityStringConverter" />
             <convert:CardSetImageConverter x:Key="CardSetImageConverter" />
             <convert:CardTextConverter x:Key="CardTextConverter" />
-            <convert:CardTextVisibilityConverter x:Key="CardTextVisibilityConverter" />
-            <convert:CardTribesVisibilityConverter x:Key="CardTribesVisibilityConverter" />
-            <convert:CardViewVisibilityConverter x:Key="CardViewVisibilityConverter" />
             <convert:CardWatermarkConverter x:Key="CardWatermarkConverter" />
             <convert:EnumerableStringConverter x:Key="EnumerableStringConverter" />
             <convert:RarityBrushConverter x:Key="RarityBrushConverter" />
-            <convert:ResultsDelimiterVisibilityConverter x:Key="ResultsDelimiterVisibilityConverter" />
-            <convert:ResultsViewVisibilityConverter x:Key="ResultsViewVisibilityConverter" />
         </Grid.Resources>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -41,8 +36,23 @@
             Grid.Column="0"
             Grid.RowSpan="3"
             Margin="0,24,16,0">
-            <controls:CardImageView ImageSource="{Binding NormalImage}" Visibility="{Binding IsTransformed, Converter={StaticResource BooleanVisibilityConverter}, ConverterParameter=true}" />
-            <controls:CardImageView ImageSource="{Binding TransformedImage}" Visibility="{Binding IsTransformed, Converter={StaticResource BooleanVisibilityConverter}}" />
+            <Button 
+                Command="{Binding TransformCommand}"
+                Cursor="Hand">
+                <Button.Template>
+                    <ControlTemplate>
+                        <controls:CardImageView>
+                            <controls:CardImageView.ImageSource>
+                                <MultiBinding Converter="{StaticResource BooleanValuesConverter}">
+                                    <Binding Path="IsTransformed" />
+                                    <Binding Path="TransformedImage" />
+                                    <Binding Path="NormalImage" />
+                                </MultiBinding>
+                            </controls:CardImageView.ImageSource>
+                        </controls:CardImageView>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
         </StackPanel>
 
         <StackPanel
@@ -55,28 +65,30 @@
                 Text="{Binding Card, Converter={StaticResource CardRarityStringConverter}}" />
             <TextBlock
                 Foreground="{StaticResource SubtleBrush}"
-                Style="{StaticResource CardSubtitleStyle}"
-                Text="{Binding Card.NormalTypes, Converter={StaticResource EnumerableStringConverter}, ConverterParameter=true}"
-                Visibility="{Binding IsTransformed, Converter={StaticResource BooleanVisibilityConverter}, ConverterParameter=true}"/>
-            <TextBlock
-                Foreground="{StaticResource SubtleBrush}"
-                Style="{StaticResource CardSubtitleStyle}"
-                Text="{Binding Card.TransformedTypes, Converter={StaticResource EnumerableStringConverter}, ConverterParameter=true}"
-                Visibility="{Binding IsTransformed, Converter={StaticResource BooleanVisibilityConverter}}" />
+                Style="{StaticResource CardSubtitleStyle}">
+                <TextBlock.Text>
+                    <MultiBinding Converter="{StaticResource BooleanValuesConverter}">
+                        <Binding Path="IsTransformed" />
+                        <Binding Path="Card.TransformedTypes" />
+                        <Binding Path="Card.NormalTypes" />
+                        <Binding Path="TransformIEnumerableToCardTypes" />
+                    </MultiBinding>
+                </TextBlock.Text>
+            </TextBlock>
         </StackPanel>
-        
+
         <TextBlock
             Grid.Row="0"
             Grid.Column="1"
-            Style="{StaticResource CardTitleStyle}" 
-            Text="{Binding Card.Name}"
-            Visibility="{Binding IsTransformed, Converter={StaticResource BooleanVisibilityConverter}, ConverterParameter=true}" />
-        <TextBlock
-            Grid.Row="0"
-            Grid.Column="1"
-            Style="{StaticResource CardTitleStyle}" 
-            Text="{Binding Card.TransformedName}"
-            Visibility="{Binding IsTransformed, Converter={StaticResource BooleanVisibilityConverter}}" />
+            Style="{StaticResource CardTitleStyle}">
+            <TextBlock.Text>
+                <MultiBinding Converter="{StaticResource BooleanValuesConverter}">
+                    <Binding Path="IsTransformed" />
+                    <Binding Path="Card.TransformedName" />
+                    <Binding Path="Card.Name" />
+                </MultiBinding>
+            </TextBlock.Text>
+        </TextBlock>
 
         <Grid
             Grid.Row="2"
@@ -149,15 +161,16 @@
             <TextBlock 
                 Grid.Row="1"
                 Grid.Column="1"
-                Style="{StaticResource CardAttributeValueStyle}"
-                Text="{Binding Card.NormalTribes, Converter={StaticResource EnumerableStringConverter}}"
-                Visibility="{Binding IsTransformed, Converter={StaticResource BooleanVisibilityConverter}, ConverterParameter=true}" />
-            <TextBlock 
-                Grid.Row="1"
-                Grid.Column="1"
-                Style="{StaticResource CardAttributeValueStyle}"
-                Text="{Binding Card.TransformedTribes, Converter={StaticResource EnumerableStringConverter}}"
-                Visibility="{Binding IsTransformed, Converter={StaticResource BooleanVisibilityConverter}}" />
+                Style="{StaticResource CardAttributeValueStyle}">
+                <TextBlock.Text>
+                    <MultiBinding Converter="{StaticResource BooleanValuesConverter}">
+                        <Binding Path="IsTransformed" />
+                        <Binding Path="Card.TransformedTribes" />
+                        <Binding Path="Card.NormalTribes" />
+                        <Binding Path="TransformIEnumerableToString" />
+                    </MultiBinding>
+                </TextBlock.Text>
+            </TextBlock>
 
             <TextBlock 
                 Grid.Row="2"
@@ -168,14 +181,15 @@
 
             <controls:CardTextView
                 Grid.Row="2"
-                Grid.Column="1"
-                Text="{Binding Card.NormalText}"
-                Visibility="{Binding IsTransformed, Converter={StaticResource BooleanVisibilityConverter}, ConverterParameter=true}"/>
-            <controls:CardTextView
-                Grid.Row="2"
-                Grid.Column="1"
-                Text="{Binding Card.TransformedText}"
-                Visibility="{Binding IsTransformed, Converter={StaticResource BooleanVisibilityConverter}}" />
+                Grid.Column="1">
+                <controls:CardTextView.Text>
+                    <MultiBinding Converter="{StaticResource BooleanValuesConverter}">
+                        <Binding Path="IsTransformed" />
+                        <Binding Path="Card.TransformedText" />
+                        <Binding Path="Card.NormalText" />
+                    </MultiBinding>
+                </controls:CardTextView.Text>
+            </controls:CardTextView>
 
             <TextBlock
                 Grid.Row="3"
@@ -200,15 +214,20 @@
                 Grid.Row="4"
                 Grid.Column="0"
                 Style="{StaticResource CardAttributeLabelStyle}"
-                Text="Artist"
-                Visibility="{Binding Printing.NormalArtist, Converter={StaticResource StringVisibilityConverter}}" />
+                Text="Artist" />
 
             <TextBlock 
                 Grid.Row="4"
                 Grid.Column="1"
-                Style="{StaticResource CardAttributeValueStyle}"
-                Text="{Binding Printing.NormalArtist}" 
-                Visibility="{Binding Printing.NormalArtist, Converter={StaticResource StringVisibilityConverter}}" />
+                Style="{StaticResource CardAttributeValueStyle}">
+                <TextBlock.Text>
+                    <MultiBinding Converter="{StaticResource BooleanValuesConverter}">
+                        <Binding Path="IsTransformed" />
+                        <Binding Path="Printing.TransformedArtist" />
+                        <Binding Path="Printing.NormalArtist" />
+                    </MultiBinding>
+                </TextBlock.Text>
+            </TextBlock>
 
             <TextBlock 
                 Grid.Row="5"
@@ -219,18 +238,19 @@
             <Button
                 Grid.Row="5"
                 Grid.Column="1"
-                Command="{Binding FlipCommand}">
+                Command="{Binding TransformCommand}">
                 <Button.Template>
                     <ControlTemplate>
                         <Grid>
-                            <TextBlock 
-                                Style="{StaticResource CardAttributeButtonStyle}"
-                                Text="{Binding Card.TransformedName}"
-                                Visibility="{Binding IsTransformed, Converter={StaticResource BooleanVisibilityConverter}, ConverterParameter=true}" />
-                            <TextBlock 
-                                Style="{StaticResource CardAttributeButtonStyle}"
-                                Text="{Binding Card.Name}"
-                                Visibility="{Binding IsTransformed, Converter={StaticResource BooleanVisibilityConverter}}" />
+                            <TextBlock Style="{StaticResource CardAttributeButtonStyle}">
+                                <TextBlock.Text>
+                                    <MultiBinding Converter="{StaticResource BooleanValuesConverter}">
+                                        <Binding Path="IsTransformed" />
+                                        <Binding Path="Card.Name" />
+                                        <Binding Path="Card.TransformedName" />
+                                    </MultiBinding>
+                                </TextBlock.Text>
+                            </TextBlock>
                         </Grid>
                     </ControlTemplate>
                 </Button.Template>

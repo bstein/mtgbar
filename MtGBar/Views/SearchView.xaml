@@ -221,6 +221,14 @@
                             CardImage="{Binding CardImage}"
                             Printing="{Binding Printing}" />
                     </DataTemplate>
+                    <DataTemplate DataType="{x:Type vm:FlipCardViewModel}">
+                        <cardViews:FlipCardView 
+                            Card="{Binding Card}"
+                            CardImage="{Binding CardImage}"
+                            FlipCommand="{Binding FlipCommand}"
+                            IsFlipped="{Binding IsFlipped}"
+                            Printing="{Binding Printing}" />
+                    </DataTemplate>
                     <DataTemplate DataType="{x:Type vm:SplitCardViewModel}">
                         <cardViews:SplitCardView 
                             Card="{Binding Card}" 
@@ -232,9 +240,9 @@
                         <cardViews:TransformCardView 
                             Card="{Binding Card}"
                             Printing="{Binding Printing}"
-                            FlipCommand="{Binding FlipCommand}"
                             IsTransformed="{Binding IsTransformed}"
                             NormalImage="{Binding NormalImage}"
+                            TransformCommand="{Binding TransformCommand}"
                             TransformedImage="{Binding TransformedImage}"/>
                     </DataTemplate>
                 </Grid.Resources>

@@ -1,8 +1,264 @@
 ﻿<UserControl 
     x:Class="MtGBar.Views.CardViews.FlipCardView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-    <Grid>
-            
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="clr-namespace:MtGBar.Views.Controls"
+    xmlns:convert="clr-namespace:MtGBar.Infrastructure.UIHelpers.Converters"
+    Margin="{StaticResource CardViewModelPadding}">
+    <Grid x:Name="LayoutRoot">
+        <Grid.Resources>
+            <convert:BooleanValuesConverter x:Key="BooleanValuesConverter" />
+            <convert:CardCostCollectionVisibilityConverter x:Key="CardCostCollectionVisibilityConverter" />
+            <convert:CardCostConverter x:Key="CardCostConverter" />
+            <convert:CardPowerToughnessVisibilityConverter x:Key="CardPowerToughnessVisibilityConverter" />
+            <convert:CardRarityStringConverter x:Key="CardRarityStringConverter" />
+            <convert:CardSetImageConverter x:Key="CardSetImageConverter" />
+            <convert:CardTextConverter x:Key="CardTextConverter" />
+            <convert:CardTextVisibilityConverter x:Key="CardTextVisibilityConverter" />
+            <convert:CardTribesVisibilityConverter x:Key="CardTribesVisibilityConverter" />
+            <convert:CardViewVisibilityConverter x:Key="CardViewVisibilityConverter" />
+            <convert:CardWatermarkConverter x:Key="CardWatermarkConverter" />
+            <convert:EnumerableStringConverter x:Key="EnumerableStringConverter" />
+            <convert:RarityBrushConverter x:Key="RarityBrushConverter" />
+        </Grid.Resources>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <StackPanel
+            Grid.Row="0"
+            Grid.Column="0"
+            Grid.RowSpan="3"
+            Margin="0,24,16,0">
+            <Button Command="{Binding FlipCommand}" Cursor="Hand">
+                <Button.Template>
+                    <ControlTemplate>
+                        <controls:CardImageView ImageSource="{Binding CardImage}" RenderTransformOrigin="0.5,0.5">
+                            <controls:CardImageView.RenderTransform>
+                                <RotateTransform />
+                            </controls:CardImageView.RenderTransform>
+                            <controls:CardImageView.Style>
+                                <Style>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsFlipped}" Value="True">
+                                            <DataTrigger.EnterActions>
+                                                <BeginStoryboard>
+                                                    <Storyboard>
+                                                        <DoubleAnimation 
+                                                            Duration="0:0:0.3" 
+                                                            Storyboard.TargetProperty="(RenderTransform).(RotateTransform.Angle)"
+                                                            To="180">
+                                                            <DoubleAnimation.EasingFunction>
+                                                                <CubicEase />
+                                                            </DoubleAnimation.EasingFunction>
+                                                        </DoubleAnimation>
+                                                    </Storyboard>
+                                                </BeginStoryboard>
+                                            </DataTrigger.EnterActions>
+                                            <DataTrigger.ExitActions>
+                                                <BeginStoryboard>
+                                                    <Storyboard>
+                                                        <DoubleAnimation 
+                                                            Duration="0:0:0.3" 
+                                                            Storyboard.TargetProperty="(RenderTransform).(RotateTransform.Angle)"
+                                                            To="0">
+                                                            <DoubleAnimation.EasingFunction>
+                                                                <CubicEase />
+                                                            </DoubleAnimation.EasingFunction>
+                                                        </DoubleAnimation>
+                                                    </Storyboard>
+                                                </BeginStoryboard>
+                                            </DataTrigger.ExitActions>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </controls:CardImageView.Style>
+                        </controls:CardImageView>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+        </StackPanel>
+
+        <StackPanel
+            Grid.Row="1"
+            Grid.Column="1"
+            Orientation="Horizontal">
+            <TextBlock
+                Foreground="{Binding Card, Converter={StaticResource RarityBrushConverter}}"
+                Style="{StaticResource CardSubtitleStyle}"
+                Text="{Binding Card, Converter={StaticResource CardRarityStringConverter}}" />
+            <TextBlock
+                Foreground="{StaticResource SubtleBrush}"
+                Style="{StaticResource CardSubtitleStyle}">
+                <TextBlock.Text>
+                    <MultiBinding Converter="{StaticResource BooleanValuesConverter}">
+                        <Binding Path="IsFlipped" />
+                        <Binding Path="Card.FlippedTypes" />
+                        <Binding Path="Card.NormalTypes" />
+                        <Binding Path="TransformIEnumerableToCardTypes" />
+                    </MultiBinding>
+                </TextBlock.Text>
+            </TextBlock>
+        </StackPanel>
+
+        <TextBlock
+            Grid.Row="0"
+            Grid.Column="1"
+            Style="{StaticResource CardTitleStyle}">
+            <TextBlock.Text>
+                <MultiBinding Converter="{StaticResource BooleanValuesConverter}">
+                    <Binding Path="IsFlipped" />
+                    <Binding Path="Card.FlippedName" />
+                    <Binding Path="Card.Name" />
+                </MultiBinding>
+            </TextBlock.Text>
+        </TextBlock>
+
+        <Grid
+            Grid.Row="2"
+            Grid.Column="1"
+            Margin="0,12,0,0"
+            VerticalAlignment="Top">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <!--Watermark-->
+            <Image 
+                Grid.Row="0"
+                Grid.Column="0"
+                Grid.RowSpan="8"
+                Grid.ColumnSpan="2"
+                HorizontalAlignment="Center"
+                Margin="0,14,0,0"
+                MaxHeight="200"
+                Opacity="0.5"
+                Source="{Binding Printing.Watermark, Converter={StaticResource CardWatermarkConverter}}"
+                Stretch="Uniform"
+                VerticalAlignment="Top" />
+
+            <TextBlock
+                Grid.Row="0"
+                Grid.Column="0"
+                Style="{StaticResource CardAttributeLabelStyle}"
+                Text="Cost" 
+                Visibility="{Binding Card.Cost, Converter={StaticResource CardCostCollectionVisibilityConverter}}"  />
+
+            <controls:ManaCostView
+                Grid.Row="0"
+                Grid.Column="1"
+                Cost="{Binding Card.Cost}" />
+
+            <TextBlock 
+                Grid.Row="1"
+                Grid.Column="0"
+                Style="{StaticResource CardAttributeLabelStyle}"
+                Text="Type" />
+
+            <TextBlock 
+                Grid.Row="1"
+                Grid.Column="1"
+                Style="{StaticResource CardAttributeValueStyle}">
+                <TextBlock.Text>
+                    <MultiBinding Converter="{StaticResource BooleanValuesConverter}">
+                        <Binding Path="IsFlipped" />
+                        <Binding Path="Card.FlippedTribes" />
+                        <Binding Path="Card.NormalTribes" />
+                        <Binding Path="TransformIEnumerableToString" />
+                    </MultiBinding>
+                </TextBlock.Text>
+            </TextBlock>
+
+            <TextBlock 
+                Grid.Row="2"
+                Grid.Column="0"
+                Style="{StaticResource CardAttributeLabelStyle}"
+                Text="Text" />
+
+            <controls:CardTextView
+                Grid.Row="2"
+                Grid.Column="1">
+                <controls:CardTextView.Text>
+                    <MultiBinding Converter="{StaticResource BooleanValuesConverter}">
+                        <Binding Path="IsFlipped" />
+                        <Binding Path="Card.FlippedText" />
+                        <Binding Path="Card.NormalText" />
+                    </MultiBinding>
+                </controls:CardTextView.Text>
+            </controls:CardTextView>
+
+            <TextBlock
+                Grid.Row="3"
+                Grid.Column="0"
+                Style="{StaticResource CardAttributeLabelStyle}"
+                Text="Set" />
+
+            <StackPanel
+                Grid.Row="3"
+                Grid.Column="1"
+                Orientation="Horizontal">
+                <Image 
+                    Margin="0,0,4,0"
+                    Source="{Binding Printing, Converter={StaticResource CardSetImageConverter}}" 
+                    Style="{StaticResource CardSetSymbolStyle}" />
+                <TextBlock
+                    Style="{StaticResource CardAttributeValueStyle}"
+                    Text="{Binding Printing.Set.Name}" />
+            </StackPanel>
+
+            <TextBlock 
+                Grid.Row="4"
+                Grid.Column="0"
+                Style="{StaticResource CardAttributeLabelStyle}"
+                Text="Artist" />
+
+            <TextBlock 
+                Grid.Row="4"
+                Grid.Column="1"
+                Style="{StaticResource CardAttributeValueStyle}"
+                Text="{Binding Printing.Artist}" />
+
+            <TextBlock 
+                Grid.Row="5"
+                Grid.Column="0"
+                Style="{StaticResource CardAttributeLabelStyle}"
+                Text="Flips to" />
+
+            <Button
+                Grid.Row="5"
+                Grid.Column="1"
+                Command="{Binding FlipCommand}">
+                <Button.Template>
+                    <ControlTemplate>
+                        <TextBlock Style="{StaticResource CardAttributeButtonStyle}">
+                            <TextBlock.Text>
+                                <MultiBinding Converter="{StaticResource BooleanValuesConverter}">
+                                    <Binding Path="IsFlipped" />
+                                    <Binding Path="Card.Name" />
+                                    <Binding Path="Card.FlippedName" />
+                                </MultiBinding>
+                            </TextBlock.Text>
+                        </TextBlock>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+        </Grid>
     </Grid>
 </UserControl>
