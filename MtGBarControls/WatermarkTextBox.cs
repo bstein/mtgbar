@@ -41,20 +41,13 @@ namespace MtGBarControls
             "WatermarkText",
             typeof(string),
             typeof(WatermarkTextBox),
-            new PropertyMetadata(WatermarkTextPropertyChanged)
+            new PropertyMetadata(null)
         );
-
-        public static void WatermarkTextPropertyChanged(object obj, DependencyPropertyChangedEventArgs args) 
-        {
-        }
 
         public string WatermarkText
         {
             get { return GetValue(WatermarkTextProperty).ToString(); }
-            set
-            {
-                SetValue(WatermarkTextProperty, value);
-            }
+            set { SetValue(WatermarkTextProperty, value); }
         }
     }
 }

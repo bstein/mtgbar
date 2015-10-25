@@ -107,5 +107,16 @@ namespace MtGBar.Views.CardViews
                 };
             }
         }
+
+        public Func<object, object> TransformIEnumerableToVisibility
+        {
+            get
+            {
+                return (object arg) => {
+                    IList<string> typedArg = (arg as IList<string>);
+                    return typedArg != null && typedArg.Count > 0 ? Visibility.Visible : Visibility.Collapsed;
+                };
+            }
+        }
     }
 }

@@ -52,14 +52,14 @@
                                                 <BeginStoryboard>
                                                     <Storyboard>
                                                         <DoubleAnimation 
-                                                            Duration="0:0:0.3" 
+                                                            Duration="0:0:0.15" 
                                                             Storyboard.TargetProperty="(RenderTransform).(ScaleTransform.ScaleX)"
                                                             To="0">
                                                             <DoubleAnimation.EasingFunction>
                                                                 <QuadraticEase />
                                                             </DoubleAnimation.EasingFunction>
                                                         </DoubleAnimation>
-                                                        <ObjectAnimationUsingKeyFrames BeginTime="0:0:0.3" Storyboard.TargetProperty="(UIElement.Visibility)">
+                                                        <ObjectAnimationUsingKeyFrames BeginTime="0:0:0.15" Storyboard.TargetProperty="(UIElement.Visibility)">
                                                             <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="{x:Static Visibility.Collapsed}"/>
                                                         </ObjectAnimationUsingKeyFrames>
                                                     </Storyboard>
@@ -69,8 +69,8 @@
                                                 <BeginStoryboard>
                                                     <Storyboard>
                                                         <DoubleAnimation
-                                                            BeginTime="0:0:0.3"
-                                                            Duration="0:0:0.3" 
+                                                            BeginTime="0:0:0.15"
+                                                            Duration="0:0:0.15" 
                                                             Storyboard.TargetProperty="(RenderTransform).(ScaleTransform.ScaleX)"
                                                             To="1">
                                                             <DoubleAnimation.EasingFunction>
@@ -78,7 +78,7 @@
                                                             </DoubleAnimation.EasingFunction>
                                                         </DoubleAnimation>
                                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)">
-                                                            <DiscreteObjectKeyFrame KeyTime="0:0:0.3" Value="{x:Static Visibility.Visible}"/>
+                                                            <DiscreteObjectKeyFrame KeyTime="0:0:0.15" Value="{x:Static Visibility.Visible}"/>
                                                         </ObjectAnimationUsingKeyFrames>
                                                     </Storyboard>
                                                 </BeginStoryboard>
@@ -103,14 +103,14 @@
                                                 <BeginStoryboard>
                                                     <Storyboard>
                                                         <DoubleAnimation 
-                                                            Duration="0:0:0.3" 
+                                                            Duration="0:0:0.15" 
                                                             Storyboard.TargetProperty="(RenderTransform).(ScaleTransform.ScaleX)"
                                                             To="0">
                                                             <DoubleAnimation.EasingFunction>
                                                                 <QuadraticEase />
                                                             </DoubleAnimation.EasingFunction>
                                                         </DoubleAnimation>
-                                                        <ObjectAnimationUsingKeyFrames BeginTime="0:0:0.3" Storyboard.TargetProperty="(UIElement.Visibility)">
+                                                        <ObjectAnimationUsingKeyFrames BeginTime="0:0:0.15" Storyboard.TargetProperty="(UIElement.Visibility)">
                                                             <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="{x:Static Visibility.Collapsed}"/>
                                                         </ObjectAnimationUsingKeyFrames>
                                                     </Storyboard>
@@ -120,8 +120,8 @@
                                                 <BeginStoryboard>
                                                     <Storyboard>
                                                         <DoubleAnimation
-                                                            BeginTime="0:0:0.3"
-                                                            Duration="0:0:0.3" 
+                                                            BeginTime="0:0:0.15"
+                                                            Duration="0:0:0.15" 
                                                             Storyboard.TargetProperty="(RenderTransform).(ScaleTransform.ScaleX)"
                                                             To="1">
                                                             <DoubleAnimation.EasingFunction>
@@ -129,7 +129,7 @@
                                                             </DoubleAnimation.EasingFunction>
                                                         </DoubleAnimation>
                                                         <ObjectAnimationUsingKeyFrames BeginTime="0:0:0" Storyboard.TargetProperty="(UIElement.Visibility)">
-                                                            <DiscreteObjectKeyFrame KeyTime="0:0:0.3" Value="{x:Static Visibility.Visible}"/>
+                                                            <DiscreteObjectKeyFrame KeyTime="0:0:0.15" Value="{x:Static Visibility.Visible}"/>
                                                         </ObjectAnimationUsingKeyFrames>
                                                     </Storyboard>
                                                 </BeginStoryboard>

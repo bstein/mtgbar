@@ -170,7 +170,16 @@
                 Grid.Row="1"
                 Grid.Column="0"
                 Style="{StaticResource CardAttributeLabelStyle}"
-                Text="Type" />
+                Text="Type">
+                <TextBlock.Visibility>
+                    <MultiBinding Converter="{StaticResource BooleanValuesConverter}">
+                        <Binding Path="IsFlipped" />
+                        <Binding Path="Card.FlippedTribes" />
+                        <Binding Path="Card.NormalTribes" />
+                        <Binding Path="TransformIEnumerableToVisibility" />
+                    </MultiBinding>
+                </TextBlock.Visibility>
+            </TextBlock>
 
             <TextBlock 
                 Grid.Row="1"
@@ -184,6 +193,14 @@
                         <Binding Path="TransformIEnumerableToString" />
                     </MultiBinding>
                 </TextBlock.Text>
+                <TextBlock.Visibility>
+                    <MultiBinding Converter="{StaticResource BooleanValuesConverter}">
+                        <Binding Path="IsFlipped" />
+                        <Binding Path="Card.FlippedTribes" />
+                        <Binding Path="Card.NormalTribes" />
+                        <Binding Path="TransformIEnumerableToVisibility" />
+                    </MultiBinding>
+                </TextBlock.Visibility>
             </TextBlock>
 
             <TextBlock 
