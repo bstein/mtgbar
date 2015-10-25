@@ -32,13 +32,13 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-        <StackPanel
+        <controls:CardImageView 
             Grid.Row="0"
             Grid.Column="0"
             Grid.RowSpan="3"
-            Margin="0,24,16,0">
-            <controls:CardImageView ImageSource="{Binding CardImage}" />
-        </StackPanel>
+            ImageSource="{Binding CardImage}"
+            Margin="0,24,16,0"
+            VerticalAlignment="Top" />
 
         <StackPanel
             Grid.Row="1"
@@ -168,8 +168,8 @@
                 Grid.Row="5"
                 Grid.Column="0"
                 Grid.ColumnSpan="2"
-                ItemsSource="{Binding Printing.FlavorText, Converter={StaticResource CardTextConverter}}"
                 Margin="0,12,0,0"
+                ItemsSource="{Binding Printing.FlavorText, Converter={StaticResource CardTextConverter}}"
                 Visibility="{Binding Printing.FlavorText, Converter={StaticResource StringVisibilityConverter}}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>

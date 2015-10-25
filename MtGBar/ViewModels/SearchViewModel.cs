@@ -388,7 +388,7 @@ namespace MtGBar.ViewModels
 
         private void ShuffleWatermarkText()
         {
-            WatermarkText = "try \"" + AppState.Instance.MelekClient.GetRandomCardName() + "\"";
+            WatermarkText = @"try """ + AppState.Instance.MelekClient.GetRandomCardName() + @"""";
         }
 
         private async void UpdateResults(string searchTerm)

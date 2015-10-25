@@ -33,13 +33,7 @@ namespace MtGBar.Views
 
         private SearchViewModel ViewModel
         {
-            get
-            {
-                if (DataContext != null) {
-                    return DataContext as SearchViewModel;
-                }
-                return null;
-            }
+            get { return DataContext as SearchViewModel; }
         }
 
         private void CardPicked(object sender, EventArgs e)
@@ -54,16 +48,12 @@ namespace MtGBar.Views
                     HideThis();
                     break;
                 case Key.Down:
-                    NextListItem(lstResults, true);
+                    if (ViewModel.SelectedCard == null) { NextListItem(lstResults, true); }
+                    else { NextListItem(lstPrintings, true); }
                     break;
                 case Key.Up:
-                    NextListItem(lstResults, false);
-                    break;
-                case Key.Right:
-                    NextListItem(lstPrintings, true);
-                    break;
-                case Key.Left:
-                    NextListItem(lstPrintings, false);
+                    if(ViewModel.SelectedCard == null) { NextListItem(lstResults, false); }
+                    else { NextListItem(lstPrintings, false); }
                     break;
                 case Key.Return:
                     ViewModel.SelectedCard = (lstResults.SelectedItem as SearchResultViewModel).Card;
@@ -130,9 +120,7 @@ namespace MtGBar.Views
 
         private void this_PreviewKeyDown(object sender, KeyEventArgs e)
         {
-            // this allows me to use the left and right arrow keys to page through the card's printings. 
-            // if they're hitting one of those keys, let the event go through. Otherwise, refocus the textbox
-            if (e.Key != Key.Left && e.Key != Key.Right) {
+            if (e.Key != Key.Up && e.Key != Key.Down) {
                 TheTextBox.Focus();
             }
         }

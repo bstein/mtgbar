@@ -1,7 +1,8 @@
 ﻿<UserControl 
     x:Class="MtGBar.Views.Controls.CardImageView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    MaxHeight="310">
     <Border x:Name="LayoutRoot" Style="{StaticResource CardImageBorderStyle}">
         <Image
             Stretch="Uniform"
