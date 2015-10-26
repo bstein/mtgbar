@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>MtGBar</RootNamespace>
     <AssemblyName>MtGBar</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
@@ -37,6 +37,7 @@
     <UseApplicationTrust>true</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
     <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -83,29 +84,29 @@
     <NoWin32Manifest>true</NoWin32Manifest>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Bazam">
-      <HintPath>lib\Bazam.dll</HintPath>
+    <Reference Include="Bazam, Version=3.0.6.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Bazam.3.0.6\lib\net451\Bazam.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="Bazam.Http">
-      <HintPath>lib\Bazam.Http.dll</HintPath>
+    <Reference Include="Bazam.KeyAdept, Version=1.0.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Bazam.KeyAdept.1.0.2\lib\net451\Bazam.KeyAdept.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="Bazam.KeyAdept">
-      <HintPath>lib\Bazam.KeyAdept.dll</HintPath>
+    <Reference Include="Bazam.Twitter, Version=1.0.5.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Bazam.Twitter.1.0.5\lib\net451\Bazam.Twitter.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="Bazam.SharpZipLibHelpers">
-      <HintPath>lib\Bazam.SharpZipLibHelpers.dll</HintPath>
+    <Reference Include="Bazam.WindowsForms, Version=1.0.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Bazam.WindowsForms.1.0.2\lib\net451\Bazam.WindowsForms.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="Bazam.Twitter">
-      <HintPath>lib\Bazam.Twitter.dll</HintPath>
+    <Reference Include="Bazam.Wpf, Version=2.5.5.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Bazam.Wpf.2.5.5\lib\net451\Bazam.Wpf.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="Bazam.WindowsForms">
-      <HintPath>lib\Bazam.WindowsForms.dll</HintPath>
-    </Reference>
-    <Reference Include="Bazam.Wpf">
-      <HintPath>lib\Bazam.Wpf.dll</HintPath>
-    </Reference>
-    <Reference Include="Bazam.Xml">
-      <HintPath>lib\Bazam.Xml.dll</HintPath>
+    <Reference Include="Bazam.Xml, Version=1.0.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Bazam.Xml.1.0.2\lib\net451\Bazam.Xml.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="FirstFloor.ModernUI, Version=1.0.6.0, Culture=neutral, PublicKeyToken=2d21ec3cd074c59a, processorArchitecture=MSIL">
       <HintPath>..\packages\ModernUI.WPF.1.0.6\lib\net45\FirstFloor.ModernUI.dll</HintPath>
@@ -133,6 +134,7 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Deployment" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http" />
     <Reference Include="System.Web" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -147,6 +149,7 @@
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
+    <Reference Include="UIAutomationProvider" />
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
