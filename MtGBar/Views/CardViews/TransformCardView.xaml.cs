@@ -5,7 +5,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using Bazam.Extensions;
-using Melek.Domain;
+using Melek;
 
 namespace MtGBar.Views.CardViews
 {

@@ -2,7 +2,7 @@
 using System.Windows.Media.Imaging;
 using Bazam.Wpf.UIHelpers;
 using Bazam.Wpf.ViewModels;
-using Melek.Domain;
+using Melek;
 
 namespace MtGBar.ViewModels
 {

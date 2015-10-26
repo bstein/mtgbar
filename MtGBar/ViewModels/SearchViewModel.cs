@@ -9,7 +9,7 @@ using System.Windows.Media.Imaging;
 using Bazam.Wpf.UIHelpers;
 using Bazam.Wpf.ViewModels;
 using Melek.Client.Vendors;
-using Melek.Domain;
+using Melek;
 using MtGBar.Infrastructure;
 using MtGBar.Infrastructure.Utilities;
 

@@ -9,7 +9,7 @@ using Bazam.KeyAdept;
 using Bazam.Modules;
 using Bazam.Twitter;
 using Bazam.Wpf.ViewModels;
-using Melek.Domain;
+using Melek;
 using MtGBar.Infrastructure;
 using MtGBar.Infrastructure.DataNinjitsu.Models;
 using MtGBar.Infrastructure.UIHelpers.Commands;

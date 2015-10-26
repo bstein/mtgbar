@@ -2,7 +2,7 @@
 using System.Globalization;
 using System.Windows.Data;
 using MtGBar.Infrastructure.DataNinjitsu.Models;
-using Melek.Domain;
+using Melek;
 
 namespace MtGBar.Infrastructure.UIHelpers.Converters
 {

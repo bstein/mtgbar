@@ -2,7 +2,7 @@
 using System.IO;
 using System.Net;
 using System.Threading.Tasks;
-using Melek.Domain;
+using Melek;
 
 namespace MtGBar.Infrastructure.Utilities
 {

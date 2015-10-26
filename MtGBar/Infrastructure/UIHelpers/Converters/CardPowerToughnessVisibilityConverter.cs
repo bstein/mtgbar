@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Globalization;
 using System.Windows.Data;
-using Melek.Domain;
+using Melek;
 
 namespace MtGBar.Infrastructure.UIHelpers.Converters
 {

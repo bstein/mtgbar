@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Bazam.Wpf.UIHelpers;
+using Melek;
 using Melek.Client.DataStore;
-using Melek.Domain;
 
 namespace MtGBar.ViewModels
 {

@@ -1,6 +1,6 @@
 ﻿using System.Windows.Media.Imaging;
 using Bazam.Wpf.ViewModels;
-using Melek.Domain;
+using Melek;
 
 namespace MtGBar.ViewModels
 {

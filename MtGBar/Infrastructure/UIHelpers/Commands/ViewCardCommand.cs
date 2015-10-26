@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Windows.Input;
-using Melek.Domain;
+using Melek;
 using MtGBar.ViewModels;
 using MtGBar.Views;
 

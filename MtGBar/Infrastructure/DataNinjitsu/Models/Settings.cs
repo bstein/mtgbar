@@ -5,7 +5,7 @@ using System.Linq;
 using System.Xml.Linq;
 using Bazam.KeyAdept.Infrastructure;
 using Bazam.Xml;
-using Melek.Domain;
+using Melek;
 using Microsoft.Win32;
 using MtGBar.Infrastructure.Utilities;
 

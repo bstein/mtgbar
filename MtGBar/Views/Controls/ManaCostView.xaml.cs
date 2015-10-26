@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
-using Melek.Domain;
+using Melek;
 
 namespace MtGBar.Views.Controls
 {
