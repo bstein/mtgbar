@@ -218,13 +218,13 @@
                     <DataTemplate DataType="{x:Type vm:CardViewModel}">
                         <cardViews:CardView 
                             Card="{Binding Card}" 
-                            CardImage="{Binding CardImage}"
+                            CardImage="{Binding CardImage, IsAsync=True}"
                             Printing="{Binding Printing}" />
                     </DataTemplate>
                     <DataTemplate DataType="{x:Type vm:FlipCardViewModel}">
                         <cardViews:FlipCardView 
                             Card="{Binding Card}"
-                            CardImage="{Binding CardImage}"
+                            CardImage="{Binding CardImage, IsAsync=True}"
                             FlipCommand="{Binding FlipCommand}"
                             IsFlipped="{Binding IsFlipped}"
                             Printing="{Binding Printing}" />
@@ -232,7 +232,7 @@
                     <DataTemplate DataType="{x:Type vm:SplitCardViewModel}">
                         <cardViews:SplitCardView 
                             Card="{Binding Card}" 
-                            CardImage="{Binding CardImage}"
+                            CardImage="{Binding CardImage, IsAsync=True}"
                             HasFuse="{Binding Card.HasFuse}"
                             Printing="{Binding Printing}" />
                     </DataTemplate>
@@ -241,9 +241,9 @@
                             Card="{Binding Card}"
                             Printing="{Binding Printing}"
                             IsTransformed="{Binding IsTransformed}"
-                            NormalImage="{Binding NormalImage}"
+                            NormalImage="{Binding NormalImage, IsAsync=True}"
                             TransformCommand="{Binding TransformCommand}"
-                            TransformedImage="{Binding TransformedImage}"/>
+                            TransformedImage="{Binding TransformedImage, IsAsync=True}"/>
                     </DataTemplate>
                 </Grid.Resources>
                 <Grid.RowDefinitions>

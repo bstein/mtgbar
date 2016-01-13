@@ -417,9 +417,14 @@ namespace MtGBar.ViewModels
 
             // then set up pretty picchurs
             foreach (SearchResultViewModel vm in SearchResults) {
-                vm.FullSize = await ImageFactory.FromUri(await AppState.Instance.MelekClient.GetImageUri(vm.Card.GetLastPrinting()));
-                if (vm.FullSize != null) {
-                    vm.Thumbnail = new CroppedBitmap(vm.FullSize, new Int32Rect(65, 50, 96, 96));
+                try {
+                    vm.FullSize = await ImageFactory.FromUri(await AppState.Instance.MelekClient.GetImageUri(vm.Card.GetLastPrinting()));
+                    if (vm.FullSize != null) {
+                        vm.Thumbnail = new CroppedBitmap(vm.FullSize, new Int32Rect(65, 50, 96, 96));
+                    }
+                }
+                catch(IOException ex) {
+                    // OK for now - the view can handle missing pictures
                 }
             }
         }
